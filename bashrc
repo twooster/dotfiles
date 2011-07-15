@@ -1,6 +1,8 @@
 alias gs='git status'
 alias gai='git add -i'
 alias gau='git add -u'
+alias gco='git checkout'
+alias gcm='git commit -m'
 alias ll="ls -lhFG"
 alias ls="ls -FG"
 alias more="less"
@@ -8,7 +10,6 @@ alias mmore="more"
 
 export PATH=~/bin:/opt/local/bin:/opt/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
-
 
 #
 # Functions
@@ -34,9 +35,9 @@ export HISTSIZE=10
 export HISTFILESIZE=4096
 export HISTIGNORE="cd:ls:[bf]g:clear:exit:gp:gs:ll"
 export HISTCONTROL=ignoredups
-export LESSOPEN="| ~/.lesspipe.sh %s"
-export LESSCOLORIZER="pygmentize-2.7"
-export LESS=' -R '
+# export LESSOPEN="| ~/.lesspipe.sh %s"
+# export LESSCOLORIZER="pygmentize-2.7"
+# export LESS=' -R '
 
 # Tab completion for ssh hosts, from:
 #  http://feeds.macosxhints.com/~r/macosxhints/recent/~3/257065700/article.php
