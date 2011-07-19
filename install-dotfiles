@@ -1,3 +1,4 @@
+#!/bin/bash
 cp bash_profile ~/.bash_profile
 cp bashrc ~/.bashrc
 cp git-completion.bash ~/.git-completion.bash
@@ -5,3 +6,6 @@ cp gitconfig ~/.gitconfig
 cp lesspipe.sh ~/.lesspipe.sh
 cp prompt.bash ~/.prompt.bash
 cp vimrc ~/.vimrc
+
+. ~/.bash_profile
+. ~/.bashrc
