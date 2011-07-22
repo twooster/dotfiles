@@ -31,8 +31,8 @@ set completion-ignore-case On
 
 export PAGER="less"
 export CLICOLOR="yes"
-export HISTSIZE=10
-export HISTFILESIZE=4096
+export HISTSIZE=1000
+export HISTFILESIZE=40960
 export HISTIGNORE="cd:ls:[bf]g:clear:exit:gp:gs:ll"
 export HISTCONTROL=ignoredups
 # export LESSOPEN="| ~/.lesspipe.sh %s"
