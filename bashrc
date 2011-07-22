@@ -3,10 +3,27 @@ alias gai='git add -i'
 alias gau='git add -u'
 alias gco='git checkout'
 alias gcm='git commit -m'
-alias ll="ls -lhFG"
-alias ls="ls -FG"
 alias more="less"
 alias mmore="more"
+
+# don't do this for dumb terminals
+if [ "$TERM" != "dumb" ]; then
+ if [ $(uname) == "Linux"  ]; then
+   # Linux
+   alias ls='ls -F --color=auto'
+   alias ll='ls -lhF --color=auto'
+   alias la='ls -Fa --color=auto'
+   LS_COLORS='di=33:fi=0:ln=95:pi=5:so=5:bd=5:cd=5:or=37:mi=0:ex=31:*.rpm=90'
+ else
+   # OS X   
+   alias ls='ls -FG'
+   alias ll='ls -lhFG'
+   alias la='ls -aFG'
+   export LSCOLORS=dxfxcxdxbxegedabagacad
+ fi
+ #This is for everyone       
+ export CLICOLOR=1
+fi
 
 export PATH=~/bin:/opt/local/bin:/opt/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
