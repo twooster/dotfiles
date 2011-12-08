@@ -3,8 +3,12 @@ alias gai='git add -i'
 alias gau='git add -u'
 alias gco='git checkout'
 alias gcm='git commit -m'
+alias gcam='git commit -a -m'
 alias more="less"
 alias mmore="more"
+alias wo="workon"
+alias woff="deactivate"
+alias workoff="deactiva te"
 
 # don't do this for dumb terminals
 if [ "$TERM" != "dumb" ]; then
@@ -25,18 +29,16 @@ if [ "$TERM" != "dumb" ]; then
  export CLICOLOR=1
 fi
 
-export PATH=~/bin:/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=~/bin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
 
 #
 # Functions
-apply_ssh()
-{
+apply_ssh() {
   ssh $1 "cat >> ~/.ssh/authorized_keys" < ~/.ssh/id_rsa.pub
 }
 
-pman()
-{
+pman() {
   man -t "${1}" | open -f -a /Applications/Preview.app/
 }
 
@@ -46,6 +48,7 @@ shopt -s histappend
 set +o histexpand     # enable strings with !
 set completion-ignore-case On
 
+export EDITOR="mate"
 export PAGER="less"
 export CLICOLOR="yes"
 export HISTSIZE=1000
@@ -55,6 +58,14 @@ export HISTCONTROL=ignoredups
 # export LESSOPEN="| ~/.lesspipe.sh %s"
 # export LESSCOLORIZER="pygmentize-2.7"
 # export LESS=' -R '
+
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    export WORKON_HOME=~/.virtualenvs
+    export VIRTUALENVWRAPPER_PYTHON=`which python`
+    export VIRTUALENVWRAPPER_VIRTUALENV=`which python`
+    export VIRTUALENVWRAPPER_VIRTUALENV_ARGS="-m virtualenv --no-site-packages"
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
 
 # Tab completion for ssh hosts, from:
 #  http://feeds.macosxhints.com/~r/macosxhints/recent/~3/257065700/article.php
@@ -66,6 +77,7 @@ if [ -f /opt/local/etc/bash_completion ]; then
     . /opt/local/etc/bash_completion
 fi
 
-if [ -s ~/.rvm/scripts/rvm ] ; then source ~/.rvm/scripts/rvm ; fi
+#if [ -s ~/.rvm/scripts/rvm ] ; then source ~/.rvm/scripts/rvm ; fi
+[[ -s "~/.rvm/scripts/rvm" ]] && source "~/.rvm/scripts/rvm"  # This loads RVM into a shell session.
 
 . ~/.prompt.bash

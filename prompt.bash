@@ -8,13 +8,14 @@ LIGHT_GREEN="\[\033[1;32m\]"
  LIGHT_GRAY="\[\033[0;37m\]"
  COLOR_NONE="\[\e[0m\]"
 
-function parse_git_branch {
+function parse_git_branch() {
+  local git_status
+  git_status="$(git status 2> /dev/null)" || return
+  local branch_pattern="^# On branch ([^${IFS}]*)"
+  local remote_pattern="# Your branch is (.*) of"
+  local diverge_pattern="# Your branch and (.*) have diverged"
 
-  git rev-parse --git-dir &> /dev/null
-  git_status="$(git status 2> /dev/null)"
-  branch_pattern="^# On branch ([^${IFS}]*)"
-  remote_pattern="# Your branch is (.*) of"
-  diverge_pattern="# Your branch and (.*) have diverged"
+  local state remote branch
   if [[ ! ${git_status}} =~ "working directory clean" ]]; then
     state="${LIGHT_RED}⚡"
   fi
@@ -31,24 +32,24 @@ function parse_git_branch {
   fi
   if [[ ${git_status} =~ ${branch_pattern} ]]; then
     branch=${BASH_REMATCH[1]}
-    echo " (${branch})${remote}${state}"
+    echo " [${branch}]${remote}${state}"
   fi
 }
 
 function prompt_func() {
-    previous_return_value=$?;
-    if [ "$TERM" != "linux" -a -z "$EMACS" ]
-    then
-        TITLEBAR="\[\e]2;\u@\h:\w\a\]"
-    else
-        TITLEBAR=""
+    local previous_return_value=$?
+    local venv=""
+
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        venv="${RED}$(basename ${VIRTUAL_ENV})${LIGHT_GRAY}:"
     fi
-    prompt="${TITLEBAR}${LIGHT_GRAY}\u@\h ${BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}"
+    
+    prompt="${LIGHT_GRAY}\u@\h ${venv}${BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}"
     if test $previous_return_value -eq 0
     then
-        PS1="${prompt}# "
+        PS1="${prompt}\n# "
     else
-        PS1="${prompt}${LIGHT_RED}*${COLOR_NONE} "
+        PS1="${prompt}\n${LIGHT_RED}*${COLOR_NONE} "
     fi
 }
 
