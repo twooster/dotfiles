@@ -8,7 +8,7 @@ alias more="less"
 alias mmore="more"
 alias wo="workon"
 alias woff="deactivate"
-alias workoff="deactiva te"
+alias workoff="deactivate"
 
 # don't do this for dumb terminals
 if [ "$TERM" != "dumb" ]; then
