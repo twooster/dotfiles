@@ -10,6 +10,10 @@ alias wo="workon"
 alias woff="deactivate"
 alias workoff="deactivate"
 
+servedir() {
+    python -m SimpleHTTPServer ${1-8080}
+}
+
 # don't do this for dumb terminals
 if [ "$TERM" != "dumb" ]; then
  if [ $(uname) == "Linux"  ]; then
