@@ -42,13 +42,14 @@
     set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,
                     \*.jpg,*.gif,*.png
     set wildmode=list:longest " turn on wild mode huge list
+    set matchpairs=(:),{:},[:],<:>
 " }
 
 " Vim UI {
-    set cursorcolumn " highlight the current column
-"    set cursorline " highlight current line
+    "set cursorcolumn " highlight the current column
+    set cursorline " highlight current line
     set incsearch " BUT do highlight as you type you 
-                   " search phrase
+                  " search phrase
     set laststatus=2 " always show the status line
     set lazyredraw " do not redraw while running macros
     set linespace=0 " don't insert any extra pixel lines 
@@ -70,21 +71,14 @@
     set showcmd " show the command being typed
     set showmatch " show matching brackets
     set sidescrolloff=10 " Keep 5 lines at the size
-    set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
-    "              | | | | |  |   |      |  |     |    |
-    "              | | | | |  |   |      |  |     |    + current 
-    "              | | | | |  |   |      |  |     |       column
-    "              | | | | |  |   |      |  |     +-- current line
-    "              | | | | |  |   |      |  +-- current % into file
-    "              | | | | |  |   |      +-- current syntax in 
-    "              | | | | |  |   |          square brackets
-    "              | | | | |  |   +-- current fileformat
-    "              | | | | |  +-- number of lines
-    "              | | | | +-- preview flag in square brackets
-    "              | | | +-- help flag in square brackets
-    "              | | +-- readonly flag in square brackets
-    "              | +-- rodified flag in square brackets
-    "              +-- full path to file in the buffer
+
+    set statusline=
+    set statusline+=%<\                       " cut at start
+    set statusline+=%2*[%n%H%M%R%W]%*\        " flags and buf no
+    set statusline+=%-40f\                    " path
+    set statusline+=%=%1*%y%*%*\              " file type
+    set statusline+=%10((%l,%c)%)\            " line and column
+    set statusline+=%P                        " percentage of file
 " }
 
 " Text Formatting/Layout {
@@ -94,7 +88,7 @@
                           " and let gq format comments
     set ignorecase " case insensitive by default
     set infercase " case inferred by default
-"    set nowrap " do not wrap line
+    set nowrap " do not wrap line
     set shiftround " when at 3 spaces, and I hit > ... go to 4, not 5
     set smartcase " if there are caps, go case-sensitive
     set shiftwidth=4 " auto-indent amount when using cindent, 
@@ -166,51 +160,23 @@
 " }
 
 " Autocommands {
-    " Ruby {
-        " ruby standard 2 spaces, always
-        au BufRead,BufNewFile *.rb,*.rhtml set shiftwidth=2 
-        au BufRead,BufNewFile *.rb,*.rhtml set softtabstop=2 
-    " }
-    " Notes {
-        " I consider .notes files special, and handle them differently, I
-        " should probably put this in another file
-        au BufRead,BufNewFile *.notes set foldlevel=2
-        au BufRead,BufNewFile *.notes set foldmethod=indent
-        au BufRead,BufNewFile *.notes set foldtext=foldtext()
-        au BufRead,BufNewFile *.notes set listchars=tab:\ \ 
-        au BufRead,BufNewFile *.notes set noexpandtab
-        au BufRead,BufNewFile *.notes set shiftwidth=8
-        au BufRead,BufNewFile *.notes set softtabstop=8
-        au BufRead,BufNewFile *.notes set tabstop=8
-        au BufRead,BufNewFile *.notes set syntax=notes
-        au BufRead,BufNewFile *.notes set nocursorcolumn
-        au BufRead,BufNewFile *.notes set nocursorline
-        au BufRead,BufNewFile *.notes set guifont=Consolas:h12
-        au BufRead,BufNewFile *.notes set spell
-    " }
-    au BufNewFile,BufRead *.ahk setf ahk 
+    au FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=4
+    au FileType python setlocal tabstop=8 softtabstop=4 shiftwidth=4
+    au FileTYpe javascript setlocal tabstop=4 softtabstop=4 shiftwidth=4
 " }
 
 " GUI Settings {
 if has("gui_running")
     " Basics {
-"        colorscheme metacosm " my color scheme (only works in GUI)
-        set columns=180 " perfect size for me
-        set guifont=Consolas:h10 " My favorite font
+        colorscheme desert
+        set columns=120 " perfect size for me
+        set guifont=Droid\ Sans\ Mono:h12 " My favorite font
         set guioptions=ce 
         "              ||
         "              |+-- use simple dialogs rather than pop-ups
         "              +  use GUI tabs, not console style tabs
         set lines=55 " perfect size for me
         set mousehide " hide the mouse cursor when typing
-    " }
-
-    " Font Switching Binds {
-        map <F8> <ESC>:set guifont=Consolas:h8<CR>
-        map <F9> <ESC>:set guifont=Consolas:h10<CR>
-        map <F10> <ESC>:set guifont=Consolas:h12<CR>
-        map <F11> <ESC>:set guifont=Consolas:h16<CR>
-        map <F12> <ESC>:set guifont=Consolas:h20<CR>
     " }
 endif
 " }
