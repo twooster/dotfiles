@@ -9,6 +9,7 @@ alias mmore="more"
 alias wo="workon"
 alias woff="deactivate"
 alias workoff="deactivate"
+alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
 
 servedir() {
     python -m SimpleHTTPServer ${1-8080}
