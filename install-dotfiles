@@ -1,11 +1,13 @@
 #!/bin/bash
-cp bash_profile ~/.bash_profile
-cp bashrc ~/.bashrc
-cp git-completion.bash ~/.git-completion.bash
-cp gitconfig ~/.gitconfig
-cp lesspipe.sh ~/.lesspipe.sh
-cp prompt.bash ~/.prompt.bash
-cp vimrc ~/.vimrc
+
+cd home
+# Chris, this is arcane:
+# Cribbed in part from:
+# http://stackoverflow.com/questions/1116992/capturing-output-of-find-print0-into-a-bash-array
+while IFS= read -r -u3 -d $'\0' file; do
+    file="${file#./}" # Trim the leading ./
+    dir="${file%/*}" # trim the file
+    mkdir -p "~/$dir" && cp "$file" "~/$file"
+done 3< <(find . -mindepth 1 -type f -print0)
 
 . ~/.bash_profile
-. ~/.bashrc
