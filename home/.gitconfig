@@ -6,4 +6,5 @@
 	status = auto
 	diff = auto
 [alias]
+        forget = rm --cache --
 	unadd = reset HEAD

@@ -13,18 +13,23 @@
     set nocompatible " explicitly get out of vi-compatible mode
     set noexrc " don't use local version of .(g)vimrc, .exrc
     set background=dark " we plan to use a dark background
+    let mapleader="," " a sensible leader character
     syntax on " syntax highlighting on
 " }
 
 " General {
     filetype plugin indent on " load filetype plugins/indent settings
-"    set autochdir " always switch to the current file directory 
+    set autochdir " always switch to the current file directory 
+"    set undofile " undo across saves
+    set ttyfast " derp
+    set encoding=utf-8 " good default
     set backspace=indent,eol,start " make backspace a more flexible
     set fileformats=mac,unix,dos " support all three, in this order
     set hidden " you can change buffers without saving
     " (XXX: #VIM/tpope warns the line below could break things)
     set iskeyword+=_,$,@,%,# " none of these are word dividers 
     set mouse=a " use mouse everywhere
+    set title " show title
     set noerrorbells " don't make noise
     set whichwrap=b,s,h,l,<,>,~,[,] " everything wraps
     "             | | | | | | | | |
@@ -46,7 +51,6 @@
 " }
 
 " Vim UI {
-    "set cursorcolumn " highlight the current column
     set cursorline " highlight current line
     set incsearch " BUT do highlight as you type you 
                   " search phrase
@@ -56,7 +60,7 @@
                      " betweens rows
     set list " we do what to show tabs, to ensure we get them 
               " out of my files
-    set listchars=tab:>-,trail:- " show tabs and trailing 
+    set listchars=tab:▸\ ,eol:¬
     set matchtime=5 " how many tenths of a second to blink 
                      " matching brackets for
     set nostartofline " leave my cursor where it was
@@ -65,9 +69,9 @@
     set numberwidth=4 " We are good up to 9999 lines
     set report=0 " tell us when anything is changed via :...
     set ruler " Always show current positions along the bottom
-    set scrolloff=7 " Keep 10 lines (top/bottom) for scope
-"    set shortmess=aOstT " shortens messages to avoid 
-"                         " 'press a key' prompt
+    set scrolloff=5 " Keep 10 lines (top/bottom) for scope
+    set shortmess=aOstT " shortens messages to avoid 
+                         " 'press a key' prompt
     set showcmd " show the command being typed
     set showmatch " show matching brackets
     set sidescrolloff=10 " Keep 5 lines at the size
@@ -117,46 +121,26 @@
 
 " Plugin Settings {
     let b:match_ignorecase = 1 " case is stupid
-    let perl_extended_vars=1 " highlight advanced perl vars 
-                              " inside strings
-
-"    " TagList Settings {
-"        let Tlist_Auto_Open=0 " let the tag list open automagically
-"        let Tlist_Compact_Format = 1 " show small menu
-"        let Tlist_Ctags_Cmd = 'ctags' " location of ctags
-"        let Tlist_Enable_Fold_Column = 0 " do show folding tree
-"        let Tlist_Exist_OnlyWindow = 1 " if you are the last, kill 
-"                                        " yourself
-"        let Tlist_File_Fold_Auto_Close = 0 " fold closed other trees
-"        let Tlist_Sort_Type = "name" " order by 
-"        let Tlist_Use_Right_Window = 1 " split to the right side
-"                                        " of the screen
-"        let Tlist_WinWidth = 40 " 40 cols wide, so i can (almost always)
-"                                 " read my functions
-"        " Language Specifics {
-"            " just functions and classes please
-"            let tlist_aspjscript_settings = 'asp;f:function;c:class' 
-"            " just functions and subs please
-"            let tlist_aspvbs_settings = 'asp;f:function;s:sub' 
-"            " don't show variables in freaking php
-"            let tlist_php_settings = 'php;c:class;d:constant;f:function' 
-"            " just functions and classes please
-"            let tlist_vb_settings = 'asp;f:function;c:class' 
-"        " }
-"    " }
 " }
 
 " Mappings {
     " space / shift-space scroll in normal mode
     noremap <S-space> <C-b>
     noremap <space> <C-f>
-
-    " Make Arrow Keys Useful Again {
-"        map <down> <ESC>:bn<RETURN>
-"        map <left> <ESC>:NERDTreeToggle<RETURN>
-"        map <right> <ESC>:Tlist<RETURN>
-"        map <up> <ESC>:bp<RETURN>
-    " }
+    nnoremap / /\v
+    vnoremap / /\v
+    " The 'I'm a newbie' section
+    nnoremap <up> <nop>
+    nnoremap <down> <nop>
+    nnoremap <left> <nop>
+    nnoremap <right> <nop>
+    inoremap <up> <nop>
+    inoremap <down> <nop>
+    inoremap <left> <nop>
+    inoremap <right> <nop>
+    " The 'visual instead of logical lines' section
+    nnoremap j gj
+    nnoremap k gk
 " }
 
 " Autocommands {
@@ -168,15 +152,15 @@
 " GUI Settings {
 if has("gui_running")
     " Basics {
-        colorscheme desert
-        set columns=120 " perfect size for me
-        set guifont=Droid\ Sans\ Mono:h12 " My favorite font
+        colorscheme molokai
+        set columns=120
+        set guifont=Droid\ Sans\ Mono:h12
         set guioptions=ce 
         "              ||
         "              |+-- use simple dialogs rather than pop-ups
         "              +  use GUI tabs, not console style tabs
-        set lines=55 " perfect size for me
         set mousehide " hide the mouse cursor when typing
+        set transp=4 " a little bit of transparency for macvim
     " }
 endif
 " }

@@ -14,4 +14,4 @@ while IFS= read -r -u3 -d $'\0' file; do
 	fi
 	echo Copying to $HOME/$file
 	cp "$file" "$HOME/$file"
-done 3< <(find . -mindepth 1 -type f -print0)
+done 3< <(find . -mindepth 1 -type f ! \( -name "*.swp" -or -name "*.un~" \) -print0)
