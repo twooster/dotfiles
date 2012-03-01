@@ -8,3 +8,5 @@
 [alias]
         forget = rm --cache --
 	unadd = reset HEAD
+[core]
+	excludesfile = ~/.gitconfig-ignore
