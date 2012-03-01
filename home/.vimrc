@@ -141,6 +141,12 @@
     " The 'visual instead of logical lines' section
     nnoremap j gj
     nnoremap k gk
+    " The "make buffer switching easy" seciton
+    nnoremap <C-Tab> :bn<CR>
+    nnoremap <C-S-Tab> :bp<CR>
+    nnoremap \ :buf #<CR>
+    nmap <leader>d :bprevious<CR>:bdelete #<CR>
+
 " }
 
 " Autocommands {
@@ -154,7 +160,7 @@ if has("gui_running")
     " Basics {
         colorscheme molokai
         set columns=120
-        set guifont=Droid\ Sans\ Mono:h12
+        set guifont=Inconsolata:h11
         set guioptions=ce 
         "              ||
         "              |+-- use simple dialogs rather than pop-ups
@@ -164,3 +170,5 @@ if has("gui_running")
     " }
 endif
 " }
+
+call pathogen#infect()
