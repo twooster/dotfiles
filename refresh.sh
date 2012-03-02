@@ -2,7 +2,6 @@
 . ./settings.sh
 
 cd "$prefix"
-git ls-files > ../to-be-installed
 echo "Files to be included:"
 echo "---------------------"
-cat ../to-be-installed
+git ls-files | tee ../to-be-installed
