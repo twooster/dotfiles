@@ -169,7 +169,7 @@ if has("gui_running")
     " Basics {
         colorscheme molokai
         set columns=120
-        set guifont=Droid\ Sans\ Mono:h12
+        set guifont=Tamzen:h15
         set guioptions=ce 
         "              ||
         "              |+-- use simple dialogs rather than pop-ups
