@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . ./settings.sh
-
+./refresh.sh
 # Set inner-field-seperator (IFS) to blank
 # read using:
 #   -r    raw mode, ignoring backslashes
@@ -12,4 +12,4 @@ while IFS= read -r file; do
     else
         echo "Skipping older file: $file"
     fi
-done < to-be-installed
+done < "$manifest"

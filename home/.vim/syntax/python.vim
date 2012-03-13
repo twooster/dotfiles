@@ -89,6 +89,12 @@ if exists("python_highlight_all") && python_highlight_all != 0
       let python_highlight_builtin_funcs = 1
     endif
   endif
+  if !exists("python_highlight_self")
+    let python_highlight_self = 1
+  endif
+  if !exists("python_highlight_magic")
+    let python_highlight_magic = 1
+  endif
   if !exists("python_highlight_exceptions")
     let python_highlight_exceptions = 1
   endif
@@ -120,7 +126,7 @@ syn keyword pythonStatement	global assert
 syn keyword pythonStatement	lambda yield
 syn keyword pythonStatement	with
 syn keyword pythonStatement	def class nextgroup=pythonFunction skipwhite
-syn match   pythonFunction	"[a-zA-Z_][a-zA-Z0-9_]*" display contained
+syn match   pythonFunction	"[a-zA-Z_][a-zA-Z0-9_]*" display contained contains=pythonMagicFunc
 syn keyword pythonRepeat	for while
 syn keyword pythonConditional	if elif else
 syn keyword pythonPreCondit	import from as
@@ -249,29 +255,33 @@ if exists("python_highlight_builtin_objs") && python_highlight_builtin_objs != 0
   syn keyword pythonBuiltinObj	__debug__ __doc__ __file__ __name__ __package__
 endif
 
-if exists("python_highlight_conventional") && python_highlight_conventional != 0
-  syn keyword pythonConventional    __init__ __new__ __call__ __del__ __repr__ __str__
-  syn keyword pythonConventional    __lt__ __gt__ __le__ __ge__ __eq__ __ne__
-  syn keyword pythonConventional    __cmp__ __rcmp__ __hash__ __nonzero__ __unicode__ 
-  syn keyword pythonConventional    __getattr__ __setattr__ __delattr__ __getattribute__
-  syn keyword pythonConventional    __get__ __set__ __delete__ __slots__ __metaclass__
-  syn keyword pythonConventional    __instancecheck__ __subclasscheck__ __call__
-  syn keyword pythonConventional    __len__ __getitem__ __setitem__ __deltiem__
-  syn keyword pythonConventional    __iter__ __reversed__ __contains__
-  syn keyword pythonConventional    __setslice__ __delslice__
-  syn keyword pythonConventional    __add__ __sub__ __mul__ __floordiv__ __mod__
-  syn keyword pythonConventional    __divmod__ __pow__ __lshift__ __rshift__
-  syn keyword pythonConventional    __and__ __xor__ __or__ __div__ __truediv__
-  syn keyword pythonConventional    __radd__ __rsub__ __rmul__ __rdiv__ __rtruediv__
-  syn keyword pythonConventional    __rfloordiv__ __rmod__ __rdivmod__ __rpow__
-  syn keyword pythonConventional    __rlshift__ __rrshift__ __rand__ __ror__
-  syn keyword pythonConventional    __iadd__ __isub__ __imul__ __idiv__ __itruediv__
-  syn keyword pythonConventional    __ifloordiv__ __imod__ __ipow__ __ilshift__
-  syn keyword pythonConventional    __irshift__ __iand__ __ixor__ __ior__
-  syn keyword pythonConventional    __neg__ __pos__ __abs__ __invert__ __complex__
-  syn keyword pythonConventional    __int__ __long__ __float__ __oct__ __hex__
-  syn keyword pythonConventional    __index__ __coerce__ __enter__ __exit__
-  syn keyword pythonConventional    self
+if exists("python_highlight_magic") && python_highlight_magic != 0
+  " Conventional and magic names
+  syn keyword pythonMagicFunc    __init__ __new__ __call__ __del__ __repr__ __str__
+  syn keyword pythonMagicFunc    __lt__ __gt__ __le__ __ge__ __eq__ __ne__
+  syn keyword pythonMagicFunc    __cmp__ __rcmp__ __hash__ __nonzero__ __unicode__ 
+  syn keyword pythonMagicFunc    __getattr__ __setattr__ __delattr__ __getattribute__
+  syn keyword pythonMagicFunc    __get__ __set__ __delete__ __slots__ __metaclass__
+  syn keyword pythonMagicFunc    __instancecheck__ __subclasscheck__ __call__
+  syn keyword pythonMagicFunc    __len__ __getitem__ __setitem__ __deltiem__
+  syn keyword pythonMagicFunc    __iter__ __reversed__ __contains__
+  syn keyword pythonMagicFunc    __setslice__ __delslice__
+  syn keyword pythonMagicFunc    __add__ __sub__ __mul__ __floordiv__ __mod__
+  syn keyword pythonMagicFunc    __divmod__ __pow__ __lshift__ __rshift__
+  syn keyword pythonMagicFunc    __and__ __xor__ __or__ __div__ __truediv__
+  syn keyword pythonMagicFunc    __radd__ __rsub__ __rmul__ __rdiv__ __rtruediv__
+  syn keyword pythonMagicFunc    __rfloordiv__ __rmod__ __rdivmod__ __rpow__
+  syn keyword pythonMagicFunc    __rlshift__ __rrshift__ __rand__ __ror__
+  syn keyword pythonMagicFunc    __iadd__ __isub__ __imul__ __idiv__ __itruediv__
+  syn keyword pythonMagicFunc    __ifloordiv__ __imod__ __ipow__ __ilshift__
+  syn keyword pythonMagicFunc    __irshift__ __iand__ __ixor__ __ior__
+  syn keyword pythonMagicFunc    __neg__ __pos__ __abs__ __invert__ __complex__
+  syn keyword pythonMagicFunc    __int__ __long__ __float__ __oct__ __hex__
+  syn keyword pythonMagicFunc    __index__ __coerce__ __enter__ __exit__
+endif
+
+if exists("python_highlight_self") && python_highlight_self != 0
+  syn keyword pythonSelf    self
 endif
   
 if exists("python_highlight_builtin_funcs") && python_highlight_builtin_funcs != 0
@@ -378,6 +388,7 @@ if version >= 508 || !exists("did_python_syn_inits")
 
   HiLink pythonDocTest		Special
   HiLink pythonDocTest2		Special
+  HiLink pythonSelf             Special
 
   HiLink pythonNumber		Number
   HiLink pythonHexNumber	Number
@@ -388,7 +399,7 @@ if version >= 508 || !exists("did_python_syn_inits")
   HiLink pythonHexError		Error
   HiLink pythonBinError		Error
 
-  HiLink pythonConventional     Structure
+  HiLink pythonMagicFunc        Structure
   HiLink pythonBuiltinObj	Structure
   HiLink pythonBuiltinFunc	Function
 

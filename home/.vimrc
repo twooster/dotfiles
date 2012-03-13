@@ -51,6 +51,7 @@
 " }
 
 " Vim UI {
+    colorscheme molokai
     set cursorline " highlight current line
     set incsearch " BUT do highlight as you type you 
                   " search phrase
@@ -105,6 +106,9 @@
     " Sets up past-80-column highlighting
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     match OverLength /\%81v.\+/
+    " Turn on all python highlighting
+    let python_highlight_all = 1
+    let python_slow_sync = 1
 " }
 
 " Folding {
@@ -156,6 +160,8 @@
     nnoremap \ :buf #<CR>
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
 
+    " Highlighting debuging: TODO: Remove
+    map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 " }
 
 " Autocommands {
@@ -167,7 +173,7 @@
 " GUI Settings {
 if has("gui_running")
     " Basics {
-        colorscheme molokai
+        colorscheme mustang
         set columns=120
         set guifont=Tamzen:h15
         set guioptions=ce 

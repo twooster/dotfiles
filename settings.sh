@@ -1,2 +1,2 @@
 prefix="home"
-
+manifest="MANIFEST"

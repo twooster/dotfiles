@@ -4,6 +4,8 @@
 # Set inner-field-seperator (IFS) to blank
 # read using:
 #   -r    raw mode, ignoring backslashes
+./refresh.sh
+
 while IFS= read -r file; do
     # get basename by trimming longest */ at beginning
     base="${file##*/}" 
@@ -16,6 +18,11 @@ while IFS= read -r file; do
             echo Making directory $dirto...
 	    mkdir -p "$dirto"
 	fi
-	echo Copying to $HOME/$file
-	cp -p "$prefix/$file" "$HOME/$file"
-done < to-be-installed
+        if [[ "$HOME/$file" -nt "$prefix/$file" ]]; then
+            echo "Destination file appears to be newer, please confirm copy:"
+            cp -ip "$prefix/$file" "$HOME/$file"
+        else
+            echo Copying to $HOME/$file
+            cp -p "$prefix/$file" "$HOME/$file"
+        fi
+done < "$manifest"
