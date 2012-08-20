@@ -24,7 +24,7 @@
     set ttyfast " derp
     set encoding=utf-8 " good default
     set backspace=indent,eol,start " make backspace a more flexible
-    set fileformats=mac,unix,dos " support all three, in this order
+    set fileformats=unix,dos,mac " support all three, in this order
     set hidden " you can change buffers without saving
     " (XXX: #VIM/tpope warns the line below could break things)
     set iskeyword+=_,$,@,%,# " none of these are word dividers 
@@ -51,6 +51,7 @@
 " }
 
 " Vim UI {
+    colorscheme molokai
     set cursorline " highlight current line
     set incsearch " BUT do highlight as you type you 
                   " search phrase
@@ -64,7 +65,7 @@
     set matchtime=5 " how many tenths of a second to blink 
                      " matching brackets for
     set nostartofline " leave my cursor where it was
-    set novisualbell " don't blink
+    set visualbell " don't blink
     set number " turn on line numbers
     set numberwidth=4 " We are good up to 9999 lines
     set report=0 " tell us when anything is changed via :...
@@ -101,6 +102,13 @@
                        "should a tab be (see expandtab)
     set tabstop=8 " real tabs should be 8, and they will show with 
                    " set list on
+
+    " Sets up past-80-column highlighting
+    highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+    match OverLength /\%81v.\+/
+    " Turn on all python highlighting
+    let python_highlight_all = 1
+    let python_slow_sync = 1
 " }
 
 " Folding {
@@ -125,8 +133,8 @@
 
 " Mappings {
     " space / shift-space scroll in normal mode
-    noremap <S-space> <C-b>
-    noremap <space> <C-f>
+    noremap <S-space> <C-u>
+    noremap <space> <C-d>
     nnoremap / /\v
     vnoremap / /\v
     " The 'I'm a newbie' section
@@ -138,6 +146,11 @@
     inoremap <down> <nop>
     inoremap <left> <nop>
     inoremap <right> <nop>
+    " The 'make moving around windows easy' section
+    map <c-h> <c-w>h
+    map <c-j> <c-w>j
+    map <c-k> <c-w>k
+    map <c-l> <c-w>l
     " The 'visual instead of logical lines' section
     nnoremap j gj
     nnoremap k gk
@@ -147,6 +160,8 @@
     nnoremap \ :buf #<CR>
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
 
+    " Highlighting debuging: TODO: Remove
+    map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 " }
 
 " Autocommands {
@@ -158,9 +173,9 @@
 " GUI Settings {
 if has("gui_running")
     " Basics {
-        colorscheme molokai
+        colorscheme mustang
         set columns=120
-        set guifont=Inconsolata:h11
+        set guifont=Tamzen:h15
         set guioptions=ce 
         "              ||
         "              |+-- use simple dialogs rather than pop-ups
