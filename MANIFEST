@@ -4,6 +4,7 @@
 .git-completion.bash
 .gitconfig
 .gitconfig-ignore
+.gitconfig-local
 .prompt.bash
 .tmux.conf
 .vim/autoload/pathogen.vim

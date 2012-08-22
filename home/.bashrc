@@ -28,7 +28,7 @@ HISTCONTROL=ignoredups
 # PATH SETUP
 #-------------------------------------------------------------------------------
 
-PATH="$HOME/devscripts:$HOME/devscripts/git:$HOME/devscripts/gerrit:/usr/local/bin:$PATH:/usr/local/sbin:/usr/sbin:/sbin"
+PATH="/usr/local/bin:$PATH:/usr/local/sbin:/usr/sbin:/sbin"
 test -d "$HOME/bin" && PATH="$HOME/bin:$PATH"
 
 #-------------------------------------------------------------------------------
@@ -65,12 +65,12 @@ export CLICOLOR="yes"
 #-------------------------------------------------------------------------------
 # ALIASES
 #-------------------------------------------------------------------------------
-alias gm='git-review'
-alias gpg='git push gerrit'
 alias gs='git status'
+alias gap='git add -p'
 alias gai='git add -i'
 alias gau='git add -u'
 alias gco='git checkout'
+alias gcm='git commit -m'
 alias more="less"
 alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
 
@@ -104,7 +104,7 @@ export PAGER MANPAGER
 # Ack
 ACK_PAGER="$PAGER"
 ACK_PAGER_COLOR="$PAGER"
-
+export ACK_PAGER ACK_PAGER_COLOR
 
 #-------------------------------------------------------------------------------
 # BASH COMPLETION
@@ -212,7 +212,5 @@ fi
 # FINALIZE SETUP
 #-------------------------------------------------------------------------------
 
-#PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
-
 . ~/.prompt.bash
-
+[ -f "~/.bash_local" ] && . ~/.bash_local

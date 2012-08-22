@@ -10,3 +10,6 @@
 	unadd = reset HEAD
 [core]
 	excludesfile = ~/.gitconfig-ignore
+
+[include]
+        path = .gitconfig-local
