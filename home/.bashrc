@@ -71,6 +71,7 @@ alias gai='git add -i'
 alias gau='git add -u'
 alias gco='git checkout'
 alias gcm='git commit -m'
+alias gl='git log --graph --oneline --decorate'
 alias more="less"
 alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
 
@@ -213,4 +214,4 @@ fi
 #-------------------------------------------------------------------------------
 
 . ~/.prompt.bash
-[ -f "~/.bash_local" ] && . ~/.bash_local
+[ -f "$HOME/.bash_local" ] && . "$HOME/.bash_local"
