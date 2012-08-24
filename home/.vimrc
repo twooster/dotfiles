@@ -186,15 +186,4 @@ if has("gui_running")
 endif
 " }
 
-
-let g:CommandTMaxHeight = 10
-let g:CommandTMaxFiles = 30000
-let g:CommandTMaxCachedDirectories = 10
-let g:CommandTScanDotDirectories = 1
-if &term =~ "screen" || &term =~ "xterm"
-    let g:CommandTCancelMap = [ '<ESC>', '<C-c>']
-    let g:CommandTSelectNextMap = [ '<C-j>', '<ESC>OB' ]
-    let g:CommandTSelectPrevMap = [ '<C-k>', '<ESC>OA' ]
-end
-
 call pathogen#infect()
