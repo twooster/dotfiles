@@ -14,6 +14,8 @@ set -o notify
 ulimit -S -c 0
 # Sensible umask
 umask 0022
+# Disable flood-control CTRL-S
+stty -ixon
 
 shopt -s histappend
 set +o histexpand     # enable strings with !
