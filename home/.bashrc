@@ -75,7 +75,12 @@ alias gco='git checkout'
 alias gcm='git commit -m'
 alias gl='git log --graph --oneline --decorate'
 alias more="less"
-alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
+
+if [ -n "/Applications/MacVim.app/Contents/MacOS/Vim" ]; then
+    alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
+elif [ -n "~/Applications/MacVim.app/Contents/MacOS/Vim" ]; then
+    alias gvim='~/Applications/MacVim.app/Contents/MacOS/Vim -g'
+fi
 
 alias wo="workon"
 alias woff="deactivate"
@@ -137,36 +142,12 @@ complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g 
 . ~/.git-completion.bash
 
 #-------------------------------------------------------------------------------
-# LS AND DIRCOLORS
+# SSH FUNCTIONS
 #-------------------------------------------------------------------------------
-
-# we always pass these to ls(1)
-LS_COMMON="-hBG --color"
-
-# if the dircolors utility is available, set that up to
-dircolors="$(type -P gdircolors dircolors | head -1)"
-test -n "$dircolors" && {
-    COLORS=/etc/DIR_COLORS
-    test -e "/etc/DIR_COLORS.$TERM"   && COLORS="/etc/DIR_COLORS.$TERM"
-    test -e "$HOME/.dircolors"        && COLORS="$HOME/.dircolors"
-    test ! -e "$COLORS"               && COLORS=
-}
-unset dircolors
-
-# setup the main ls alias if we've established common args
-test -n "$LS_COMMON" && alias ls="command ls $LS_COMMON"
-
-# these use the ls aliases above
-alias ll="ls -l"
-alias l.="ls -d .*"
 
 apply_ssh() {
   ssh $1 "cat >> ~/.ssh/authorized_keys" < ~/.ssh/id_rsa.pub
 }
-
-#-------------------------------------------------------------------------------
-# SSH FUNCTIONS
-#-------------------------------------------------------------------------------
 
 ssh-reagent () {
         for agent in /tmp/ssh-*/agent.*; do
@@ -213,7 +194,31 @@ if [ "$UNAME" = Darwin ]; then
     JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
     ANT_HOME="/Developer/Java/Ant"
     export ANT_HOME JAVA_HOME
+    LS_FLAGS="-hBG"
+else
+    LS_FLAGS="-hb --color"
 fi
+
+#-------------------------------------------------------------------------------
+# LS AND DIRCOLORS
+#-------------------------------------------------------------------------------
+
+# if the dircolors utility is available, set that up to
+dircolors="$(type -P gdircolors dircolors | head -1)"
+test -n "$dircolors" && {
+    COLORS=/etc/DIR_COLORS
+    test -e "/etc/DIR_COLORS.$TERM"   && COLORS="/etc/DIR_COLORS.$TERM"
+    test -e "$HOME/.dircolors"        && COLORS="$HOME/.dircolors"
+    test ! -e "$COLORS"               && COLORS=
+}
+unset dircolors
+
+# setup the main ls alias if we've established common args
+test -n "$LS_FLAGS" && alias ls="command ls $LS_FLAGS"
+
+# these use the ls aliases above
+alias ll="ls -l"
+alias l.="ls -d .*"
 
 #-------------------------------------------------------------------------------
 # VIRTUALENV STUFF
