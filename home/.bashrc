@@ -160,13 +160,29 @@ test -n "$LS_COMMON" && alias ls="command ls $LS_COMMON"
 alias ll="ls -l"
 alias l.="ls -d .*"
 
-#-------------------------------------------------------------------------------
-# MISCELLANEOUS FUNCTIONS
-#-------------------------------------------------------------------------------
-
 apply_ssh() {
   ssh $1 "cat >> ~/.ssh/authorized_keys" < ~/.ssh/id_rsa.pub
 }
+
+#-------------------------------------------------------------------------------
+# SSH FUNCTIONS
+#-------------------------------------------------------------------------------
+
+ssh-reagent () {
+        for agent in /tmp/ssh-*/agent.*; do
+                export SSH_AUTH_SOCK=$agent
+                if ssh-add -l 2>&1 > /dev/null; then
+                        echo Found working SSH Agent:
+                        ssh-add -l
+                        return
+                fi
+        done
+        echo Cannot find ssh agent - maybe you should reconnect and forward it?
+}
+
+#-------------------------------------------------------------------------------
+# MISCELLANEOUS FUNCTIONS
+#-------------------------------------------------------------------------------
 
 pman() {
   man -t "${1}" | open -f -a /Applications/Preview.app/

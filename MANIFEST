@@ -7,6 +7,7 @@
 .prompt.bash
 .tmux.conf
 .vim/autoload/pathogen.vim
+.vim/bundle/ctrlp.vim
 .vim/bundle/nerdtree/doc/NERD_tree.txt
 .vim/bundle/nerdtree/nerdtree_plugin/exec_menuitem.vim
 .vim/bundle/nerdtree/nerdtree_plugin/fs_menu.vim
