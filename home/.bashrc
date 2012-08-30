@@ -60,6 +60,7 @@ export LANG LANGUAGE LC_CTYPE LC_ALL
 : ${FTP_PASSIVE:=1}
 export FTP_PASSIVE
 
+export TERM=xterm-256color
 # ignore backups, CVS directories, python bytecode, vim swap files
 FIGNORE="~:CVS:#:.pyc:.swp:.swa:apache-solr-*"
 export CLICOLOR="yes"

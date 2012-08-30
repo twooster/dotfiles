@@ -154,7 +154,7 @@
     " The 'visual instead of logical lines' section
     nnoremap j gj
     nnoremap k gk
-    " The "make buffer switching easy" seciton
+    " The "make buffer switching easy" section
     nnoremap <C-Tab> :bn<CR>
     nnoremap <C-S-Tab> :bp<CR>
     nnoremap \ :buf #<CR>

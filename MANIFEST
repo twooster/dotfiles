@@ -14,6 +14,9 @@
 .vim/bundle/nerdtree/plugin/NERD_tree.vim
 .vim/bundle/nerdtree/syntax/nerdtree.vim
 .vim/bundle/python_fn/ftplugin/python_fn.vim
+.vim/bundle/vim-fugitive
+.vim/bundle/vim-rails
+.vim/bundle/vim-surround
 .vim/colors/molokai.vim
 .vim/colors/mustang.vim
 .vim/syntax/python.vim
