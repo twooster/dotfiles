@@ -76,6 +76,7 @@
     set showcmd " show the command being typed
     set showmatch " show matching brackets
     set sidescrolloff=10 " Keep 5 lines at the size
+    set hlsearch
 
     set statusline=
     set statusline+=%<\                       " cut at start
@@ -185,5 +186,11 @@ if has("gui_running")
     " }
 endif
 " }
+
+
+let g:CommandTMaxFiles=20000
+let g:CommandTMaxHeight=12
+let g:CommandTMatchWindowReverse=1
+let g:CommandTCancelMap='<ESC>'
 
 call pathogen#infect()
