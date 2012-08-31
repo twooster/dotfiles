@@ -19,7 +19,7 @@
 
 " General {
     filetype plugin indent on " load filetype plugins/indent settings
-    set autochdir " always switch to the current file directory 
+"    set autochdir " always switch to the current file directory 
 "    set undofile " undo across saves
     set ttyfast " derp
     set encoding=utf-8 " good default
@@ -81,7 +81,7 @@
     set statusline=
     set statusline+=%<\                       " cut at start
     set statusline+=%2*[%n%H%M%R%W]%*\        " flags and buf no
-    set statusline+=%-40f\                    " path
+    set statusline+=%-40F\                    " path
     set statusline+=%=%1*%y%*%*\              " file type
     set statusline+=%10((%l,%c)%)\            " line and column
     set statusline+=%P                        " percentage of file
