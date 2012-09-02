@@ -1,5 +1,5 @@
 UNAME=`uname`
-if [[ "$UNAME" -eq "Darwin" ]]; then
+if [ "$UNAME" = "Darwin" ]; then
     LINK_FORCE_FLAGS=-fh
 else
     LINK_FORCE_FLAGS=-fn
