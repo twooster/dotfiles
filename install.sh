@@ -33,7 +33,7 @@ submodule-update()
 
 dotlink-pwd-files()
 {
-    for file in $( find "$1" -depth 1 ); do
+    for file in $( find "$1" -maxdepth 1 -mindepth 1 ); do
         dotlink ${file}
     done
 }
