@@ -1,11 +1,19 @@
-: ${TARGET="$HOME"}
-: ${AUTOLINK=1}
-: ${SUBMODULE_UPDATE=1}
-: ${FORCE=}
+UNAME=`uname`
+if [[ "$UNAME" -eq "Darwin" ]]; then
+    LINK_FORCE_FLAGS=-fh
+else
+    LINK_FORCE_FLAGS=-fn
+fi
+
+TARGET="$HOME"
+AUTOLINK=1
+SUBMODULE_UPDATE=1
+FORCE=
+VERBOSE=
 
 main()
 {
-    while getopts "fAaMmt:" OPTION
+    while getopts "AaMmfvt:" OPTION
     do
         case $OPTION in
             A   ) AUTOLINK=;;
@@ -13,6 +21,7 @@ main()
             M   ) SUBMODULE_UPDATE=;;
             m   ) SUBMODULE_UPDATE=1;;
             f   ) FORCE=1;;
+            v   ) VERBOSE=1;;
             t   ) TARGET="$OPTARG";;
             *   ) fatal Unknown option chosen;;
         esac
@@ -56,10 +65,11 @@ fatal()
 
 link()
 {
-    local flags=-sv
+    local flags=-s
     local source="$1"
     local target="$TARGET/${2-$1}"
-    [ "x$FORCE" == x ] || flags=${flags}fh
+    [ -n $VERBOSE ] && flags="$flags -v"
+    [ -n $FORCE ] && flags="$flags $LINK_FORCE_FLAGS"
     ln $flags "$source" "$target" || warn "Unable to link $source to $target"
 }
 
