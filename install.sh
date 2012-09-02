@@ -68,8 +68,8 @@ link()
     local flags=-s
     local source="$1"
     local target="$TARGET/${2-$1}"
-    [ -n $VERBOSE ] && flags="$flags -v"
-    [ -n $FORCE ] && flags="$flags $LINK_FORCE_FLAGS"
+    [ -n "$VERBOSE" ] && flags="$flags -v"
+    [ -n "$FORCE" ] && flags="$flags $LINK_FORCE_FLAGS"
     ln $flags "$source" "$target" || warn "Unable to link $source to $target"
 }
 
