@@ -1,4 +1,3 @@
-AUTOLINK_DIR='./home'
 : ${TARGET="$HOME"}
 : ${AUTOLINK=1}
 : ${SUBMODULE_UPDATE=1}
@@ -24,10 +23,7 @@ main()
 
 autolink()
 {
-    (
-        cd "$AUTOLINK_DIR"
-        dotlink-pwd-files
-    )
+    dotlink-pwd-files "$PWD/home"
 }
 
 submodule-update()
@@ -37,14 +33,14 @@ submodule-update()
 
 dotlink-pwd-files()
 {
-    for file in $( find . -depth 1 ); do
-        dotlink ${file#./}
+    for file in $( find "$1" -depth 1 ); do
+        dotlink ${file}
     done
 }
 
 dotlink()
 {
-    link "$1" ".$1"
+    link "$1" ".`basename "$1"`"
 }
 
 warn()
@@ -60,13 +56,11 @@ fatal()
 
 link()
 {
-    local flags=-s
+    local flags=-sv
     local source="$1"
     local target="$TARGET/${2-$1}"
-    [ "x$FORCE" == x ] || flags=${flags}fF
+    [ "x$FORCE" == x ] || flags=${flags}fh
     ln $flags "$source" "$target" || warn "Unable to link $source to $target"
 }
-
-
 
 main "$@"
