@@ -1,36 +1,72 @@
-#!/bin/bash
+AUTOLINK_DIR='./home'
+: ${TARGET="$HOME"}
+: ${AUTOLINK=1}
+: ${SUBMODULE_UPDATE=1}
+: ${FORCE=}
 
-. settings.sh
-# Set inner-field-seperator (IFS) to blank
-# read using:
-#   -r    raw mode, ignoring backslashes
-./refresh.sh
-
-while IFS= read -r file <&3; do
-    # get basename by trimming longest */ at beginning
-    base="${file##*/}" 
-    # get directory name by trimming basename
-    dir="${file%"$base"}"
-    # trim trailing slash for pretties
-    dir="${dir%/}"
-    dirto="$HOME/$dir"
-    docopy=0
-    if [[ ! -d "$dirto" ]]; then
-        echo Making directory $dirto...
-        mkdir -p "$dirto"
-    fi
-    if [[ "$HOME/$file" -nt "$prefix/$file" ]]; then
-        read -p "Overwrite newer file $file? [yN] " yn
-        case $yn in
-            [Yy]* ) docopy=1;;
-            * ) echo "Skipping.";;
+main()
+{
+    while getopts "fAaMmt:" OPTION
+    do
+        case $OPTION in
+            A   ) AUTOLINK=;;
+            a   ) AUTOLINK=1;;
+            M   ) SUBMODULE_UPDATE=;;
+            m   ) SUBMODULE_UPDATE=1;;
+            f   ) FORCE=1;;
+            t   ) TARGET="$OPTARG";;
+            *   ) fatal Unknown option chosen;;
         esac
-    else
-        docopy=1
-    fi
+    done
+    [ -n "$AUTOLINK" ] && autolink
+    [ -n "$SUBMODULE_UPDATE" ] && submodule-update
+}
 
-    if [ $docopy -eq 1 ]; then
-        echo Copying to $HOME/$file
-        cp -p "$prefix/$file" "$HOME/$file"
-    fi
-done 3< "$manifest"
+autolink()
+{
+    (
+        cd "$AUTOLINK_DIR"
+        dotlink-pwd-files
+    )
+}
+
+submodule-update()
+{
+    git submodule update --init
+}
+
+dotlink-pwd-files()
+{
+    for file in $( find . -depth 1 ); do
+        dotlink ${file#./}
+    done
+}
+
+dotlink()
+{
+    link "$1" ".$1"
+}
+
+warn()
+{
+    echo "$*" >&2
+}
+
+fatal()
+{
+    warn $@
+    exit 1
+}
+
+link()
+{
+    local flags=-s
+    local source="$1"
+    local target="$TARGET/${2-$1}"
+    [ "x$FORCE" == x ] || flags=${flags}fF
+    ln $flags "$source" "$target" || warn "Unable to link $source to $target"
+}
+
+
+
+main "$@"

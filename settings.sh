@@ -1,2 +1,0 @@
-prefix="home"
-manifest="MANIFEST"
