@@ -8,6 +8,7 @@ else
 fi
 
 TARGET="$HOME"
+DOTLINK_DIR="dotlink"
 AUTOLINK=1
 SUBMODULE_UPDATE=1
 FORCE=
@@ -34,7 +35,7 @@ main()
 
 autolink()
 {
-    dotlink-files-in "$PWD/home"
+    dotlink-files-in "$PWD/$DOTLINK_DIR"
 }
 
 submodule-update()
@@ -72,7 +73,7 @@ link()
     local target="$TARGET/${2-$1}"
     [ -n "$VERBOSE" ] && flags="$flags -v"
     [ -n "$FORCE" ] && flags="$flags -f"
-    ln $flags "$source" "$target" || warn Unable to link $source to $target
+    ln $flags "$source" "$target"
 }
 
 main "$@"

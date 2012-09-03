@@ -1,15 +1,12 @@
-[submodule "home/.vim/bundle/ctrlp.vim"]
-	path = home/.vim/bundle/ctrlp.vim
-	url = git://github.com/kien/ctrlp.vim.git
-[submodule "home/vim/bundle/command-t"]
-	path = home/vim/bundle/command-t
+[submodule "dotlink/vim/bundle/command-t"]
+	path = dotlink/vim/bundle/command-t
 	url = git://github.com/wincent/Command-T.git
-[submodule "home/vim/bundle/vim-fugitive"]
-	path = home/vim/bundle/vim-fugitive
+[submodule "dotlink/vim/bundle/vim-fugitive"]
+	path = dotlink/vim/bundle/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "home/vim/bundle/vim-rails"]
-	path = home/vim/bundle/vim-rails
+[submodule "dotlink/vim/bundle/vim-rails"]
+	path = dotlink/vim/bundle/vim-rails
 	url = git://github.com/tpope/vim-rails.git
-[submodule "home/vim/bundle/vim-surround"]
-	path = home/vim/bundle/vim-surround
+[submodule "dotlink/vim/bundle/vim-surround"]
+	path = dotlink/vim/bundle/vim-surround
 	url = git://github.com/tpope/vim-surround.git
