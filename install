@@ -8,7 +8,7 @@ else
 fi
 
 TARGET="$HOME"
-DOTLINK_DIR="dotlink"
+DOTLINK_DIR="$PWD/dotlink"
 AUTOLINK=1
 SUBMODULE_UPDATE=1
 FORCE=
@@ -35,7 +35,7 @@ main()
 
 autolink()
 {
-    dotlink-files-in "$PWD/$DOTLINK_DIR"
+    dotlink-files-in "$DOTLINK_DIR"
 }
 
 submodule-update()
@@ -66,13 +66,39 @@ fatal()
     exit 1
 }
 
+backup-rename()
+{
+    local i=0
+    local file
+    while [[ -e "$1~$i" ]]; do
+        let i=i+1
+    done
+    echo Renaming existing file $1 to $1~$i...
+    mv "$1" "$1~$i" || fatal Unable to rename $1 to $1~$i
+}
+
 link()
 {
     local flags="$LINK_FLAGS"
     local source="$1"
     local target="$TARGET/${2-$1}"
     [ -n "$VERBOSE" ] && flags="$flags -v"
-    [ -n "$FORCE" ] && flags="$flags -f"
+    if [ -e "$target" ]; then
+        if [ -n "$FORCE" ]; then
+            flags="$flags -f"
+        elif [ -h "$target" ]; then
+            # Symbolic link, so...
+            local rl=$( readlink "$target" )
+            if [[ "$rl" == "$DOTLINK_DIR"* ]]; then
+                # Kill an existing link to a dotfile
+                rm "$target" && [ -n "$VERBOSE" ] && echo Removed existing dotlink link to $target
+            else
+                backup-rename "$target"
+            fi
+        else
+            backup-rename "$target"
+        fi
+    fi
     ln $flags "$source" "$target"
 }
 
