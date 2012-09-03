@@ -6,6 +6,7 @@ alias more="less"
 alias ll="ls -l"
 alias l.="ls -d .*"
 alias la="ls -a"
+alias reload=". ~/.bashrc"
 
 [ -n `command -v git` ] && {
     alias gs='git status'

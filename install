@@ -30,20 +30,20 @@ main()
         esac
     done
     [ -n "$AUTOLINK" ] && autolink
-    [ -n "$SUBMODULE_UPDATE" ] && submodule-update
+    [ -n "$SUBMODULE_UPDATE" ] && submodule_update
 }
 
 autolink()
 {
-    dotlink-files-in "$DOTLINK_DIR"
+    dotlink_files_in "$DOTLINK_DIR"
 }
 
-submodule-update()
+submodule_update()
 {
     git submodule update --init
 }
 
-dotlink-files-in()
+dotlink_files_in()
 {
     for file in $( find "$1" -maxdepth 1 -mindepth 1 ); do
         dotlink ${file}
@@ -66,7 +66,7 @@ fatal()
     exit 1
 }
 
-backup-rename()
+backup_rename()
 {
     local i=0
     local file
@@ -93,10 +93,10 @@ link()
                 # Kill an existing link to a dotfile
                 rm "$target" && [ -n "$VERBOSE" ] && echo Removed existing dotlink link to $target
             else
-                backup-rename "$target"
+                backup_rename "$target"
             fi
         else
-            backup-rename "$target"
+            backup_rename "$target"
         fi
     fi
     ln $flags "$source" "$target"

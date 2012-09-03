@@ -22,8 +22,11 @@ umask 0022
 # Disable flood-control CTRL-S
 stty -ixon
 
+# Add extended globbing
+shopt -s globstar 2> /dev/null
+
 # History settings
-shopt -s histappend
+shopt -s histappend 
 set -o histexpand     # enable strings with !
 set completion-ignore-case On
 
