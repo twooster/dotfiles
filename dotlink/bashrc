@@ -75,14 +75,16 @@ export CLICOLOR="yes"
 export EDITOR
 
 # PAGER
-[ -n "$(command -v less)" ] &&
-    PAGER="less -FirSwX" ||
+if [ -n "$(command -v less)" ]; then 
+    export LESS="-FiRSwX" &&
+    PAGER=less
+else
     PAGER=more
+fi
 export PAGER
 
+export GIT_PAGER="$PAGER"
 export MANPAGER="$PAGER"
-
-# Ack
 export ACK_PAGER="$PAGER"
 export ACK_PAGER_COLOR="$PAGER"
 
