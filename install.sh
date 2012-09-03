@@ -1,8 +1,10 @@
+#!/bin/bash
+
 UNAME=`uname`
 if [ "$UNAME" = "Darwin" ]; then
-    LINK_FORCE_FLAGS=-fh
+    LINK_FLAGS=-hs
 else
-    LINK_FORCE_FLAGS=-fn
+    LINK_FLAGS=-ns
 fi
 
 TARGET="$HOME"
@@ -32,7 +34,7 @@ main()
 
 autolink()
 {
-    dotlink-pwd-files "$PWD/home"
+    dotlink-files-in "$PWD/home"
 }
 
 submodule-update()
@@ -40,7 +42,7 @@ submodule-update()
     git submodule update --init
 }
 
-dotlink-pwd-files()
+dotlink-files-in()
 {
     for file in $( find "$1" -maxdepth 1 -mindepth 1 ); do
         dotlink ${file}
@@ -49,7 +51,7 @@ dotlink-pwd-files()
 
 dotlink()
 {
-    link "$1" ".`basename "$1"`"
+    link "$1" ".${1##*/}"
 }
 
 warn()
@@ -65,12 +67,12 @@ fatal()
 
 link()
 {
-    local flags=-s
+    local flags="$LINK_FLAGS"
     local source="$1"
     local target="$TARGET/${2-$1}"
     [ -n "$VERBOSE" ] && flags="$flags -v"
-    [ -n "$FORCE" ] && flags="$flags $LINK_FORCE_FLAGS"
-    ln $flags "$source" "$target" || warn "Unable to link $source to $target"
+    [ -n "$FORCE" ] && flags="$flags -f"
+    ln $flags "$source" "$target" || warn Unable to link $source to $target
 }
 
 main "$@"
