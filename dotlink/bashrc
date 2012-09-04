@@ -93,7 +93,7 @@ export ACK_PAGER_COLOR="$PAGER"
 #-------------------------------------------------------------------------------
 
 for file in "$HOME/.bash-sources/"*; do
-    [ -r "$file" ] && . "$file"
+    [[ -r "$file" && -f "$file" ]] && . "$file"
 done
 
 [ -r "$HOME/.bash_local" ] && . "$HOME/.bash_local"
