@@ -32,8 +32,15 @@ function parse_git_branch() {
   fi
   if [[ ${git_status} =~ ${branch_pattern} ]]; then
     branch=${BASH_REMATCH[1]}
-    echo " [${branch}]${remote}${state}"
   fi
+  # Causes pairing helpers
+  local solo_name=$(git config solo.name)
+  local current_name=$(git config user.name)
+  local pair
+  if [[ -n ${solo_name} && ${solo_name} != ${current_name} ]]; then
+      pair="$WHITE + ${current_name#* + }"
+  fi
+  echo " [${branch}]${remote}${state}${pair}"
 }
 
 function prompt_func() {
@@ -44,7 +51,7 @@ function prompt_func() {
         venv="${RED}$(basename ${VIRTUAL_ENV})${LIGHT_GRAY}:"
     fi
     
-    prompt="${LIGHT_GRAY}\u@\h ${venv}${BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}"
+    local prompt="${LIGHT_GRAY}\u@\h ${venv}${BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}"
     if test $previous_return_value -eq 0
     then
         PS1="${prompt}\n# "
