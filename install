@@ -83,7 +83,8 @@ link()
     local source="$1"
     local target="$TARGET/${2-$1}"
     [ -n "$VERBOSE" ] && flags="$flags -v"
-    if [ -e "$target" ]; then
+    # Note we have to test for symlink in case the symlink is dead
+    if [[ -e "$target" || -h "$target" ]]; then
         if [ -n "$FORCE" ]; then
             flags="$flags -f"
         elif [ -h "$target" ]; then
