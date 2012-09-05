@@ -132,6 +132,13 @@
     let b:match_ignorecase = 1 " case is stupid
 " }
 
+" CommandT {
+    let g:CommandTMaxFiles=20000
+    let g:CommandTMaxHeight=12
+    let g:CommandTMatchWindowReverse=1
+    let g:CommandTCancelMap='<ESC>'
+" }
+
 " Mappings {
     " space / shift-space scroll in normal mode
     noremap <S-space> <C-u>
@@ -163,6 +170,9 @@
 
     " Highlighting debuging: TODO: Remove
     map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+    " CommandT
+    map <leader>T :CommandTFlush<CR>
 " }
 
 " Autocommands {
@@ -187,10 +197,5 @@ if has("gui_running")
 endif
 " }
 
-
-let g:CommandTMaxFiles=20000
-let g:CommandTMaxHeight=12
-let g:CommandTMatchWindowReverse=1
-let g:CommandTCancelMap='<ESC>'
 
 call pathogen#infect()
