@@ -13,3 +13,6 @@
 [submodule "dotlink/vim/bundle/ack.vim"]
 	path = dotlink/vim/bundle/ack.vim
 	url = git://github.com/mileszs/ack.vim.git
+[submodule "dotlink/vim/bundle/syntastic"]
+	path = dotlink/vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
