@@ -7,6 +7,8 @@
 [alias]
         forget = rm --cache --
 	unadd = reset HEAD
+	cached = diff --cached
+	files = show --pretty=format: --name-only
 [core]
 	excludesfile = ~/.gitconfig-ignore
 
