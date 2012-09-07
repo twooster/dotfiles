@@ -10,3 +10,6 @@
 [submodule "dotlink/vim/bundle/vim-surround"]
 	path = dotlink/vim/bundle/vim-surround
 	url = git://github.com/tpope/vim-surround.git
+[submodule "dotlink/vim/bundle/ack.vim"]
+	path = dotlink/vim/bundle/ack.vim
+	url = git://github.com/mileszs/ack.vim.git
