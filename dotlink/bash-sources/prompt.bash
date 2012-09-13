@@ -1,11 +1,13 @@
-        RED="\[\033[0;31m\]"
-     YELLOW="\[\033[0;33m\]"
-      GREEN="\[\033[0;32m\]"
-       BLUE="\[\033[0;34m\]"
-  LIGHT_RED="\[\033[1;31m\]"
-LIGHT_GREEN="\[\033[1;32m\]"
-      WHITE="\[\033[1;37m\]"
- LIGHT_GRAY="\[\033[0;37m\]"
+        RED="\[\e[0;31m\]"
+     YELLOW="\[\e[0;33m\]"
+      GREEN="\[\e[0;32m\]"
+       BLUE="\[\e[0;34m\]"
+  LIGHT_RED="\[\e[1;31m\]"
+LIGHT_GREEN="\[\e[1;32m\]"
+      WHITE="\[\e[1;37m\]"
+ LIGHT_GRAY="\[\e[0;37m\]"
+   BACK_RED="\[\e[41m\]"
+  BACK_CYAN="\[\e[46m\]"
  COLOR_NONE="\[\e[0m\]"
 
 function parse_git_branch() {
@@ -54,9 +56,9 @@ function prompt_func() {
     local prompt="${LIGHT_GRAY}\u@\h ${venv}${BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}"
     if test $previous_return_value -eq 0
     then
-        PS1="${prompt}\n# "
+        PS1="${prompt}\n${BACK_CYAN}>${COLOR_NONE} "
     else
-        PS1="${prompt}\n${LIGHT_RED}*${COLOR_NONE} "
+        PS1="${prompt}\n${BACK_RED}*${COLOR_NONE} "
     fi
 }
 
