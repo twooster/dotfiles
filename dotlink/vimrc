@@ -179,6 +179,8 @@
     au FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=4
     au FileType python setlocal tabstop=8 softtabstop=4 shiftwidth=4
     au FileTYpe javascript setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    " Remove all trailing whitespace
+    au BufWritePre * :%s/\s\+$//e
 " }
 
 " GUI Settings {
