@@ -16,3 +16,6 @@
 [submodule "dotlink/vim/bundle/syntastic"]
 	path = dotlink/vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
+[submodule "dotlink/vim/bundle/tabular"]
+	path = dotlink/vim/bundle/tabular
+	url = git://github.com/godlygeek/tabular.git
