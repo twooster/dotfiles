@@ -176,6 +176,9 @@
     " Highlighting debugging:
     " map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+    " The 'I hate esc' section
+    imap jj <esc>
+
     " CommandT
     map <leader>T :CommandTFlush<CR>
 

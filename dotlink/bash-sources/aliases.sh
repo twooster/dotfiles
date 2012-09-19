@@ -7,6 +7,7 @@ alias ll="ls -l"
 alias l.="ls -d .*"
 alias la="ls -a"
 alias reload=". ~/.bashrc"
+alias vimrc="vim ~/.vimrc"
 
 [ -n `command -v git` ] && {
     alias gs='git status'
