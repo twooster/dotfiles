@@ -5,27 +5,27 @@
 " }
 
 " Basics {
-    set nocompatible " explicitly get out of vi-compatible mode
-    set noexrc " don't use local version of .(g)vimrc, .exrc
+    set nocompatible    " explicitly get out of vi-compatible mode
+    set noexrc          " don't use local version of .(g)vimrc, .exrc
     set background=dark " we plan to use a dark background
-    let mapleader="," " a sensible leader character
-    syntax on " syntax highlighting on
+    let mapleader=","   " a sensible leader character
+    syntax on           " syntax highlighting on
 " }
 
 " General {
-    filetype plugin indent on " load filetype plugins/indent settings
 "    set autochdir " always switch to the current file directory
 "    set undofile " undo across saves
-    set ttyfast " derp
-    set encoding=utf-8 " good default
+    filetype plugin indent on " load filetype plugins/indent settings
+    set ttyfast                    " derp
+    set encoding=utf-8             " good default
     set backspace=indent,eol,start " make backspace a more flexible
-    set fileformats=unix,dos,mac " support all three, in this order
-    set hidden " you can change buffers without saving
-    " (XXX: #VIM/tpope warns the line below could break things)
-    set iskeyword+=_,$,@,%,# " none of these are word dividers
-    set mouse=a " use mouse everywhere
-    set title " show title
-    set noerrorbells " don't make noise
+    set fileformats=unix,dos,mac   " support all three, in this order
+    set hidden                     " you can change buffers without saving
+                                   " (XXX: #VIM/tpope warns the line below could break things)
+    set iskeyword+=_,$,@,%,#       " none of these are word dividers
+    set mouse=a                    " use mouse everywhere
+    set title                      " show title
+    set noerrorbells               " don't make noise
     set whichwrap=b,s,h,l,<,>,~,[,] " everything wraps
     "             | | | | | | | | |
     "             | | | | | | | | +-- "]" Insert and Replace
@@ -47,30 +47,30 @@
 
 " Vim UI {
     colorscheme molokai
-    set cursorline " highlight current line
-    set incsearch " BUT do highlight as you type you
-                  " search phrase
-    set laststatus=2 " always show the status line
-    set lazyredraw " do not redraw while running macros
-    set linespace=0 " don't insert any extra pixel lines
-                     " betweens rows
-    set list " we do what to show tabs, to ensure we get them
-              " out of my files
+    set cursorline              " highlight current line
+    set incsearch               " BUT do highlight as you type you
+                                " search phrase
+    set laststatus=2            " always show the status line
+    set lazyredraw              " do not redraw while running macros
+    set linespace=0             " don't insert any extra pixel lines
+                                " betweens rows
+    set list                    " we do what to show tabs, to ensure we get them
+                                " out of my files
     set listchars=tab:▸\ ,eol:¬
-    set matchtime=5 " how many tenths of a second to blink
-                     " matching brackets for
-    set nostartofline " leave my cursor where it was
-    set visualbell " don't blink
-    set number " turn on line numbers
-    set numberwidth=4 " We are good up to 9999 lines
-    set report=0 " tell us when anything is changed via :...
-    set ruler " Always show current positions along the bottom
-    set scrolloff=5 " Keep 10 lines (top/bottom) for scope
-    set shortmess=aOstT " shortens messages to avoid
-                         " 'press a key' prompt
-    set showcmd " show the command being typed
-    set showmatch " show matching brackets
-    set sidescrolloff=10 " Keep 5 lines at the size
+    set matchtime=5             " how many tenths of a second to blink
+                                " matching brackets for
+    set nostartofline           " leave my cursor where it was
+    set visualbell              " don't blink
+    set number                  " turn on line numbers
+    set numberwidth=4           " We are good up to 9999 lines
+    set report=0                " tell us when anything is changed via :...
+    set ruler                   " Always show current positions along the bottom
+    set scrolloff=5             " Keep 10 lines (top/bottom) for scope
+    set shortmess=aOstT         " shortens messages to avoid
+                                " 'press a key' prompt
+    set showcmd                 " show the command being typed
+    set showmatch               " show matching brackets
+    set sidescrolloff=10        " Keep 5 lines at the size
     set hlsearch
 
     set statusline=
@@ -84,20 +84,20 @@
 
 " Text Formatting/Layout {
 "    set completeopt= " don't use a pop up menu for completions
-    set expandtab " no real tabs please!
-    set formatoptions=rq " Automatically insert comment leader on return,
-                          " and let gq format comments
-    set ignorecase " case insensitive by default
-    set infercase " case inferred by default
-    set nowrap " do not wrap line
-    set shiftround " when at 3 spaces, and I hit > ... go to 4, not 5
-    set smartcase " if there are caps, go case-sensitive
-    set shiftwidth=4 " auto-indent amount when using cindent,
-                      " >>, << and stuff like that
-    set softtabstop=2 " when hitting tab or backspace, how many spaces
-                       "should a tab be (see expandtab)
-    set tabstop=8 " real tabs should be 8, and they will show with
-                   " set list on
+    set expandtab          " no real tabs please!
+    set formatoptions=rq   " Automatically insert comment leader on return,
+                           " and let gq format comments
+    set ignorecase         " case insensitive by default
+    set infercase          " case inferred by default
+    set nowrap             " do not wrap line
+    set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
+    set smartcase          " if there are caps, go case-sensitive
+    set shiftwidth=4       " auto-indent amount when using cindent,
+                           " >>, << and stuff like that
+    set softtabstop=4      " when hitting tab or backspace, how many spaces
+                           " should a tab be (see expandtab)
+    set tabstop=8          " real tabs should be 8, and they will show with
+                           " set list on
 
     " Sets up past-80-column highlighting
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
@@ -135,45 +135,58 @@
 " }
 
 " Mappings {
-    " space / shift-space scroll in normal mode
+    " The 'make space do something nice' section
     noremap <S-space> <C-u>
     noremap <space> <C-d>
+
+    " The 'sane searching' section
     nnoremap / /\v
     vnoremap / /\v
+
     " The 'I'm a newbie' section
-    " nnoremap <up> <nop>
-    " nnoremap <down> <nop>
-    " nnoremap <left> <nop>
-    " nnoremap <right> <nop>
-    " inoremap <up> <nop>
-    " inoremap <down> <nop>
-    " inoremap <left> <nop>
-    " inoremap <right> <nop>
+    nnoremap <up> <nop>
+    nnoremap <down> <nop>
+    nnoremap <left> <nop>
+    nnoremap <right> <nop>
+    inoremap <up> <nop>
+    inoremap <down> <nop>
+    inoremap <left> <nop>
+    inoremap <right> <nop>
+
     " The 'make moving around windows easy' section
     map <c-h> <c-w>h
     map <c-j> <c-w>j
     map <c-k> <c-w>k
     map <c-l> <c-w>l
+
     " The 'visual instead of logical lines' section
     nnoremap j gj
     nnoremap k gk
+
     " The 'make switching quote-types easy' section
     nmap <Leader>' mzcs"'`z
     nmap <Leader>" mzcs'"`z
+
     " The 'make buffer switching easy' section
     nnoremap <C-Tab> :bn<CR>
     nnoremap <C-S-Tab> :bp<CR>
     nnoremap \ :buf #<CR>
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
 
-    " Highlighting debuging: TODO: Remove
-    map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+    " Highlighting debugging:
+    " map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
     " CommandT
     map <leader>T :CommandTFlush<CR>
 
     " Ruby 1.9 hash rocket helper
     nmap <leader>rh :%s/\v:(\w+)(\s*)\=\>\s?/\1:\2/gc<cr>
+
+    " The 'tubular tabular helpers' section
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a: :Tabularize /:\zs<CR>
+    vmap <Leader>a: :Tabularize /:\zs<CR>
 " }
 
 " Autocommands {
@@ -201,6 +214,5 @@ if has("gui_running")
 endif
 " }
 
-
-
+" Go Pathogen, go!
 call pathogen#infect()
