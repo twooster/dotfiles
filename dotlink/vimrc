@@ -190,6 +190,11 @@
     vmap <Leader>a= :Tabularize /=<CR>
     nmap <Leader>a: :Tabularize /:\zs<CR>
     vmap <Leader>a: :Tabularize /:\zs<CR>
+    nmap <Leader>a; :Tabularize /:\zs<CR>
+    vmap <Leader>a; :Tabularize /:\zs<CR>
+
+    nmap <Leader>s mzvi}:sort<CR>`z
+    vmap <Leader>s :sort<CR>
 " }
 
 " Autocommands {
