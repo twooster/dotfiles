@@ -9,6 +9,7 @@ alias la="ls -a"
 alias reload=". ~/.bashrc"
 alias vimrc="vim ~/.vimrc"
 alias causes="cd ~/causes"
+alias sr='ssh-reagent'
 
 [ -n `command -v git` ] && {
     alias g='git'
