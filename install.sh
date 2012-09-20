@@ -8,7 +8,8 @@ else
 fi
 
 TARGET="$HOME"
-DOTLINK_DIR="$PWD/dotlink"
+DOTFILES_DIR="$PWD"
+DOTLINK_DIR="$DOTFILES_DIR/dotlink"
 AUTOLINK=1
 SUBMODULE_UPDATE=1
 FORCE=
@@ -23,6 +24,8 @@ main()
             a   ) AUTOLINK=1;;
             M   ) SUBMODULE_UPDATE=;;
             m   ) SUBMODULE_UPDATE=1;;
+            L   ) NO_LOCAL_FILE=1;;
+            S   ) NO_SOURCE_BASHRC=1;;
             f   ) FORCE=1;;
             v   ) VERBOSE=1;;
             t   ) TARGET="$OPTARG";;
@@ -31,6 +34,8 @@ main()
     done
     [ -n "$AUTOLINK" ] && autolink
     [ -n "$SUBMODULE_UPDATE" ] && submodule_update
+    [ -z "$NO_LOCAL_FILE" ] && install_dotfiles_local_sh
+    [ -z "$NO_SOURCE_BASHRC" ] && . ~/.bashrc
 }
 
 autolink()
@@ -102,5 +107,11 @@ link()
     fi
     ln $flags "$source" "$target"
 }
+
+install_dotfiles_local_sh()
+{
+    echo "export DOTFILES_BASE=\"$DOTFILES_DIR\" DOTFILES=\"$DOTLINK_DIR\"" > "${DOTLINK_DIR}/bash-sources/dotfiles-local.sh"
+}
+
 
 main "$@"
