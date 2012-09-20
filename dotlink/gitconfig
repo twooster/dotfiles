@@ -17,6 +17,7 @@
         alias = !sh -c '[ $# = 2 ] && git config --global alias.\"$1\" \"$2\" && exit 0 || echo \"usage: git alias <new alias> <original command>\" >&2 && exit 1' -
         from = !sh -c 'git fetch && git rebase origin/master'
         sfrom = !sh -c 'git stash && git from && git stash pop'
+	d = diff
 [core]
 	excludesfile = ~/.gitconfig-ignore
 

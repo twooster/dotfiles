@@ -13,19 +13,19 @@
 " }
 
 " General {
-"    set autochdir " always switch to the current file directory
-"    set undofile " undo across saves
-    filetype plugin indent on " load filetype plugins/indent settings
-    set ttyfast                    " derp
-    set encoding=utf-8             " good default
-    set backspace=indent,eol,start " make backspace a more flexible
-    set fileformats=unix,dos,mac   " support all three, in this order
-    set hidden                     " you can change buffers without saving
-                                   " (XXX: #VIM/tpope warns the line below could break things)
-    set iskeyword+=_,$,@,%,#       " none of these are word dividers
-    set mouse=a                    " use mouse everywhere
-    set title                      " show title
-    set noerrorbells               " don't make noise
+"    set autochdir                  " always switch to the current file directory
+"    set undofile                   " undo across saves
+    filetype plugin indent on       " load filetype plugins/indent settings
+    set ttyfast                     " derp
+    set encoding=utf-8              " good default
+    set backspace=indent,eol,start  " make backspace a more flexible
+    set fileformats=unix,dos,mac    " support all three, in this order
+    set hidden                      " you can change buffers without saving
+                                    " (XXX: #VIM/tpope warns the line below could break things)
+    set iskeyword+=_,$,@,%,#        " none of these are word dividers
+    set mouse=a                     " use mouse everywhere
+    set title                       " show title
+    set noerrorbells                " don't make noise
     set whichwrap=b,s,h,l,<,>,~,[,] " everything wraps
     "             | | | | | | | | |
     "             | | | | | | | | +-- "]" Insert and Replace
@@ -202,6 +202,8 @@
     au FileType python setlocal tabstop=8 softtabstop=4 shiftwidth=4
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au FileType gitcommit setlocal textwidth=72 fo+=t
+    au FileType gitcommit match OverLength /\%73v.\+/
     " Remove all trailing whitespace
     au BufWritePre * :%s/\s\+$//e
 " }
