@@ -21,6 +21,7 @@ alias sr='ssh-reagent'
     alias gol='git log --graph --oneline --decorate'
     alias gca='git commit --amend'
     alias gsu='git submodule update --init'
+    alias gc='git cached'
 }
 
 servedir() {
