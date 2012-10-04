@@ -141,7 +141,7 @@
 
     " The 'sane searching' section
     nnoremap / /\v
-    vnoremap / /\v
+    vnoremap / /\V%
 
     " The 'I'm a newbie' section
     nnoremap <up> <nop>
@@ -168,9 +168,13 @@
     nmap <Leader>" mzcs'"`z
 
     " The 'make buffer switching easy' section
-    nnoremap <C-Tab> :bn<CR>
-    nnoremap <C-S-Tab> :bp<CR>
-    nnoremap \ :buf #<CR>
+    noremap <c-tab> :tabnext<cr>
+    noremap <C-S-tab> :tabprevious<CR>
+    noremap <C-t> :tabnew<CR>
+    nnoremap <C-t> :tabnew<CR>
+    nnoremap <C-tab> :tabnext<CR>
+    nnoremap <C-S-tab> :tabprevious<CR>
+
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
 
     " Highlighting debugging:
@@ -183,7 +187,8 @@
     map <leader>T :CommandTFlush<CR>
 
     " Ruby 1.9 hash rocket helper
-    nmap <leader>rh :%s/\v:(\w+)(\s*)\=\>\s?/\1:\2/gc<cr>
+    vmap <leader>rh :'<,'>s/\V%([^:])\v:(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
+    nmap <leader>rh :%s/\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
 
     " The 'tubular tabular helpers' section
     nmap <Leader>a= :Tabularize /=<CR>
@@ -202,8 +207,7 @@
     au FileType python setlocal tabstop=8 softtabstop=4 shiftwidth=4
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    au FileType gitcommit setlocal textwidth=72 fo+=t
-    au FileType gitcommit match OverLength /\%73v.\+/
+    au FileType gitcommit setlocal textwidth=70 fo+=t
     " Remove all trailing whitespace
     au BufWritePre * :%s/\s\+$//e
 " }
