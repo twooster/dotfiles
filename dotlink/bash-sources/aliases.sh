@@ -28,3 +28,6 @@ servedir() {
     python -m SimpleHTTPServer ${1-8080}
 }
 
+copyback() {
+    ssh `echo $SSH_CONNECTION | cut -d ' ' -f1` pbcopy
+}
