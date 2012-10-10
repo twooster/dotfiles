@@ -8,9 +8,9 @@ alias l.="ls -d .*"
 alias la="ls -a"
 alias reload=". ~/.bashrc"
 alias vimrc="vim ~/.vimrc"
-alias cdc="cd ~/causes"
 alias cddot="cd $DOTFILES_BASE"
 alias sr='ssh-reagent'
+alias :q='exit'
 
 [ -n `command -v git` ] && {
     alias g='git'
