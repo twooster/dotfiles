@@ -23,6 +23,7 @@ alias :q='exit'
     alias gca='git commit --amend'
     alias gsu='git submodule update --init'
     alias gc='git cached'
+    alias ..='cd ..'
 }
 
 servedir() {
