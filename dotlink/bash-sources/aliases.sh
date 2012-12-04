@@ -11,6 +11,9 @@ alias vimrc="vim ~/.vimrc"
 alias cddot="cd $DOTFILES_BASE"
 alias sr='ssh-reagent'
 alias :q='exit'
+alias rc='be rails c'
+alias rs='be rails s'
+alias r='be rails'
 
 [ -n `command -v git` ] && {
     alias g='git'
