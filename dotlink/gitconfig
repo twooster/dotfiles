@@ -18,6 +18,7 @@
         from = !sh -c 'git fetch && git rebase origin/master'
         sfrom = !sh -c 'git stash && git from && git stash pop'
 	d = diff
+	rhom = reset --hard origin/master
 [core]
 	excludesfile = ~/.gitconfig-ignore
 
