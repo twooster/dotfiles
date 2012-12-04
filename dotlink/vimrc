@@ -187,12 +187,14 @@
     map <leader>T :CommandTFlush<CR>
 
     " Ruby 1.9 hash rocket helper
-    vmap <leader>rh :'<,'>s/\V%([^:])\v:(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
+    vmap <leader>rh :s/\%V\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
     nmap <leader>rh :%s/\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
 
     " The 'tubular tabular helpers' section
     nmap <Leader>a= :Tabularize /=<CR>
     vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a, :Tabularize /,\zs<CR>
+    vmap <Leader>a, :Tabularize /,\zs<CR>
     nmap <Leader>a: :Tabularize /:\zs<CR>
     vmap <Leader>a: :Tabularize /:\zs<CR>
     nmap <Leader>a; :Tabularize /:\zs<CR>
@@ -200,6 +202,11 @@
 
     nmap <Leader>s mzvi}:sort<CR>`z
     vmap <Leader>s :sort<CR>
+
+    " The 'Make splitting more like tmux' section
+    nmap <Leader>\ :vsp<CR>
+    nmap <Leader><Bar> :vsp<CR>
+    nmap <Leader>- :sp<CR>
 " }
 
 " Autocommands {
