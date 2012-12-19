@@ -1,7 +1,14 @@
 alias cdc="cd ~/causes"
 
 function sc() {
-    eval "SKIP_CHECKS=test_history $@"
+    local skip=test_history
+
+    if [ "${1:0:2}" == "--" ]; then
+        skip=${1:2}
+        shift
+    fi
+
+    SKIP_CHECKS=$skip "$@"
 }
 
 function prodcon() {
