@@ -8,8 +8,12 @@ function sc() {
         shift
     fi
 
-    SKIP_CHECKS=$skip "$@"
+    local args
+    printf -v args "%q " "$@"
+    eval SKIP_CHECKS="$skip" $args
 }
+
+
 
 function prodcon() {
     local server="${1:-cauapp01}"
