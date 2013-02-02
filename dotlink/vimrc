@@ -14,7 +14,7 @@
 
 " General {
 "    set autochdir                  " always switch to the current file directory
-"    set undofile                   " undo across saves
+    set undofile                    " undo across saves
     filetype plugin indent on       " load filetype plugins/indent settings
     set ttyfast                     " derp
     set encoding=utf-8              " good default
