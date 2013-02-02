@@ -14,25 +14,25 @@
 
 " General {
 "    set autochdir                  " always switch to the current file directory
-    set undofile                    " undo across saves
     filetype plugin indent on       " load filetype plugins/indent settings
-    set ttyfast                     " derp
-    set encoding=utf-8              " good default
+    set autoread                    " always load updated files
     set backspace=indent,eol,start  " make backspace a more flexible
+    set encoding=utf-8              " good default
     set fileformats=unix,dos,mac    " support all three, in this order
     set hidden                      " you can change buffers without saving
-                                    " (XXX: #VIM/tpope warns the line below could break things)
     set iskeyword+=_,$,@            " none of these are word dividers
-    set title                       " show title
+    set matchpairs=(:),{:},[:],<:>  " some sane matchpairs
     set noerrorbells                " don't make noise
+    set title                       " show title
+    set ttyfast                     " derp
+    set undofile                    " undo across saves
     set whichwrap=b,s,~
 
     set wildmenu " turn on command line completion wild style
     " ignore these list file extensions
     set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,
-                    \*.jpg,*.gif,*.png
+                    \*.jpg,*.gif,*.png,.git
     set wildmode=list:longest " turn on wild mode huge list
-    set matchpairs=(:),{:},[:],<:>
 " }
 
 " Vim UI {
@@ -46,7 +46,7 @@
                                 " betweens rows
     set list                    " we do what to show tabs, to ensure we get them
                                 " out of my files
-    set listchars=tab:▸\ ,eol:¬
+    set listchars=tab:▸\ ,eol:¬,extends:»,precedes:«,trail:•
     set matchtime=5             " how many tenths of a second to blink
                                 " matching brackets for
     set nostartofline           " leave my cursor where it was
@@ -56,7 +56,7 @@
     set report=0                " tell us when anything is changed via :...
     set ruler                   " always show current positions along the bottom
     set scrolloff=5             " keep X lines (top/bottom) for scope
-    set shortmess=aOstT         " shortens messages to avoid
+    set shortmess=aOstTI        " shortens messages to avoid
                                 " 'press a key' prompt
     set showcmd                 " show the command being typed
     set showmatch               " show matching brackets
@@ -76,23 +76,20 @@
 "    set completeopt= " don't use a pop up menu for completions
     set expandtab          " no real tabs please!
     set formatoptions+=r   " Automatically insert comment leader on return,
-                           " and let gq format comments
-    set smartindent        " Use slightly smarter indentation
     set ignorecase         " case insensitive by default
     set infercase          " case inferred by default
     set nowrap             " do not wrap line
     set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
-    set smartcase          " if there are caps, go case-sensitive
     set shiftwidth=2       " auto-indent amount when using cindent,
-                           " >>, << and stuff like that
-    set softtabstop=2      " when hitting tab or backspace, how many spaces
-                           " should a tab be (see expandtab)
-    set tabstop=8          " real tabs should be 8, and they will show with
-                           " set list on
+    set smartcase          " if there are caps, go case-sensitive
+    set smartindent        " Use slightly smarter indentation
+    set softtabstop=2      " tab converted to X spaces
+    set tabstop=8          " real tabs X spaces wide
 
     " Sets up past-80-column highlighting
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     match OverLength /\%81v.\+/
+
     " Turn on all python highlighting
     let python_highlight_all = 1
     let python_slow_sync = 1
@@ -178,6 +175,13 @@
     nmap <Leader>\     :vsp<CR>
     nmap <Leader><Bar> :vsp<CR>
     nmap <Leader>-     :sp<CR>
+
+    " The 'make Y behave like C and D" section
+    nnoremap Y y$
+
+    " Command mode readline mappings
+    cnoremap <C-a> <Home>
+    cnoremap <C-e> <End>
 " }
 
 " Autocommands {
@@ -186,8 +190,12 @@
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType gitcommit  setlocal textwidth=70 fo+=t
-    " Remove all trailing whitespace
+
+    " Remove all trailing whitespace on save
     au BufWritePre * :%s/\s\+$//e
+
+    " disable paste mode on leaving insert mode (thanks @wincent)
+    au InsertLeave * set nopaste
 " }
 
 " GUI Settings {
