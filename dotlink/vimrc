@@ -22,21 +22,11 @@
     set fileformats=unix,dos,mac    " support all three, in this order
     set hidden                      " you can change buffers without saving
                                     " (XXX: #VIM/tpope warns the line below could break things)
-    set iskeyword+=_,$,@,%,#        " none of these are word dividers
-    set mouse=a                     " use mouse everywhere
+    set iskeyword+=_,$,@            " none of these are word dividers
     set title                       " show title
     set noerrorbells                " don't make noise
-    set whichwrap=b,s,h,l,<,>,~,[,] " everything wraps
-    "             | | | | | | | | |
-    "             | | | | | | | | +-- "]" Insert and Replace
-    "             | | | | | | | +-- "[" Insert and Replace
-    "             | | | | | | +-- "~" Normal
-    "             | | | | | +-- <Right> Normal and Visual
-    "             | | | | +-- <Left> Normal and Visual
-    "             | | | +-- "l" Normal and Visual (not recommended)
-    "             | | +-- "h" Normal and Visual (not recommended)
-    "             | +-- <Space> Normal and Visual
-    "             +-- <BS> Normal and Visual
+    set whichwrap=b,s,~
+
     set wildmenu " turn on command line completion wild style
     " ignore these list file extensions
     set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,
@@ -46,7 +36,7 @@
 " }
 
 " Vim UI {
-    colorscheme molokai
+    colorscheme mustang
     set cursorline              " highlight current line
     set incsearch               " BUT do highlight as you type you
                                 " search phrase
@@ -62,15 +52,15 @@
     set nostartofline           " leave my cursor where it was
     set visualbell              " don't blink
     set number                  " turn on line numbers
-    set numberwidth=4           " We are good up to 9999 lines
+    set numberwidth=4           " good up to 9999 lines
     set report=0                " tell us when anything is changed via :...
-    set ruler                   " Always show current positions along the bottom
-    set scrolloff=5             " Keep 10 lines (top/bottom) for scope
+    set ruler                   " always show current positions along the bottom
+    set scrolloff=5             " keep X lines (top/bottom) for scope
     set shortmess=aOstT         " shortens messages to avoid
                                 " 'press a key' prompt
     set showcmd                 " show the command being typed
     set showmatch               " show matching brackets
-    set sidescrolloff=10        " Keep 5 lines at the size
+    set sidescrolloff=10        " keep X lines at the sides
     set hlsearch
 
     set statusline=
@@ -85,16 +75,17 @@
 " Text Formatting/Layout {
 "    set completeopt= " don't use a pop up menu for completions
     set expandtab          " no real tabs please!
-    set formatoptions=rq   " Automatically insert comment leader on return,
+    set formatoptions+=r   " Automatically insert comment leader on return,
                            " and let gq format comments
+    set smartindent        " Use slightly smarter indentation
     set ignorecase         " case insensitive by default
     set infercase          " case inferred by default
     set nowrap             " do not wrap line
     set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
     set smartcase          " if there are caps, go case-sensitive
-    set shiftwidth=4       " auto-indent amount when using cindent,
+    set shiftwidth=2       " auto-indent amount when using cindent,
                            " >>, << and stuff like that
-    set softtabstop=4      " when hitting tab or backspace, how many spaces
+    set softtabstop=2      " when hitting tab or backspace, how many spaces
                            " should a tab be (see expandtab)
     set tabstop=8          " real tabs should be 8, and they will show with
                            " set list on
@@ -107,51 +98,21 @@
     let python_slow_sync = 1
 " }
 
-" Folding {
-"    set foldenable " Turn on folding
-"    set foldmarker={,} " Fold C style code (only use this as default
-"                        " if you use a high foldlevel)
-"    set foldmethod=marker " Fold on the marker
-"    set foldlevel=100 " Don't autofold anything (but I can still
-"                      " fold manually)
-"    set foldopen=block,hor,mark,percent,quickfix,tag " what movements
-"                                                       " open folds
-"    function SimpleFoldText() " {
-"        return getline(v:foldstart).' '
-"    endfunction " }
-"    set foldtext=SimpleFoldText() " Custom fold text function
-"                                   " (cleaner than default)
-" }
-
 " Plugin Settings {
     let b:match_ignorecase = 1 " case is stupid
 " }
 
 " CommandT {
     let g:CommandTMaxFiles=20000
-    let g:CommandTMaxHeight=12
+    let g:CommandTMaxHeight=14
     let g:CommandTMatchWindowReverse=1
     let g:CommandTCancelMap='<ESC>'
 " }
 
 " Mappings {
-    " The 'make space do something nice' section
-    noremap <S-space> <C-u>
-    noremap <space> <C-d>
-
     " The 'sane searching' section
     nnoremap / /\v
     vnoremap / /\V%
-
-    " The 'I'm a newbie' section
-    " nnoremap <up> <nop>
-    " nnoremap <down> <nop>
-    " nnoremap <left> <nop>
-    " nnoremap <right> <nop>
-    " inoremap <up> <nop>
-    " inoremap <down> <nop>
-    " inoremap <left> <nop>
-    " inoremap <right> <nop>
 
     " The 'make moving around windows easy' section
     map <c-h> <c-w>h
@@ -167,7 +128,7 @@
     nmap <Leader>' mzcs"'`z
     nmap <Leader>" mzcs'"`z
 
-    " The 'make buffer switching easy' section
+    " The 'make tab switching easy' section
     noremap <c-tab> :tabnext<cr>
     noremap <C-S-tab> :tabprevious<CR>
     noremap <C-t> :tabnew<CR>
@@ -175,6 +136,7 @@
     nnoremap <C-tab> :tabnext<CR>
     nnoremap <C-S-tab> :tabprevious<CR>
 
+    " Delete current buffer, move to previous
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
 
     " Highlighting debugging:
@@ -191,30 +153,39 @@
     nmap <leader>rh :%s/\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
 
     " The 'tubular tabular helpers' section
-    nmap <Leader>a= :Tabularize /=<CR>
-    vmap <Leader>a= :Tabularize /=<CR>
+    " Align leftmost equals
+    nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+    vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+    " Align all equals
+    nmap <Leader>a+ :Tabularize /=<CR>
+    vmap <Leader>a+ :Tabularize /=<CR>
+    " Align all commas
     nmap <Leader>a, :Tabularize /,\zs<CR>
     vmap <Leader>a, :Tabularize /,\zs<CR>
-    nmap <Leader>a: :Tabularize /:\zs<CR>
-    vmap <Leader>a: :Tabularize /:\zs<CR>
-    nmap <Leader>a; :Tabularize /:\zs<CR>
-    vmap <Leader>a; :Tabularize /:\zs<CR>
+    " Align line after first colon
+    nmap <Leader>a; :Tabularize /^[^:]*:\zs<CR>
+    vmap <Leader>a; :Tabularize /^[^:]*:\zs<CR>
+    " Align first colons
+    nmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
+    vmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
 
+    " Sort lines inside current paragraph
     nmap <Leader>s mzvi}:sort<CR>`z
+    " Sort selected lines
     vmap <Leader>s :sort<CR>
 
     " The 'Make splitting more like tmux' section
-    nmap <Leader>\ :vsp<CR>
+    nmap <Leader>\     :vsp<CR>
     nmap <Leader><Bar> :vsp<CR>
-    nmap <Leader>- :sp<CR>
+    nmap <Leader>-     :sp<CR>
 " }
 
 " Autocommands {
-    au FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    au FileType python setlocal tabstop=8 softtabstop=4 shiftwidth=4
+    au FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au FileType python     setlocal tabstop=8 softtabstop=4 shiftwidth=4
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    au FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    au FileType gitcommit setlocal textwidth=70 fo+=t
+    au FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au FileType gitcommit  setlocal textwidth=70 fo+=t
     " Remove all trailing whitespace
     au BufWritePre * :%s/\s\+$//e
 " }
@@ -224,7 +195,6 @@ if has("gui_running")
     " Basics {
         colorscheme mustang
         set columns=120
-        set guifont=Tamzen:h15
         set guioptions=ce
         "              ||
         "              |+-- use simple dialogs rather than pop-ups
