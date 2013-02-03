@@ -8,7 +8,6 @@ alias l.="ls -d .*"
 alias la="ls -a"
 alias reload=". ~/.bashrc"
 alias vimrc="vim ~/.vimrc"
-alias cddot="cd $DOTFILES_BASE"
 alias sr='ssh-reagent'
 alias :q='exit'
 alias rc='be rails c'
