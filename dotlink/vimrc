@@ -4,6 +4,9 @@
 "   Originally by Robert Melton, modified heavily
 " }
 
+" Go Pathogen, go!
+call pathogen#infect()
+
 " Basics {
     set nocompatible    " explicitly get out of vi-compatible mode
     set noexrc          " don't use local version of .(g)vimrc, .exrc
@@ -41,7 +44,8 @@
 " }
 
 " Vim UI {
-    colorscheme mustang
+    let g:solarized_termcolors=256
+    colorscheme solarized
     set cursorline              " highlight current line
     set incsearch               " BUT do highlight as you type you
                                 " search phrase
@@ -206,7 +210,6 @@
 " GUI Settings {
 if has("gui_running")
     " Basics {
-        colorscheme mustang
         set columns=120
         set guioptions=ce
         "              ||
@@ -218,5 +221,3 @@ if has("gui_running")
 endif
 " }
 
-" Go Pathogen, go!
-call pathogen#infect()
