@@ -25,7 +25,6 @@
     set noerrorbells                " don't make noise
     set title                       " show title
     set ttyfast                     " derp
-    set undofile                    " undo across saves
     set whichwrap=b,s,~
 
     set wildmenu " turn on command line completion wild style
@@ -33,6 +32,12 @@
     set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,
                     \*.jpg,*.gif,*.png,.git
     set wildmode=list:longest " turn on wild mode huge list
+
+    " Thanks to Wincent's vimrc for this
+    if has('persistent_undo')
+      set undodir=~/.vim/tmp,.       " keep undo files out of the way
+      set undofile                        " actually use undo files
+    endif
 " }
 
 " Vim UI {
