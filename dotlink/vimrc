@@ -44,8 +44,7 @@ call pathogen#infect()
 " }
 
 " Vim UI {
-    let g:solarized_termcolors=256
-    colorscheme solarized
+    colorscheme molokai
     set cursorline              " highlight current line
     set incsearch               " BUT do highlight as you type you
                                 " search phrase
