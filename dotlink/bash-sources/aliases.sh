@@ -38,5 +38,5 @@ servedir() {
 }
 
 copyback() {
-    ssh `echo $SSH_CONNECTION | cut -d ' ' -f1` pbcopy
+  nc localhost 8399
 }
