@@ -28,6 +28,11 @@ alias r='be rails'
     alias ..='cd ..'
 }
 
+gr() {
+  ssh-reagent
+  git review
+}
+
 servedir() {
     python -m SimpleHTTPServer ${1-8080}
 }
