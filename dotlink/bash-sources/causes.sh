@@ -16,6 +16,6 @@ function sc() {
 
 
 function prodcon() {
-    local server="${1:-cauapp01}"
-    ssh -t "dev@${server}" prodcon causes $2
+    local server="${1:-caujob02}"
+    ssh -t "dev@${server}" prodcon causes ${2:-prodro}
 }
