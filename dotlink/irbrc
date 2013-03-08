@@ -35,4 +35,10 @@ unless defined? ETC_IRBRC_LOADED
   end
 
   ETC_IRBRC_LOADED=true
+
+  if defined? Rails
+    color = Rails.env.in('prodrw', 'prodro', 'production') ? "\033[31m" : "\033[34m"
+    prefix = "<#{color}#{Rails.env}\033[0m>"
+    IRB.conf[:PROMPT][:DEFAULT][:PROMPT_I].prepend prefix
+  end
 end
