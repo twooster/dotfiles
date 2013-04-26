@@ -38,7 +38,3 @@ gr() {
 servedir() {
     python -m SimpleHTTPServer ${1-8080}
 }
-
-copyback() {
-  nc localhost 8399
-}
