@@ -13,6 +13,8 @@ alias :q='exit'
 alias rc='be rails c'
 alias rs='be rails s'
 alias r='be rails'
+alias v='vim'
+alias t='tmux'
 
 [ -n `command -v git` ] && {
     alias g='git'
