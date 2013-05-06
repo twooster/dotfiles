@@ -78,6 +78,13 @@ call pathogen#infect()
     set statusline+=%=%1*%y%*%*\              " file type
     set statusline+=%10((%l,%c)%)\            " line and column
     set statusline+=%P                        " percentage of file
+
+    " [via Shane da Silva's dotfiles, and seen elsewhere]
+    " Disable Background Color Erase (BCE) so that color schemes
+    " work properly when Vim is used inside tmux and GNU screen.
+    if &term =~ '256color'
+      set t_ut=
+    endif
 " }
 
 " Text Formatting/Layout {
