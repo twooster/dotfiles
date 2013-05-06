@@ -202,6 +202,23 @@ call pathogen#infect()
     nnoremap <leader>y :call system('nc localhost 8399', @0)<CR>
 " }
 
+" Also from @sds by way of @wincent, by way of ?
+" Support 'bracketed-paste' mode, allowing pasting large chunks of text without
+" having to manually activate PASTE mode.
+if &term =~ "xterm.*"
+  let &t_ti = &t_ti . "\e[?2004h"
+  let &t_te = "\e[?2004l" . &t_te
+  function XTermPasteBegin(ret)
+    set pastetoggle=<Esc>[201~
+    set paste
+    return a:ret
+  endfunction
+  map <expr> <Esc>[200~ XTermPasteBegin("i")
+  imap <expr> <Esc>[200~ XTermPasteBegin("")
+  cmap <Esc>[200~ <nop>
+  cmap <Esc>[201~ <nop>
+endif
+
 " Autocommands {
     au FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType python     setlocal tabstop=8 softtabstop=4 shiftwidth=4
