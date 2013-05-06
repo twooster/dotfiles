@@ -1,0 +1,35 @@
+config defaultToCurrentScreen true
+
+# Position Aliases
+alias full              move                    screenOriginX;screenOriginY screenSizeX;screenSizeY
+
+# halves
+alias top               push up                 bar-resize:screenSizeY/2
+alias right             push right              bar-resize:screenSizeX/2
+alias bottom            push down               bar-resize:screenSizeY/2
+alias left              push left               bar-resize:screenSizeX/2
+
+# thirds
+alias small-top         push up                 bar-resize:screenSizeY/3
+alias small-right       push right              bar-resize:screenSizeX/3
+alias small-bottom      push down               bar-resize:screenSizeY/3
+alias small-left        push left               bar-resize:screenSizeX/3
+
+# two thirds
+alias big-top           push up                 bar-resize:2*screenSizeY/3
+alias big-right         push right              bar-resize:2*screenSizeX/3
+alias big-bottom        push down               bar-resize:2*screenSizeY/3
+alias big-left          push left               bar-resize:2*screenSizeX/3
+
+# corners
+alias top-right         corner top-right        resize:screenSizeX/2;screenSizeY/2
+alias bottom-right      corner bottom-right     resize:screenSizeX/2;screenSizeY/2
+alias bottom-left       corner bottom-left      resize:screenSizeX/2;screenSizeY/2
+alias top-left          corner top-left         resize:screenSizeX/2;screenSizeY/2
+
+# Push Bindings
+bind                    up:ctrl;alt;cmd         chain ${top} | ${small-top} | ${big-top}
+bind                    right:ctrl;alt;cmd      chain ${right} | ${small-right} | ${big-right}
+bind                    down:ctrl;alt;cmd       chain ${bottom} | ${small-bottom} | ${big-bottom}
+bind                    left:ctrl;alt;cmd       chain ${left} | ${small-left} | ${big-left}
+bind                    m:ctrl;alt;cmd          ${full}
