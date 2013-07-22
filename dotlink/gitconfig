@@ -5,6 +5,8 @@
 	status = auto
 	diff = auto
 [alias]
+        squash = git rebase --autosquash -i
+        fixup = git commit --fixup
         forget = rm --cache --
 	unadd = reset HEAD
 	cached = diff --cached
