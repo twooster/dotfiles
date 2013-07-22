@@ -5,25 +5,25 @@
 	status = auto
 	diff = auto
 [alias]
-        squash = git rebase --autosquash -i
+	amend = commit --amend
+	cached = diff --cached
+	co = checkout
+	d = diff
+	files = show --pretty=format: --name-only
+	rhom = reset --hard origin/master
+	s = status
+	unadd = reset HEAD
+        alias = !sh -c '[ $# = 2 ] && git config --global alias.\"$1\" \"$2\" && exit 0 || echo \"usage: git alias <new alias> <original command>\" >&2 && exit 1' -
+        c = diff --cached
+        ca = commit --amend
+        ci = commit
         fixup = git commit --fixup
         forget = rm --cache --
-	unadd = reset HEAD
-	cached = diff --cached
-        c = diff --cached
-        ci = commit
-	files = show --pretty=format: --name-only
-	amend = commit --amend
-	s = status
-	co = checkout
-        ca = commit --amend
-        su = submodule update --init
-        alias = !sh -c '[ $# = 2 ] && git config --global alias.\"$1\" \"$2\" && exit 0 || echo \"usage: git alias <new alias> <original command>\" >&2 && exit 1' -
         from = !sh -c 'git fetch && git rebase origin/master'
-        sfrom = !sh -c 'git stash && git from && git stash pop'
-	d = diff
-	rhom = reset --hard origin/master
         rh = reset --hard
+        sfrom = !sh -c 'git stash && git from && git stash pop'
+        squash = git rebase --autosquash -i
+        su = submodule update --init
 [core]
 	excludesfile = ~/.gitconfig-ignore
 
