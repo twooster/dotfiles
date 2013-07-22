@@ -24,6 +24,9 @@
         sfrom = !sh -c 'git stash && git from && git stash pop'
         squash = git rebase --autosquash -i
         su = submodule update --init
+
+        edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
+        add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
 [core]
 	excludesfile = ~/.gitconfig-ignore
 
