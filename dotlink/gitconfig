@@ -10,6 +10,8 @@
         forget = rm --cache --
 	unadd = reset HEAD
 	cached = diff --cached
+        c = diff --cached
+        ci = commit
 	files = show --pretty=format: --name-only
 	amend = commit --amend
 	s = status
@@ -21,6 +23,7 @@
         sfrom = !sh -c 'git stash && git from && git stash pop'
 	d = diff
 	rhom = reset --hard origin/master
+        rh = reset --hard
 [core]
 	excludesfile = ~/.gitconfig-ignore
 
