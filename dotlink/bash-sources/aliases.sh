@@ -15,6 +15,7 @@ alias rs='be rails s'
 alias r='be rails'
 alias v='vim'
 alias t='tmux'
+alias be='bundle exec'
 
 [ -n `command -v git` ] && {
     alias g='git'
