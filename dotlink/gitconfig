@@ -17,12 +17,12 @@
         c = diff --cached
         ca = commit --amend
         ci = commit
-        fixup = git commit --fixup
+        fixup = commit --fixup
         forget = rm --cache --
         from = !sh -c 'git fetch && git rebase origin/master'
         rh = reset --hard
         sfrom = !sh -c 'git stash && git from && git stash pop'
-        squash = git rebase --autosquash -i
+        squash = rebase --autosquash -i
         su = submodule update --init
 
         edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
