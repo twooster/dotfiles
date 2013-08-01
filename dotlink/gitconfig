@@ -22,7 +22,7 @@
         from = !sh -c 'git fetch && git rebase origin/master'
         rh = reset --hard
         sfrom = !sh -c 'git stash && git from && git stash pop'
-        squash = rebase --autosquash -i
+        fix = !sh -c 'git rebase --autosquash -i ${1:-`git merge-base HEAD origin/master`}'
         su = submodule update --init
 
         edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
