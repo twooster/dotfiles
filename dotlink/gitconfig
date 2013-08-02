@@ -13,7 +13,6 @@
         s = status
         unadd = reset HEAD
         ap = add -p
-        c = diff --cached
         ca = commit --amend
         ci = commit
         cop = checkout -p
