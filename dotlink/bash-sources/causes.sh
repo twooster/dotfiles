@@ -16,6 +16,13 @@ function sc() {
 
 
 function prodcon() {
-    local server="${1:-caujob02}"
-    ssh -t "dev@${server}" prodcon causes ${2:-prodro}
+    ssh -t "dev@${1:-caujob02.prod.causes.com}" prodcon causes ${RAILS_ENV:-prodro}
+}
+
+function prodro() {
+  prodcon
+}
+
+function prodrw() {
+  RAILS_ENV=prodrw prodcon
 }
