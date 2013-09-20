@@ -13,7 +13,9 @@ function sc() {
     eval SKIP_CHECKS="$skip" $args
 }
 
-
+function wip() {
+  SKIP_CHECKS=all git commit -m "WIP WIP WIP $@"
+}
 
 function prodcon() {
     ssh -t "dev@${1:-caujob02.prod.causes.com}" prodcon causes ${RAILS_ENV:-prodro}
