@@ -37,5 +37,5 @@ gr() {
 }
 
 servedir() {
-    python -m SimpleHTTPServer ${1-8080}
+    python -m SimpleHTTPServer ${1:-8080}
 }
