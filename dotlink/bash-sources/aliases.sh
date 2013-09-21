@@ -16,6 +16,7 @@ alias r='be rails'
 alias v='vim'
 alias t='tmux'
 alias be='bundle exec'
+alias up='cd `git rev-parse --show-toplevel`'
 
 [ -n `command -v git` ] && {
     alias g='git'
