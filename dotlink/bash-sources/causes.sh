@@ -16,6 +16,10 @@ function sc() {
     eval SKIP_CHECKS="$skip" $args
 }
 
+function sgc() {
+  SKIP_CHECKS=all git commit $@
+}
+
 function wip() {
   SKIP_CHECKS=all git commit -m "WIP WIP WIP $@"
 }
