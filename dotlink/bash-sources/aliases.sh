@@ -6,7 +6,6 @@ alias more="less"
 alias ll="ls -l"
 alias l.="ls -d .*"
 alias la="ls -a"
-alias reload=". ~/.bashrc"
 alias vimrc="vim ~/.vimrc"
 alias sr='ssh-reagent'
 alias :q='exit'
