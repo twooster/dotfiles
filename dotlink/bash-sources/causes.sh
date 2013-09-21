@@ -1,12 +1,15 @@
 alias cdc="cd ~/causes"
 
 function sc() {
-    local skip=test_history
+    local skip=
 
-    if [ "${1:0:2}" == "--" ]; then
-        skip=${1:2}
+    while [ "${1:0:2}" == "--" ]; do
+        [ -z "$skip" ] || skip="$skip,"
+        skip="$skip${1:2}"
         shift
-    fi
+    done
+
+    [ -z "$skip" ] && skip=test_history
 
     local args
     printf -v args "%q " "$@"
