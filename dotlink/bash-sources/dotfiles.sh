@@ -9,3 +9,7 @@ updot() {
 cddot() {
   cd "$DOTFILES_BASE"
 }
+
+eddot() {
+  (cd "$DOTFILES"; vim)
+}
