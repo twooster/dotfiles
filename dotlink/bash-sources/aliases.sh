@@ -13,9 +13,7 @@ alias rc='be rails c'
 alias rs='be rails s'
 alias r='be rails'
 alias v='vim'
-alias t='tmux'
 alias be='bundle exec'
-alias up='cd `git rev-parse --show-toplevel`'
 
 [ -n `command -v git` ] && {
     alias g='git'
@@ -35,6 +33,17 @@ gr() {
   ssh-reagent
   git review
 }
+
+t() {
+  local top=`git rev-parse --show-toplevel`
+  cd "${top}/$1"
+}
+
+_t_completion() {
+  local top=`git rev-parse --show-toplevel`
+  COMPREPLY=( $( cd "$top"; compgen -d "${COMP_WORDS[COMP_CWORD]}" ) )
+}
+complete -o filenames -o nospace -F _t_completion t
 
 servedir() {
     python -m SimpleHTTPServer ${1:-8080}
