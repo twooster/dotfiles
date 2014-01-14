@@ -26,7 +26,7 @@ stty -ixon
 shopt -s globstar 2> /dev/null
 
 # History settings
-shopt -s histappend 
+shopt -s histappend
 set -o histexpand     # enable strings with !
 set completion-ignore-case On
 
@@ -75,7 +75,7 @@ export CLICOLOR="yes"
 export EDITOR
 
 # PAGER
-if [ -n "$(command -v less)" ]; then 
+if [ -n "$(command -v less)" ]; then
     export LESS="-FiRSwX" &&
     PAGER=less
 else
