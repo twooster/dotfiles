@@ -112,6 +112,8 @@ call pathogen#infect()
 
 " Plugin Settings {
     let b:match_ignorecase = 1 " case is stupid
+
+    let g:syntastic_haml_checkers = ['haml_lint’]
 " }
 
 " CommandT {
@@ -191,12 +193,19 @@ call pathogen#infect()
     nmap <Leader><Bar> :vsp<CR>
     nmap <Leader>-     :sp<CR>
 
+    " Sort lines inside current paragraph
+    nmap <Leader>n :cn<CR>
+    nmap <Leader>p :cp<CR>
+
     " The 'make Y behave like C and D" section
     nnoremap Y y$
 
     " Command mode readline mappings
     cnoremap <C-a> <Home>
     cnoremap <C-e> <End>
+
+    " redraw arg!
+    nmap <Leader>r :redraw!<CR>
 
     " clipper support
     nnoremap <leader>y :call system('nc localhost 8399', @0)<CR>
