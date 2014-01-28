@@ -74,7 +74,6 @@ fatal()
 backup_rename()
 {
     local i=0
-    local file
     while [[ -e "$1~$i" ]]; do
         let i=i+1
     done
@@ -112,6 +111,5 @@ install_dotfiles_local_sh()
 {
     echo "export DOTFILES_BASE=\"$DOTFILES_DIR\" DOTFILES=\"$DOTLINK_DIR\"" > "${DOTLINK_DIR}/bash-sources/dotfiles-local.sh"
 }
-
 
 main "$@"
