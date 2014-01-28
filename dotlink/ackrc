@@ -1,0 +1,10 @@
+--sort-files
+--ignore-dir=tmp
+--ignore-dir=coverage
+--type-set=haml=.haml
+--type-set=erb=.erb
+--type-add=css=.scss
+--type-set=sass=.sass
+--type-set=txt=.txt
+--type-add=ruby=.rake
+--type-set=crontab=.crontab
