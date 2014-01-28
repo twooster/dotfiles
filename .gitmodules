@@ -1,33 +1,33 @@
-[submodule "dotlink/vim/bundle/command-t"]
-	path = dotlink/vim/bundle/command-t
+[submodule "autolink/vim/bundle/command-t"]
+	path = autolink/vim/bundle/command-t
 	url = git://github.com/wincent/Command-T.git
-[submodule "dotlink/vim/bundle/vim-fugitive"]
-	path = dotlink/vim/bundle/vim-fugitive
+[submodule "autolink/vim/bundle/vim-fugitive"]
+	path = autolink/vim/bundle/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "dotlink/vim/bundle/vim-rails"]
-	path = dotlink/vim/bundle/vim-rails
+[submodule "autolink/vim/bundle/vim-rails"]
+	path = autolink/vim/bundle/vim-rails
 	url = git://github.com/tpope/vim-rails.git
-[submodule "dotlink/vim/bundle/vim-surround"]
-	path = dotlink/vim/bundle/vim-surround
+[submodule "autolink/vim/bundle/vim-surround"]
+	path = autolink/vim/bundle/vim-surround
 	url = git://github.com/tpope/vim-surround.git
-[submodule "dotlink/vim/bundle/ack.vim"]
-	path = dotlink/vim/bundle/ack.vim
+[submodule "autolink/vim/bundle/ack.vim"]
+	path = autolink/vim/bundle/ack.vim
 	url = git://github.com/mileszs/ack.vim.git
-[submodule "dotlink/vim/bundle/syntastic"]
-	path = dotlink/vim/bundle/syntastic
+[submodule "autolink/vim/bundle/syntastic"]
+	path = autolink/vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule "dotlink/vim/bundle/tabular"]
-	path = dotlink/vim/bundle/tabular
+[submodule "autolink/vim/bundle/tabular"]
+	path = autolink/vim/bundle/tabular
 	url = git://github.com/godlygeek/tabular.git
-[submodule "dotlink/vim/bundle/vim-markdown"]
-	path = dotlink/vim/bundle/vim-markdown
+[submodule "autolink/vim/bundle/vim-markdown"]
+	path = autolink/vim/bundle/vim-markdown
 	url = git://github.com/tpope/vim-markdown.git
-[submodule "dotlink/vim/bundle/vim-colors-solarized"]
-	path = dotlink/vim/bundle/vim-colors-solarized
+[submodule "autolink/vim/bundle/vim-colors-solarized"]
+	path = autolink/vim/bundle/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
-[submodule "dotlink/vim/bundle/vim-haml"]
-	path = dotlink/vim/bundle/vim-haml
+[submodule "autolink/vim/bundle/vim-haml"]
+	path = autolink/vim/bundle/vim-haml
 	url = git@github.com:tpope/vim-haml.git
-[submodule "dotlink/vim/bundle/vim-vinegar"]
-	path = dotlink/vim/bundle/vim-vinegar
+[submodule "autolink/vim/bundle/vim-vinegar"]
+	path = autolink/vim/bundle/vim-vinegar
 	url = git@github.com:tpope/vim-vinegar.git

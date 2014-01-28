@@ -9,7 +9,7 @@ fi
 
 TARGET="$HOME"
 DOTFILES_DIR="$PWD"
-DOTLINK_DIR="$DOTFILES_DIR/dotlink"
+AUTOLINK_DIR="$DOTFILES_DIR/autolink"
 AUTOLINK=1
 SUBMODULE_UPDATE=1
 FORCE=
@@ -40,7 +40,7 @@ main()
 
 autolink()
 {
-    dotlink_files_in "$DOTLINK_DIR"
+    autolink_files_in "$AUTOLINK_DIR"
 }
 
 submodule_update()
@@ -48,14 +48,14 @@ submodule_update()
     git submodule update --init
 }
 
-dotlink_files_in()
+autolink_files_in()
 {
     for file in $( find "$1" -maxdepth 1 -mindepth 1 ); do
-        dotlink ${file}
+        autolink_file ${file}
     done
 }
 
-dotlink()
+autolink_file()
 {
     link "$1" ".${1##*/}"
 }
@@ -94,9 +94,9 @@ link()
         elif [ -h "$target" ]; then
             # Symbolic link, so...
             local rl=$( readlink "$target" )
-            if [[ "$rl" == "$DOTLINK_DIR"* ]]; then
+            if [[ "$rl" == "$AUTOLINK_DIR"* ]]; then
                 # Kill an existing link to a dotfile
-                rm "$target" && [ -n "$VERBOSE" ] && echo Removed existing dotlink link to $target
+                rm "$target" && [ -n "$VERBOSE" ] && echo Removed existing autolink link to $target
             else
                 backup_rename "$target"
             fi
@@ -109,7 +109,7 @@ link()
 
 install_dotfiles_local_sh()
 {
-    echo "export DOTFILES_BASE=\"$DOTFILES_DIR\" DOTFILES=\"$DOTLINK_DIR\"" > "${DOTLINK_DIR}/bash-sources/dotfiles-local.sh"
+    echo "export DOTFILES_BASE=\"$DOTFILES_DIR\" DOTFILES=\"$AUTOLINK_DIR\"" > "${AUTOLINK_DIR}/bash-sources/dotfiles-local.sh"
 }
 
 main "$@"
