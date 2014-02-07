@@ -1,5 +1,5 @@
 if defined? Rails
   reset = "\033[0m"
-  color = Rails.env.in?('prodrw', 'prodro', 'production') ? "\033[31m" : "\033[34m"
+  color = Rails.env.in?(['prodrw', 'prodro', 'production']) ? "\033[31m" : "\033[34m"
   Pry.config.prompt_name = "#{File.basename(Dir.pwd)}:#{color}#{Rails.env}#{reset}"
 end
