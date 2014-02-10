@@ -76,7 +76,7 @@ export EDITOR
 
 # PAGER
 if [ -n "$(command -v less)" ]; then
-    export LESS="-FiRSwX" &&
+    export LESS="-FiRwX" &&
     PAGER=less
 else
     PAGER=more
