@@ -142,6 +142,8 @@ call pathogen#infect()
     nmap <Leader>' mzcs"'`z
     nmap <Leader>" mzcs'"`z
 
+    nmap ; :
+
     " The 'make tab switching easy' section
     noremap <c-tab> :tabnext<cr>
     noremap <C-S-tab> :tabprevious<CR>
