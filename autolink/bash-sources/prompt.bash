@@ -13,9 +13,9 @@ LIGHT_GREEN="\[\e[1;32m\]"
 function parse_git_branch() {
   local git_status
   git_status="$(git status 2> /dev/null)" || return
-  local branch_pattern="^# On branch ([^${IFS}]*)"
-  local remote_pattern="# Your branch is (.*) of"
-  local diverge_pattern="# Your branch and (.*) have diverged"
+  local branch_pattern="On branch ([^${IFS}]*)"
+  local remote_pattern="Your branch is (.*) of"
+  local diverge_pattern="Your branch and (.*) have diverged"
 
   local state remote branch
   if [[ ! ${git_status}} =~ "working directory clean" ]]; then
