@@ -121,6 +121,7 @@ call pathogen#infect()
     let g:CommandTMaxHeight=14
     let g:CommandTMatchWindowReverse=1
     let g:CommandTCancelMap='<ESC>'
+    let g:CommandTWildIgnore=&wildignore . ",_site/*"
 " }
 
 " Mappings {
