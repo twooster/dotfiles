@@ -52,7 +52,7 @@ function prompt_func() {
     if [[ -n "$VIRTUAL_ENV" ]]; then
         venv="${RED}$(basename ${VIRTUAL_ENV})${LIGHT_GRAY}:"
     fi
-    
+
     local prompt="${LIGHT_GRAY}\u@\h ${venv}${BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}"
     if test $previous_return_value -eq 0
     then

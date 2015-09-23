@@ -1,6 +1,7 @@
 --sort-files
 --ignore-dir=tmp
 --ignore-dir=coverage
+--ignore-dir=.meteor
 --type-set=haml=.haml
 --type-set=erb=.erb
 --type-add=css=.scss

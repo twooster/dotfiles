@@ -43,6 +43,7 @@ HISTCONTROL=ignoredups
 
 PATH="/usr/local/bin:$PATH:/usr/local/sbin:/usr/sbin:/sbin"
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+[ -d "$HOME/.rbenv" ] && PATH="$HOME/.rbenv/shims:$PATH"
 export PATH
 
 # enable en_US locale w/ utf-8 encodings if not already configured
@@ -103,3 +104,6 @@ for file in "$HOME/.bash-sources/"*; do
 done
 
 [ -r "$HOME/.bash_local" ] && . "$HOME/.bash_local"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
