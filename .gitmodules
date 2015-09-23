@@ -13,9 +13,6 @@
 [submodule "autolink/vim/bundle/ack.vim"]
 	path = autolink/vim/bundle/ack.vim
 	url = git://github.com/mileszs/ack.vim.git
-[submodule "autolink/vim/bundle/syntastic"]
-	path = autolink/vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule "autolink/vim/bundle/tabular"]
 	path = autolink/vim/bundle/tabular
 	url = git://github.com/godlygeek/tabular.git
