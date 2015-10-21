@@ -6,3 +6,4 @@
 *.swo
 *.pyc
 *.un~
+.ackrc

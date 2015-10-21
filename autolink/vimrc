@@ -118,6 +118,7 @@ call pathogen#infect()
 
 " CommandT {
     let g:CommandTMaxFiles=20000
+    let g:CommandTHighlightColor='Search'
     let g:CommandTMaxHeight=14
     let g:CommandTMatchWindowReverse=1
     let g:CommandTCancelMap='<ESC>'
