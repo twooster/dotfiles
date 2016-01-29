@@ -25,7 +25,7 @@
 	url = git://github.com/altercation/vim-colors-solarized.git
 [submodule "autolink/vim/bundle/vim-haml"]
 	path = autolink/vim/bundle/vim-haml
-	url = git@github.com:tpope/vim-haml.git
+	url = git://github.com/tpope/vim-haml.git
 [submodule "autolink/vim/bundle/vim-vinegar"]
 	path = autolink/vim/bundle/vim-vinegar
-	url = git@github.com:tpope/vim-vinegar.git
+	url = git://github.com/tpope/vim-vinegar.git
