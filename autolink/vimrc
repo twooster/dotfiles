@@ -41,6 +41,11 @@ call pathogen#infect()
       set undodir=~/.vim/tmp,.       " keep undo files out of the way
       set undofile                        " actually use undo files
     endif
+
+    " Makes vim always overwrite the existing file when saving (rather than
+    " doing a copy/rename); this is 'slower' but shouldn't matter on modern
+    " machines, and plays nicely with common file-watching/rebuild strategies
+    set backupcopy=yes
 " }
 
 " Vim UI {
