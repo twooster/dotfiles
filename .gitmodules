@@ -29,3 +29,6 @@
 [submodule "autolink/vim/bundle/vim-vinegar"]
 	path = autolink/vim/bundle/vim-vinegar
 	url = git://github.com/tpope/vim-vinegar.git
+[submodule "autolink/vim/bundle/vim-jsx"]
+	path = autolink/vim/bundle/vim-jsx
+	url = git://github.com/mxw/vim-jsx.git
