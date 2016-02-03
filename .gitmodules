@@ -32,3 +32,6 @@
 [submodule "autolink/vim/bundle/vim-jsx"]
 	path = autolink/vim/bundle/vim-jsx
 	url = git://github.com/mxw/vim-jsx.git
+[submodule "autolink/vim/bundle/vim-javascript"]
+	path = autolink/vim/bundle/vim-javascript
+	url = git://github.com/pangloss/vim-javascript.git

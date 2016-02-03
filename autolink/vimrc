@@ -102,7 +102,7 @@ call pathogen#infect()
     set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
     set shiftwidth=2       " auto-indent amount when using cindent,
     set smartcase          " if there are caps, go case-sensitive
-    set smartindent        " Use slightly smarter indentation
+"    set smartindent        " Use slightly smarter indentation
     set softtabstop=2      " tab converted to X spaces
     set tabstop=8          " real tabs X spaces wide
 
