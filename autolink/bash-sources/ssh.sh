@@ -20,4 +20,4 @@ ssh-reagent () {
 
 # Tab completion for ssh hosts, from:
 #  http://feeds.macosxhints.com/~r/macosxhints/recent/~3/257065700/article.php
-complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh apply_ssh
+[ -r "$HOME/.ssh/known_hosts" ] && complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh apply_ssh
