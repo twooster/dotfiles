@@ -35,12 +35,12 @@ gr() {
 }
 
 t() {
-  local top=`git rev-parse --show-toplevel`
-  cd "${top}/$1"
+  local top=`git rev-parse --show-toplevel 2> /dev/null || pwd`
+  cd ${top}/$1
 }
 
 _t_completion() {
-  local top=`git rev-parse --show-toplevel`
+  local top=`git rev-parse --show-toplevel 2> /dev/null || pwd`
   COMPREPLY=( $( cd "$top"; compgen -d "${COMP_WORDS[COMP_CWORD]}" ) )
 }
 complete -o filenames -o nospace -F _t_completion t
