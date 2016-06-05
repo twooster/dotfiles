@@ -62,4 +62,4 @@ function prompt_func() {
     fi
 }
 
-PROMPT_COMMAND=prompt_func
+PROMPT_COMMAND="history -a; prompt_func"
