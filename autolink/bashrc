@@ -31,19 +31,21 @@ stty -ixon
 # Add extended globbing
 shopt -s globstar 2> /dev/null
 
-# History settings
-shopt -s histappend
-set -o histexpand     # enable strings with !
+# "Better" completion
 set completion-ignore-case On
 
-HISTSIZE=1000
-HISTFILESIZE=40960
+# History settings
+shopt -s histappend
+# enable strings with !
+set -o histexpand
+
+HISTSIZE=-1
+HISTFILESIZE=-1
 HISTIGNORE="cd:ls:[bf]g:clear:exit:gp:gs:ll"
 HISTCONTROL=ignoredups
 
-PATH="/usr/local/bin:$PATH:/usr/local/sbin:/usr/sbin:/sbin"
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
-[ -d "$HOME/.rbenv" ] && PATH="$HOME/.rbenv/bin:$PATH"
+PATH="/usr/local/bin:${PATH}:/usr/local/sbin:/usr/sbin:/sbin"
+[ -d "${HOME}/bin" ] && PATH="${HOME}/bin:${PATH}"
 export PATH
 
 # enable en_US locale w/ utf-8 encodings if not already configured
@@ -76,19 +78,18 @@ export CLICOLOR="yes"
 # PAGER / EDITOR
 #-------------------------------------------------------------------------------
 
-[ -n "$(command -v vim)" ] &&
-    EDITOR=vim ||
-    EDITOR=vi
-export EDITOR
+if [ -n "$(command -v vim)" ]; then
+  export EDITOR=vim
+else
+  export EDITOR=vi
+fi
 
 # PAGER
 if [ -n "$(command -v less)" ]; then
-    export LESS="-FiRwX" &&
-    PAGER=less
+    export LESS="-FiRwX" PAGER=less
 else
-    PAGER=more
+    export PAGER=more
 fi
-export PAGER
 
 export GIT_PAGER="$PAGER"
 export MANPAGER="$PAGER"
@@ -100,12 +101,9 @@ export ACK_PAGER_COLOR="$PAGER"
 #-------------------------------------------------------------------------------
 
 for file in "$HOME/.bash-sources/"*; do
-    [[ -r "$file" && -f "$file" ]] && . "$file"
+    [ -r "$file" ] && . "$file"
 done
 
 [ -r "$HOME/.bash_local" ] && . "$HOME/.bash_local"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-true
+:

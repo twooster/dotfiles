@@ -18,6 +18,6 @@ if [ "$UNAME" = Darwin ]; then
     LS_FLAGS="-hBG"
 
     pman() {
-    man -t "${1}" | open -f -a /Applications/Preview.app/
+        man -t "${1}" | open -f -a /Applications/Preview.app/
     }
 fi

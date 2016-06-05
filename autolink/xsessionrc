@@ -1,8 +1,10 @@
 #!/bin/bash
 
-if [[ "`uname -r`" == *galliumos* ]]; then
-  xinput set-prop "Elan Touchpad" "Tap Minimum Pressure" 45
-  xinput set-prop "Elan Touchpad" "Fat Finger Width Ratio" 2.0
-  xmodmap -e "remove mod4 = Super_L"
-  xmodmap -e "add control = Super_L"
-fi
+case "$(uname -r)" in
+  *galliumos*)
+    xinput set-prop "Elan Touchpad" "Tap Minimum Pressure" 40
+    xinput set-prop "Elan Touchpad" "Fat Finger Width Ratio" 2.0
+    xmodmap -e "remove mod4 = Super_L"
+    xmodmap -e "add control = Super_L"
+    ;;
+esac

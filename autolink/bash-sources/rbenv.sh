@@ -1,1 +1,4 @@
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if [ -d "${HOME}/.rbenv" ]; then
+  PATH="${HOME}/.rbenv/bin:${PATH}"
+  which rbenv > /dev/null && eval "$(rbenv init -)"
+fi
