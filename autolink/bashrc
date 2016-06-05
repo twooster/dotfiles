@@ -19,6 +19,9 @@ fi
 # Bring in system bashrc
 [ -r /etc/bashrc ] && . /etc/bashrc
 
+# Enable readline command-line editing
+set -o emacs
+
 # Notify of background-job completion immediately
 set -o notify
 # Disable core dumps:
