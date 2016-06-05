@@ -109,7 +109,7 @@ link()
 
 install_dotfiles_local_sh()
 {
-    echo "export DOTFILES_BASE=\"$DOTFILES_DIR\" DOTFILES=\"$AUTOLINK_DIR\"" > "${AUTOLINK_DIR}/bash-sources/dotfiles-local.sh"
+    echo "export DOTFILES_BASE=\"$DOTFILES_DIR\" DOTFILES=\"$AUTOLINK_DIR\"" > "${AUTOLINK_DIR}/bash-sources/dotfiles-local-GENERATED.sh"
 }
 
 main "$@"
