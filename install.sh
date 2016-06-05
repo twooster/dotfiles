@@ -15,17 +15,27 @@ VERBOSE=
 
 autolink_all()
 {
+    debug Autolinking all in $1 to $2
     for file in $( find "$1" -maxdepth 1 -mindepth 1 ); do
-        local dest="$2/.${file##*/}"
-        info Autolinking "${dest}"
-        link "${file}" "${dest}"
+        local trunc="${file##*/}"
+        case "${trunc}" in
+          IN-*)
+              autolink_all "${file}" "$2/${trunc##IN-}"
+              ;;
+          VIS-*)
+              link "${file}" "$2/${trunc##VIS-}"
+              ;;
+          *)
+              link "${file}" "$2/.${trunc}"
+            ;;
+        esac
     done
 }
 
 autorun_all()
 {
     for file in $( find "$1" -mindepth 1 -executable ); do
-        info Autorunning $file
+        info RUN $file
         ${file}
     done
 }
@@ -52,14 +62,15 @@ backup_rename()
     while [[ -e "$1~$i" ]]; do
         let i=i+1
     done
-    debug Renaming existing file $1 to $1~$i...
-    mv "$1" "$1~$i"
+    info Renaming existing file $1 to $1~$i...
+    mv "$1" "$1~$i" || warn Backup failed
 }
 
 link()
 {
     local source="$1"
     local target="$2"
+    info LINK ${source} to ${target}
     # Note we have to test for symlink in case the symlink is dead
     if [ -e "$target" -o -h "$target" ]; then
         if [ -h "$target" ]; then
@@ -70,12 +81,10 @@ link()
                 debug Removing existing autolink $target
                 rm "$target" || warn Removal failed
             else
-                info Backing up existing normal link $target
-                backup_rename "$target" || warn Backup failed
+                backup_rename "$target"
             fi
         else
-            info Backing up existing file $target
-            backup_rename "$target" || warn Backup failed
+            backup_rename "$target"
         fi
     fi
     if [ ! -f "$target" ]; then
@@ -91,11 +100,9 @@ do
         *   ) fatal Unknown option chosen;;
     esac
 done
-info Updating all submodules
+info GIT Updating submodules
 git submodule update --init
-info Autorunning all autorun scripts
 autorun_all "${AUTORUN_DIR}"
-info Autolinking all autolink files
 autolink_all "${AUTOLINK_DIR}" "${HOME}"
-info Re-sourcing bashrc
+info SOURCE bashrc
 . ~/.bashrc
