@@ -1,5 +1,5 @@
 " Modeline and Notes {
-"   vim: set foldmarker={,} foldlevel=0 spell:
+"   vim: set foldmarker={,} foldlevel=0
 "
 "   Originally by Robert Melton, modified heavily
 " }
