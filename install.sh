@@ -7,7 +7,6 @@ else
     LINK_FLAGS=-ns
 fi
 
-export DOTFILES_TARGET="$HOME"
 export DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export AUTOLINK_DIR="$DOTFILES_DIR/autolink"
 export AUTORUN_DIR="$DOTFILES_DIR/autorun"
@@ -16,32 +15,34 @@ VERBOSE=
 
 autolink_all()
 {
-    for file in $( find "$AUTOLINK_DIR" -maxdepth 1 -mindepth 1 ); do
-        link "${file}" ".${file##*/}"
+    for file in $( find "$1" -maxdepth 1 -mindepth 1 ); do
+        local dest="$2/.${file##*/}"
+        info Autolinking "${dest}"
+        link "${file}" "${dest}"
     done
 }
 
 autorun_all()
 {
-    for file in $( find "$AUTORUN_DIR" -mindepth 1 -executable ); do
-        debug Running autorun file $file
+    for file in $( find "$1" -mindepth 1 -executable ); do
+        info Autorunning $file
         ${file}
     done
 }
 
-debug()
-{
-    [ -z "$VERBOSE" ] || echo +++ "$@"
-}
-
 info()
 {
-    echo --- "$@"
+    echo + "$@"
+}
+
+debug()
+{
+    [ -z "$VERBOSE" ] || echo ++ "$@"
 }
 
 fatal()
 {
-    echo XXX FATAL ERROR: "$@" &>2
+    echo +++ FATAL ERROR: "$@" &>2
     exit 1
 }
 
@@ -52,14 +53,13 @@ backup_rename()
         let i=i+1
     done
     debug Renaming existing file $1 to $1~$i...
-    mv "$1" "$1~$i" || fatal Unable to rename $1 to $1~$i
+    mv "$1" "$1~$i"
 }
 
 link()
 {
-    debug Linking $1 to $2
     local source="$1"
-    local target="$DOTFILES_TARGET/${2-$1}"
+    local target="$2"
     # Note we have to test for symlink in case the symlink is dead
     if [ -e "$target" -o -h "$target" ]; then
         if [ -h "$target" ]; then
@@ -67,15 +67,15 @@ link()
             local rl=$( readlink "$target" )
             if [[ "$rl" == "$AUTOLINK_DIR"* ]]; then
                 # Kill an existing link to a dotfile
-                debug Killing Existing autolink for $target
-                rm "$target" || warn Removal failed, skipping
+                debug Removing existing autolink $target
+                rm "$target" || warn Removal failed
             else
-                info Backing up existing link for $target
-                backup_rename "$target" || warn Backup failed, skipping
+                info Backing up existing normal link $target
+                backup_rename "$target" || warn Backup failed
             fi
         else
-            info Backing up existing file for $target
-            backup_rename "$target" || warn Backup failed, skipping
+            info Backing up existing file $target
+            backup_rename "$target" || warn Backup failed
         fi
     fi
     if [ ! -f "$target" ]; then
@@ -94,8 +94,8 @@ done
 info Updating all submodules
 git submodule update --init
 info Autorunning all autorun scripts
-autorun_all
+autorun_all "${AUTORUN_DIR}"
 info Autolinking all autolink files
-autolink_all
+autolink_all "${AUTOLINK_DIR}" "${HOME}"
 info Re-sourcing bashrc
 . ~/.bashrc
