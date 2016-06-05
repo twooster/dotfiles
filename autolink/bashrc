@@ -41,7 +41,7 @@ set -o histexpand
 
 HISTSIZE=-1
 HISTFILESIZE=-1
-HISTIGNORE="cd:ls:[bf]g:clear:exit:gp:gs:ll"
+HISTIGNORE="cd:ls:[bf]g:clear:exit:gp:gs:ll:..:t"
 HISTCONTROL=ignoredups
 
 PATH="/usr/local/bin:${PATH}:/usr/local/sbin:/usr/sbin:/sbin"
