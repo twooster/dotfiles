@@ -33,7 +33,7 @@ call pathogen#infect()
     set wildmenu " turn on command line completion wild style
     " ignore these list file extensions
     set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,
-                    \*.jpg,*.gif,*.png,.git
+                    \*.jpg,*.gif,*.png,.git,*.swp
     set wildmode=list:longest " turn on wild mode huge list
 
     " Thanks to Wincent's vimrc for this
