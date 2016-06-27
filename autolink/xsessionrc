@@ -1,10 +1,13 @@
 #!/bin/bash
 
+setup_for_chromebook() {
+  xinput set-prop "Elan Touchpad" "Tap Minimum Pressure" 40
+  xinput set-prop "Elan Touchpad" "Fat Finger Width Ratio" 2.0
+  xmodmap -e "remove mod4 = Super_L"
+  xmodmap -e "add control = Super_L"
+}
+
+
 case "$(uname -r)" in
-  *galliumos*)
-    xinput set-prop "Elan Touchpad" "Tap Minimum Pressure" 40
-    xinput set-prop "Elan Touchpad" "Fat Finger Width Ratio" 2.0
-    xmodmap -e "remove mod4 = Super_L"
-    xmodmap -e "add control = Super_L"
-    ;;
+  *galliumos*) setup_for_chromebook ;;
 esac

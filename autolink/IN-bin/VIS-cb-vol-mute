@@ -1,0 +1,2 @@
+#!/bin/sh
+pactl set-sink-mute 1 toggle

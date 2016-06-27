@@ -20,6 +20,11 @@ autolink_all()
         local trunc="${file##*/}"
         case "${trunc}" in
           IN-*)
+              local dir="$2/${trunc##IN-}"
+              if [ ! -d "$dir" ]; then
+                info Directory $dir does not exist, attempting to create...
+                mkdir $dir || fatal Could not create folder!
+              fi
               autolink_all "${file}" "$2/${trunc##IN-}"
               ;;
           VIS-*)
@@ -68,8 +73,24 @@ backup_rename()
     while [ -e "$1~$i" ]; do
         let i=i+1
     done
-    info Renaming existing file $1 to $1~$i...
+    info Renaming existing $1 to $1~$i...
     mv "$1" "$1~$i" || warn Backup failed
+}
+
+copy()
+{
+    local source="$1"
+    local target="$2"
+    info COPY ${source} to ${target}
+    # Note we have to test for symlink in case the symlink is dead
+    if [ -e "${target}" ]; then
+        backup_rename "${target}"
+    fi
+    if [ ! -f "${target}" ]; then
+        cp -R "${source}" "${target}" || warn cp failed ${source} to ${target}
+    else
+        warn Target exists, skipping: ${source} to ${target}
+    fi
 }
 
 link()
@@ -78,7 +99,7 @@ link()
     local target="$2"
     info LINK ${source} to ${target}
     # Note we have to test for symlink in case the symlink is dead
-    if [ -e "${target}" -o -h "${target}" ]; then
+    if [ -e "${target}" ]; then
         if [ -h "${target}" ]; then
             # Symbolic link, so...
             local rl=$( readlink "${target}" )
