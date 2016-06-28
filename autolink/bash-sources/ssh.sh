@@ -3,7 +3,7 @@
 #-------------------------------------------------------------------------------
 
 apply_ssh() {
-  ssh $1 "cat >> ~/.ssh/authorized_keys" < ~/.ssh/id_rsa.pub
+  ssh $1 "cat >> ~/.ssh/authorized_keys" < ${2-~/.ssh/id_rsa.pub}
 }
 
 ssh-reagent () {
@@ -17,6 +17,12 @@ ssh-reagent () {
   done
   echo Cannot find ssh agent - maybe you should reconnect and forward it?
 }
+
+if [ $TMUX ]; then
+  export SSH_AUTH_SOCK=$HOME/.ssh/auth
+else
+  ln -sf $SSH_AUTH_SOCK $HOME/.ssh/auth
+fi
 
 # Tab completion for ssh hosts, from:
 #  http://feeds.macosxhints.com/~r/macosxhints/recent/~3/257065700/article.php

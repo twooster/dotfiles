@@ -7,12 +7,6 @@
 : ${LOGNAME=$(id -un)}
 : ${UNAME=$(uname)}
 
-if [ $TMUX ]; then
-  export SSH_AUTH_SOCK=$HOME/.ssh/auth
-else
-  ln -sf $SSH_AUTH_SOCK $HOME/.ssh/auth
-fi
-
 # readline config
 [ -r ~/.inputrc ] && : ${INPUTRC=~/.inputrc}
 
