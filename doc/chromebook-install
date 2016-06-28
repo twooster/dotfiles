@@ -1,1 +1,18 @@
-sudo apt-get install xbacklight xautolock
+For i3:
+
+```
+sudo apt-get install i3
+sudo apt-get install xbacklight
+sudo apt-get install xautolock
+```
+
+Disable power button:
+
+```
+sudo vim /etc/systemd/logind.conf
+```
+
+Change the commented-out line that reads `#HandlePowerKey=poweroff` to
+read `HandlePowerKey=ignore`. Alternatively, look into (and potentially
+write your own) systemd-keypress-inhibiting power manager thing. This
+would probably be more portable in some ways.

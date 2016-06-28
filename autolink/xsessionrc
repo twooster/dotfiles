@@ -1,6 +1,7 @@
 #!/bin/bash
 
 setup_for_chromebook() {
+  setxkbmap -model chromebook_m_ralt
   xinput set-prop "Elan Touchpad" "Tap Minimum Pressure" 40
   xinput set-prop "Elan Touchpad" "Fat Finger Width Ratio" 2.0
   xmodmap -e "remove mod4 = Super_L"
