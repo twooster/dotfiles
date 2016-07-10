@@ -52,3 +52,12 @@ Chrome
 ```
 curl -L -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 ```
+
+Fix Hanging
+-----------
+See: https://bugzilla.kernel.org/show_bug.cgi?id=109051
+
+- sudo vim /etc/default/grub, add "intel_idle.max_cstate=2" to GRUB_CMDLINE_LINUX_DEFAULT
+- run `sudo update-grub`
+- reboot
+
