@@ -1,12 +1,23 @@
-For i3:
+Basics
+------
 
 ```
-sudo apt-get install i3
-sudo apt-get install xbacklight
-sudo apt-get install xautolock
+sudo apt-get install vim-nox git tmux build-essential ruby-dev
 ```
+
+
+i3-wm
+-----
+
+```
+sudo apt-get install i3 xbacklight xautolock
+echo "[Default]\
+Session=i3" > ~/.dmrc
+```
+
 
 Disable power button:
+---------------------
 
 ```
 sudo vim /etc/systemd/logind.conf
@@ -16,3 +27,28 @@ Change the commented-out line that reads `#HandlePowerKey=poweroff` to
 read `HandlePowerKey=ignore`. Alternatively, look into (and potentially
 write your own) systemd-keypress-inhibiting power manager thing. This
 would probably be more portable in some ways.
+
+
+Spotify
+-------
+
+```
+1. Add the Spotify repository signing key to be able to verify downloaded packages
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
+
+# 2. Add the Spotify repository
+echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+
+# 3. Update list of available packages
+sudo apt-get update
+
+# 4. Install Spotify
+sudo apt-get install spotify-client
+```
+
+Chrome
+------
+
+```
+curl -L -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+```
