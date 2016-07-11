@@ -38,3 +38,6 @@
 [submodule "autolink/vim/bundle/vim-elixir"]
 	path = autolink/vim/bundle/vim-elixir
 	url = https://github.com/elixir-lang/vim-elixir.git
+[submodule "autolink/IN-bin/VIS-git-subrepo"]
+	path = autolink/IN-bin/VIS-git-subrepo
+	url = git@github.com:ingydotnet/git-subrepo.git
