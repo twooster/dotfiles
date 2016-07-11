@@ -10,9 +10,9 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # Use compton for compositing to stop tearing
-exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
+#exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 exec --no-startup-id nm-applet
-exec --no-startup-id xautolock -time 10 -lockaftersleep -locker i3lock
+#exec --no-startup-id xautolock -time 10 -lockaftersleep -locker i3lock
 
 set $mod Mod1
 
