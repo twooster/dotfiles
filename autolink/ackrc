@@ -3,6 +3,8 @@
 --ignore-dir=coverage
 --ignore-dir=.meteor
 --ignore-dir=.git
+--ignore-dir=node_modules
+--ignore-dir=bower_components
 --type-set=haml=.haml
 --type-set=erb=.erb
 --type-add=css=.scss
