@@ -42,6 +42,7 @@ HISTIGNORE="cd:ls:[bf]g:clear:exit:gp:gs:ll:..:t"
 HISTCONTROL=ignoredups
 
 PATH="/usr/local/bin:${PATH}:/usr/local/sbin:/usr/sbin:/sbin"
+[ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
 [ -d "${HOME}/bin" ] && PATH="${HOME}/bin:${PATH}"
 export PATH
 
