@@ -49,6 +49,8 @@ function prompt_func() {
     local previous_return_value=$?
     local venv=""
 
+    history -a
+
     if [[ -n "$VIRTUAL_ENV" ]]; then
         venv="${RED}$(basename ${VIRTUAL_ENV})${LIGHT_GRAY}:"
     fi
@@ -62,4 +64,4 @@ function prompt_func() {
     fi
 }
 
-PROMPT_COMMAND="history -a; prompt_func"
+PROMPT_COMMAND="prompt_func"
