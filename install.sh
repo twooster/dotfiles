@@ -7,8 +7,8 @@ else
 fi
 
 export DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export AUTOLINK_DIR="${DOTFILES_DIR}/autolink"
-export AUTORUN_DIR="${DOTFILES_DIR}/autorun"
+export AUTOLINK_DIR="${DOTFILES_DIR}/link"
+export AUTORUN_DIR="${DOTFILES_DIR}/run"
 
 VERBOSE=
 
