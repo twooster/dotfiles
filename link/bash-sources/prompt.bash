@@ -1,16 +1,20 @@
-        RED="\[\e[0;31m\]"
-     YELLOW="\[\e[0;33m\]"
-      GREEN="\[\e[0;32m\]"
-       BLUE="\[\e[0;34m\]"
-  LIGHT_RED="\[\e[1;31m\]"
-LIGHT_GREEN="\[\e[1;32m\]"
-      WHITE="\[\e[1;37m\]"
- LIGHT_GRAY="\[\e[0;37m\]"
-   BACK_RED="\[\e[41m\]"
-  BACK_CYAN="\[\e[46m\]"
- COLOR_NONE="\[\e[0m\]"
+         RED="\[\e[0;31m\]"
+      YELLOW="\[\e[0;33m\]"
+LIGHT_YELLOW="\[\e[1;33m\]"
+       GREEN="\[\e[0;32m\]"
+        BLUE="\[\e[0;34m\]"
+  LIGHT_BLUE="\[\e[1;34m\]"
+   LIGHT_RED="\[\e[1;31m\]"
+ LIGHT_GREEN="\[\e[1;32m\]"
+       WHITE="\[\e[1;37m\]"
+  LIGHT_GRAY="\[\e[0;37m\]"
+        CYAN="\[\e[0;36m\]"
+    BACK_RED="\[\e[41m\]"
+   BACK_CYAN="\[\e[46m\]"
+  BACK_GREEN="\[\e[42m\]"
+  COLOR_NONE="\[\e[0m\]"
 
-function parse_git_branch() {
+parse_git_branch() {
   local git_status
   git_status="$(git status 2> /dev/null)" || return
   local branch_pattern="On branch ([^${IFS}]*)"
@@ -24,43 +28,37 @@ function parse_git_branch() {
   # add an else if or two here if you want to get more specific
   if [[ ${git_status} =~ ${remote_pattern} ]]; then
     if [[ ${BASH_REMATCH[1]} == "ahead" ]]; then
-      remote="${YELLOW}↑"
+      remote="${LIGHT_YELLOW}↑"
     else
-      remote="${YELLOW}↓"
+      remote="${LIGHT_YELLOW}↓"
     fi
   fi
   if [[ ${git_status} =~ ${diverge_pattern} ]]; then
-    remote="${YELLOW}↕"
+    remote="${LIGHT_YELLOW}↕"
   fi
   if [[ ${git_status} =~ ${branch_pattern} ]]; then
     branch=${BASH_REMATCH[1]}
   fi
-  # Causes pairing helpers
-  local solo_name=$(git config solo.name)
-  local current_name=$(git config user.name)
-  local pair
-  if [[ -n ${solo_name} && ${solo_name} != ${current_name} ]]; then
-      pair="$WHITE + ${current_name#* + }"
-  fi
-  echo " [${branch}]${remote}${state}${pair}"
+  echo " [${branch}]${remote}${state}"
 }
 
-function prompt_func() {
+prompt_func() {
     local previous_return_value=$?
     local venv=""
 
+    # Write history every prompt call
     history -a
 
     if [[ -n "$VIRTUAL_ENV" ]]; then
         venv="${RED}$(basename ${VIRTUAL_ENV})${LIGHT_GRAY}:"
     fi
 
-    local prompt="${LIGHT_GRAY}\u@\h ${venv}${BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}"
-    if test $previous_return_value -eq 0
-    then
-        PS1="${prompt}\n${BACK_CYAN}>${COLOR_NONE} "
+    local prompt="${LIGHT_GRAY}\u@\h ${venv}${LIGHT_BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}"
+    if test "${previous_return_value}" -eq 0; then
+        PS1="${prompt}\n${BACK_GREEN}>>>${COLOR_NONE} "
     else
-        PS1="${prompt}\n${BACK_RED}*${COLOR_NONE} "
+        local padded_rv=$(printf "%3d" "${previous_return_value}")
+        PS1="${prompt}\n${BACK_RED}${padded_rv}${COLOR_NONE} "
     fi
 }
 
