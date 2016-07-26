@@ -34,16 +34,16 @@ gr() {
   git review
 }
 
-t() {
+u() {
   local top=`git rev-parse --show-toplevel 2> /dev/null || pwd`
   cd ${top}/$1
 }
 
-_t_completion() {
+_u_completion() {
   local top=`git rev-parse --show-toplevel 2> /dev/null || pwd`
   COMPREPLY=( $( cd "$top"; compgen -d "${COMP_WORDS[COMP_CWORD]}" ) )
 }
-complete -o filenames -o nospace -F _t_completion t
+complete -o filenames -o nospace -F _u_completion u
 
 servedir() {
     python -m SimpleHTTPServer ${1:-8080}
