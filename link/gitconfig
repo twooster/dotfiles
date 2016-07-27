@@ -1,43 +1,65 @@
 [user]
-	name = Tony Wooster
+        name = Tony Wooster
+        useConfigOnly = true
+
 [color]
-	branch = auto
-	status = auto
-	diff = auto
+        branch = auto
+        status = auto
+        diff = auto
+
 [alias]
-        amend = commit --amend
         cached = diff --cached
         co = checkout
         d = diff
         rhom = reset --hard origin/master
         s = status
-        unadd = reset HEAD
         ap = add -p
         ca = commit --amend
         ci = commit
         cop = checkout -p
         cpa = cherry-pick --abort
         cpc = cherry-pick --continue
+        cp = cherry-pick
         dc = diff --cached
         fix = !sh -c 'git rebase --autosquash -i ${1:-`git merge-base HEAD origin/master`}'
         forget = rm --cache --
         from = !sh -c 'git fetch && git rebase origin/master'
+        fro = !sh -c 'git fetch && git rebase "origin/$1"'
         fu = commit --fixup
         hard = reset --hard
         rba = rebase --abort
         rbc = rebase --continue
-        sfrom = !sh -c 'git stash && git from && git stash pop'
-        st = status
         sui = submodule update --init
+        apum = !sh -c 'UM=$(git diff --name-status --diff-filter=U | cut -f2) git reset -- "${UM}" && git add -p "${UM}"'
 
-        edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
-        add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
 [core]
-	excludesfile = ~/.gitconfig-ignore
+        excludesfile = ~/.gitconfig-ignore
+
+[diff]
+        algorithm = histogram
+
+[merge]
+        conflictstyle = diff3
+        ff = only
+
+[pull]
+        ff = only
+
+[rebase]
+        autoSquash = true
+
+[rerere]
+        enabled = true
+
+[status]
+        short = true
+        branch = true
+
+[stash]
+        showPatch = true
+
+[push]
+        default = simple
 
 [include]
         path = .gitconfig-local
-[rerere]
-	enabled = true
-[push]
-	default = simple
