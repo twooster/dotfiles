@@ -18,7 +18,7 @@ parse_git_branch() {
   local git_status
   git_status="$(git status 2> /dev/null)" || return
   local branch_pattern="On branch ([^${IFS}]*)"
-  local remote_pattern="Your branch is (.*) of"
+  local remote_pattern="Your branch is (.*) (of|by)"
   local diverge_pattern="Your branch and (.*) have diverged"
 
   local state remote branch
