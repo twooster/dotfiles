@@ -1,0 +1,117 @@
+#!/bin/bash
+# from https://news.ycombinator.com/item?id=7411120
+set -e
+
+NOW_HEAD="$HOME/.now/HEAD"
+NOW_DIR="$HOME/.now"
+
+log() {
+  printf "now -- %s\n" "$*"
+}
+
+ensure_dir() {
+  [ -d "${NOW_DIR}" ] || \
+    log making "${NOW_DIR}" directory && \
+    mkdir -p "${NOW_DIR}"
+}
+
+ensure_head() {
+  if [ ! -e "${NOW_HEAD}" ]; then
+    log no current project set
+    exit 3
+  fi
+}
+
+assert_good_name() {
+  if [ "$1" == "HEAD" ]; then
+    log project cannot be named HEAD
+    exit 1
+  fi
+}
+
+make_project() {
+  assert_good_name "$1"
+  proj_file="${NOW_DIR}/$1"
+  if [ -e "${proj_file}" ]; then
+    return 1
+  fi
+  log making project file ${proj_file}
+  touch "${NOW_DIR}/$1"
+  return 0
+}
+
+switch_project() {
+  assert_good_name "$1"
+  if [ ! -e "${NOW_DIR}/$1" ]; then
+    log no project named '`'$1'`'
+    exit 2
+  fi
+  ln -s -f "$1" "${NOW_HEAD}"
+}
+
+write() {
+  date_str="$( date -Iseconds )"
+  action=$1
+  shift
+  printf "%s %-5s -- %s\n" "${date_str}" "${action}" "$*" >> "${NOW_HEAD}"
+}
+
+maybe_end_last_task() {
+  if [ -s "${NOW_HEAD}" ]; then
+    last_line="$( tail -n1 "${NOW_HEAD}" )"
+    last_action="$( printf "%s" "${last_line}" | cut -d " " -f 2 )"
+    if [ "${last_action}" != "start" ]; then
+      return
+    fi
+
+    last_time="$( printf "%s" "${last_line}" | cut -d " " -f 1 )"
+    last_task="$( printf "%s" "${last_line}" | cut -d " " -f 4- )"
+
+    last_epoch="$(date -d "$last_time" +%s)"
+    now_epoch="$(date +%s)"
+
+    epoch_diff="$(( ${now_epoch} - ${last_epoch} ))"
+    elapsed_days="$(date -d "@${epoch_diff}" +%j)"
+    elapsed_days="$(( ${elapsed_days} - 1 ))"
+    elapsed_string="$(date -u -d "@${epoch_diff}" "+${elapsed_days}d %Hh %Mm %Ss") elapsed"
+
+    log stop \"${last_task}\" "(${elapsed_string})"
+    write stop "${elapsed_string}"
+  fi
+}
+
+now() {
+  ensure_dir
+  if [ $# -lt 1 ]; then
+    ensure_head
+    log recent entries in "$(basename $(readlink -f "${NOW_HEAD}"))"
+    tail -5 "${NOW_HEAD}"
+    exit 0
+  fi
+
+  if [[ "$1" == @* ]]; then
+    proj=${1##@}
+    shift
+    if [[ "$proj" == @* ]]; then
+      proj=${proj##@}
+      make_project "${proj}" && new_proj=1 || new_proj=
+    fi
+    maybe_end_last_task
+    switch_project "${proj}"
+    if [ ${new_proj} ]; then
+      exit 0
+    fi
+  fi
+
+  if [ $# -gt 0 ]; then
+    ensure_head
+    maybe_end_last_task
+    if [ "$*" == "stop" ]; then
+      return
+    fi
+    log start "$*"
+    write start "$*"
+  fi
+}
+
+now "$@"
