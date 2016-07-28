@@ -210,6 +210,7 @@ ${SCRIPT_NAME} v${VERSION}. Usage:
     -t [PROJ]  -- tail the last few tasks in a project
     -s [OPTS]  -- current status, style is either 'full' or 'prompt'
     -f         -- finish the currently active task
+    -d         -- prints current directory for storing history
     -h, -?     -- this help message
     @<PROJ> [<new task name>] -- switch to project, terminating
         current task and optionally start a new task
@@ -222,7 +223,7 @@ ${SCRIPT_NAME} v${VERSION}. Usage:
 
 main() {
   ensure_dir
-  while getopts ":tsfvh?" opt; do
+  while getopts ":tsfvdh?" opt; do
     case "$opt" in
     h|\?)
       show_help
@@ -236,6 +237,10 @@ main() {
     t)
       shift $((OPTIND-1))
       show_tail "$1"
+      exit 0
+      ;;
+    d)
+      echo "${NOW_DIR}"
       exit 0
       ;;
     f)
