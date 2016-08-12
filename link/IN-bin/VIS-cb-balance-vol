@@ -1,0 +1,4 @@
+#!/bin/sh
+CUR_RIGHT_VOL=$( amixer -D pulse get Master | grep 'Right: Playback' | sed -E 's/.*\[([0-9]+)%\].*/\1/' )
+echo $CUR_RIGHT_VOL
+amixer -q -D pulse set Master "${CUR_RIGHT_VOL}%"

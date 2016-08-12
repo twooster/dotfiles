@@ -1,2 +1,3 @@
 #!/bin/sh
 amixer -q -D pulse set Master 5%+ unmute
+$( dirname -- "$0" )/cb-balance-vol
