@@ -3,6 +3,7 @@
 #-------------------------------------------------------------------------------
 alias more="less"
 
+alias ccat="pygmentize -g"
 alias ll="ls -l"
 alias l.="ls -d .*"
 alias la="ls -a"
