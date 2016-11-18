@@ -41,3 +41,6 @@
 [submodule "link/IN-bin/VIS-git-subrepo"]
 	path = link/IN-bin/VIS-git-subrepo
 	url = git@github.com:ingydotnet/git-subrepo.git
+[submodule "link/vim/bundle/nerdtree"]
+	path = link/vim/bundle/nerdtree
+	url = git@github.com:scrooloose/nerdtree.git
