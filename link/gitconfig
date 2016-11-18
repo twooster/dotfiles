@@ -21,7 +21,7 @@
         cpc = cherry-pick --continue
         cp = cherry-pick
         dc = diff --cached
-        fix = !sh -c 'git rebase --autosquash -i ${1:-`git merge-base HEAD origin/master`}'
+        fix = !sh -c 'OVERCOMMIT_DISABLE=1 git rebase --autosquash -i ${1:-`git merge-base HEAD origin/master`}'
         forget = rm --cache --
         from = !sh -c 'git fetch && git rebase origin/master'
         fro = !sh -c 'git fetch && git rebase "origin/$1"'
