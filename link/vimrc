@@ -46,6 +46,8 @@ call pathogen#infect()
     " doing a copy/rename); this is 'slower' but shouldn't matter on modern
     " machines, and plays nicely with common file-watching/rebuild strategies
     set backupcopy=yes
+    set directory=~/.vim-tmp/swap//,.
+    set backupdir=~/.vim-tmp/backup//,.
 " }
 
 " Vim UI {
@@ -127,8 +129,10 @@ call pathogen#infect()
     let g:CommandTMaxHeight=14
     let g:CommandTMatchWindowReverse=1
     let g:CommandTCancelMap='<ESC>'
-    let g:CommandTFileScanner='git'
-    let g:CommandTWildIgnore=&wildignore . ",_site/*,node_modules/*,dist/*,build/*"
+    let g:CommandTFileScanner='find'
+    let g:CommandTWildIgnore=&wildignore . ",_site/*,node_modules/*,dist/*,build/*,env/*,bower_components/*,public/*"
+    let g:CommandTTraverseSCM='pwd'
+
 " }
 
 " Mappings {
@@ -137,28 +141,53 @@ call pathogen#infect()
     vnoremap / /\V%
 
     " The 'make moving around windows easy' section
-    map <c-h> <c-w>h
-    map <c-j> <c-w>j
-    map <c-k> <c-w>k
-    map <c-l> <c-w>l
+"    map <c-h> <c-w>h
+"    map <c-j> <c-w>j
+"    map <c-k> <c-w>k
+"    map <c-l> <c-w>l
 
     " The 'visual instead of logical lines' section
     nnoremap j gj
     nnoremap k gk
 
+    map <Space> <Leader>
+
     " The 'make switching quote-types easy' section
     nmap <Leader>' mzcs"'`z
     nmap <Leader>" mzcs'"`z
 
-    nmap ; :
+    " The NERDTree section
+    map <Leader>N :NERDTreeToggle<CR>
+    map <Leader>n :NERDTree<CR>
+
+    " The colons are hard section
+    map <Leader>; :
+    map <Leader>q :q<CR>
+    map <Leader>w :w<CR>
+    map <Leader>x :x<CR>
+
+    map <Leader>h <C-w>h
+    map <Leader>j <C-w>j
+    map <Leader>k <C-w>k
+    map <Leader>l <C-w>l
 
     " The 'make tab switching easy' section
-    noremap <c-tab> :tabnext<cr>
-    noremap <C-S-tab> :tabprevious<CR>
-    noremap <C-t> :tabnew<CR>
-    nnoremap <C-t> :tabnew<CR>
-    nnoremap <C-tab> :tabnext<CR>
-    nnoremap <C-S-tab> :tabprevious<CR>
+
+    map <C-t>n :tabnew<CR>
+    map <C-t>h :tabprevious<CR>
+    map <C-t>l :tabnext<CR>
+    map <C-t>j :tablast<CR>
+    map <C-t>k :tabfirst<CR>
+    map <C-t>c :tabclose<CR>
+    map <C-t>1 :tabnext 1<CR>
+    map <C-t>2 :tabnext 2<CR>
+    map <C-t>3 :tabnext 3<CR>
+    map <C-t>4 :tabnext 4<CR>
+    map <C-t>5 :tabnext 5<CR>
+    map <C-t>6 :tabnext 6<CR>
+    map <C-t>7 :tabnext 7<CR>
+    map <C-t>8 :tabnext 8<CR>
+    map <C-t>9 :tabnext 9<CR>
 
     " Delete current buffer, move to previous
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
@@ -204,8 +233,8 @@ call pathogen#infect()
     nmap <Leader>-     :sp<CR>
 
     " Sort lines inside current paragraph
-    nmap <Leader>n :cn<CR>
-    nmap <Leader>p :cp<CR>
+    "nmap <Leader>n :cn<CR>
+    "nmap <Leader>p :cp<CR>
 
     " The 'make Y behave like C and D" section
     nnoremap Y y$
@@ -218,7 +247,7 @@ call pathogen#infect()
     nmap <Leader>r :redraw!<CR>
 
     " clipper support
-    nnoremap <leader>y :call system('nc localhost 8399', @0)<CR>
+    "nnoremap <leader>y :call system('nc localhost 8399', @0)<CR>
 " }
 
 " Also from @sds by way of @wincent, by way of ?
@@ -227,7 +256,7 @@ call pathogen#infect()
 if &term =~ "xterm.*"
   let &t_ti = &t_ti . "\e[?2004h"
   let &t_te = "\e[?2004l" . &t_te
-  function XTermPasteBegin(ret)
+  function! XTermPasteBegin(ret)
     set pastetoggle=<Esc>[201~
     set paste
     return a:ret
@@ -239,6 +268,8 @@ if &term =~ "xterm.*"
 endif
 
 " Autocommands {
+    au BufNewFile,BufRead *.sls setlocal filetype=yaml
+
     au FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType python     setlocal tabstop=8 softtabstop=4 shiftwidth=4
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
