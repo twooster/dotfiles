@@ -12,3 +12,9 @@ setup_for_chromebook() {
 case "$(uname -r)" in
   *galliumos*) setup_for_chromebook ;;
 esac
+
+if [ "$( cat /sys/devices/virtual/dmi/id/product_version )" == "ThinkPad X230" ]; then
+  xmodmap -e 'keycode 66 = Control_L'
+  xmodmap -e 'clear Lock'
+  xmodmap -e 'add Control = Control_L'
+fi
