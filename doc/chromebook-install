@@ -61,3 +61,10 @@ See: https://bugzilla.kernel.org/show_bug.cgi?id=109051
 - run `sudo update-grub`
 - reboot
 
+Also tried:
+
+```
+echo "echo 0 > /sys/power/pm_async" >> /usr/bin/init-laptop-settings
+```
+
+Now testing...
