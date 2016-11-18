@@ -34,6 +34,10 @@ gr() {
   git review
 }
 
+cl() {
+  pygmentize -f terminal "$@" | less -R
+}
+
 u() {
   local top=`git rev-parse --show-toplevel 2> /dev/null || pwd`
   cd "${top}/$1"
