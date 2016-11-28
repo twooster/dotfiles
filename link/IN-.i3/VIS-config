@@ -12,6 +12,7 @@
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 exec --no-startup-id nm-applet
+exec compton --config ~/.config/compton -b
 #exec --no-startup-id xautolock -time 10 -lockaftersleep -locker i3lock
 
 set $mod Mod1
@@ -63,7 +64,7 @@ bindsym $mod+backslash split h
 bindsym $mod+minus split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen
+bindsym $mod+Shift+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
