@@ -28,6 +28,9 @@ call pathogen#infect()
     set noerrorbells                " don't make noise
     set title                       " show title
     set ttyfast                     " derp
+    set smarttab
+    set autoindent
+    set langnoremap
     set whichwrap=b,s,~
 
     set wildmenu " turn on command line completion wild style
@@ -77,6 +80,7 @@ call pathogen#infect()
     set showmatch               " show matching brackets
     set sidescrolloff=10        " keep X lines at the sides
     set hlsearch
+    set history=10000
 
     set statusline=
     set statusline+=%<\                       " cut at start
@@ -97,7 +101,7 @@ call pathogen#infect()
 " Text Formatting/Layout {
 "    set completeopt= " don't use a pop up menu for completions
     set expandtab          " no real tabs please!
-    set formatoptions+=r   " Automatically insert comment leader on return,
+    set formatoptions+=qrj " Automatically insert comment leader on return,
     set ignorecase         " case insensitive by default
     set infercase          " case inferred by default
     set nowrap             " do not wrap line
