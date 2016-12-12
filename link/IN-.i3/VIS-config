@@ -12,8 +12,8 @@
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 exec --no-startup-id nm-applet
-exec compton --config ~/.config/compton -b
-#exec --no-startup-id xautolock -time 10 -lockaftersleep -locker i3lock
+exec --no-startup-id compton --config ~/.config/compton -b
+exec --no-startup-id xautolock -time 10 -lockaftersleep -locker i3lock
 
 set $mod Mod1
 
@@ -21,7 +21,7 @@ set $mod Mod1
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 10
+font pango:DejaVu Sans Mono 8
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -115,9 +115,6 @@ bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
 # Volume control
-bindsym XF86MonBrightnessUp exec "~/bin/cb-backlight-up"
-bindsym XF86MonBrightnessDown exec "~/bin/cb-backlight-down"
-
 bindsym XF86AudioRaiseVolume exec "~/bin/cb-vol-up; ~/bin/cb-beep"
 bindsym XF86AudioLowerVolume exec "~/bin/cb-vol-down; ~/bin/cb-beep"
 bindsym XF86AudioMute exec "~/bin/cb-vol-mute; ~/bin/cb-beep"
@@ -130,8 +127,8 @@ bindsym $mod+Shift+r restart
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
-bindsym $mod+r mode "resize"
-mode "resize" {
+bindsym $mod+r mode "*** RESIZE ***"
+mode "*** RESIZE ***" {
   # These bindings trigger as soon as you enter the resize mode
 
   # Pressing left will shrink the window’s width.
@@ -154,14 +151,15 @@ mode "resize" {
   bindsym Escape mode "default"
 }
 
-set $mode_sysreq "sysreq: [l]ock, [q]uit, [r]estart, shut[d]own, [s]leep, [h]ibernate"
+set $mode_sysreq "*** SYSREQ: [l]ock, [q]uit, [mod-esc, s]leep, [h]ibernate ***"
 bindsym $mod+Escape mode $mode_sysreq
 
 mode $mode_sysreq {
   bindsym l mode "default", exec i3lock
+  bindsym $mod+Escape mode "default", exec i3lock
   bindsym q exit
-  bindsym r "i3-nagbar -t warning -m 'Restart computer?' -b 'RESTART' 'shutdown -r now'"
-  bindsym d "i3-nagbar -t warning -m 'Shutdown computer?' -b 'SHUTDOWN' 'shutdown -P now'"
+  #bindsym r "i3-nagbar -t warning -m 'Restart computer?' -b 'RESTART' 'shutdown -r now'"
+  #bindsym d "i3-nagbar -t warning -m 'Shutdown computer?' -b 'SHUTDOWN' 'shutdown -P now'"
   bindsym s mode "default", exec systemctl suspend
   bindsym h mode "default", exec systemctl hibernate
 
