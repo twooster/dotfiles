@@ -45,19 +45,12 @@ parse_git_branch() {
 prompt_func() {
     local previous_return_value=$?
     local venv=""
-    local now=
 
     # Write history every prompt call
     history -a
 
     if [[ -n "$VIRTUAL_ENV" ]]; then
         venv="${RED}$(basename ${VIRTUAL_ENV})${LIGHT_GRAY}:"
-    fi
-
-    if [ -e "$HOME/bin/now" ]; then
-        now=" ${CYAN}<$(now -s prompt)>${COLOR_NONE}"
-    else
-        now=""
     fi
 
     local prompt="${LIGHT_GRAY}\u@\h ${venv}${LIGHT_BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}${now}"
