@@ -56,24 +56,22 @@ call pathogen#infect()
 " Vim UI {
     colorscheme molokai
     set cursorline              " highlight current line
-    set incsearch               " BUT do highlight as you type you
-                                " search phrase
+    set incsearch               " highlight as search phrase typed
     set laststatus=2            " always show the status line
     set lazyredraw              " do not redraw while running macros
     set linespace=0             " don't insert any extra pixel lines
                                 " betweens rows
-    set list                    " we do what to show tabs, to ensure we get them
-                                " out of my files
+    set list                    " show special characters
     set listchars=tab:▸\ ,eol:¬,extends:»,precedes:«,trail:•
     set matchtime=5             " how many tenths of a second to blink
                                 " matching brackets for
     set nostartofline           " leave my cursor where it was
-    set visualbell              " don't blink
+    set novisualbell            " don't blink
     set number                  " turn on line numbers
     set numberwidth=4           " good up to 9999 lines
     set report=0                " tell us when anything is changed via :...
     set ruler                   " always show current positions along the bottom
-    set scrolloff=5             " keep X lines (top/bottom) for scope
+    set scrolloff=7             " keep X lines (top/bottom) for scope
     set shortmess=aOstTI        " shortens messages to avoid
                                 " 'press a key' prompt
     set showcmd                 " show the command being typed
@@ -101,7 +99,9 @@ call pathogen#infect()
 " Text Formatting/Layout {
 "    set completeopt= " don't use a pop up menu for completions
     set expandtab          " no real tabs please!
-    set formatoptions+=qrj " Automatically insert comment leader on return,
+    set formatoptions+=q   " Allow commenting formatting with 'gq'
+    set formatoptions+=r   " Insert comment leader after hitting <enter> in INS
+    set formatoptions+=j   " Remove comment leader when joining lines
     set ignorecase         " case insensitive by default
     set infercase          " case inferred by default
     set nowrap             " do not wrap line
@@ -113,7 +113,12 @@ call pathogen#infect()
     set tabstop=8          " real tabs X spaces wide
 
     " Sets up past-80-column highlighting
-    highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+    "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+    if &t_Co > 255
+      highlight OverLength ctermbg=52 guibg=#592929
+    else
+      highlight OverLength ctermbg=1 guibg=#592929
+    endif
     match OverLength /\%81v.\+/
 
     " Turn on all python highlighting
@@ -155,6 +160,11 @@ call pathogen#infect()
     " The 'visual instead of logical lines' section
     nnoremap j gj
     nnoremap k gk
+
+    nnoremap <C-h> 5h
+    nnoremap <C-j> 5j
+    nnoremap <C-k> 5k
+    nnoremap <C-l> 5l
 
     map <Space> <Leader>
 
@@ -208,16 +218,13 @@ call pathogen#infect()
     map <leader>T :CommandTFlush<CR>
 
     " Ruby 1.9 hash rocket helper
-    vmap <leader>rh :s/\%V\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
-    nmap <leader>rh :%s/\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
+    " vmap <leader>rh :s/\%V\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
+    " nmap <leader>rh :%s/\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
 
     " The 'tubular tabular helpers' section
-    " Align leftmost equals
-    nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-    vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
     " Align all equals
-    nmap <Leader>a+ :Tabularize /=<CR>
-    vmap <Leader>a+ :Tabularize /=<CR>
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
     " Align all commas
     nmap <Leader>a, :Tabularize /,\zs<CR>
     vmap <Leader>a, :Tabularize /,\zs<CR>

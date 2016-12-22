@@ -4,7 +4,7 @@
 " Modified by: Steve Losh <steve@stevelosh.com>
 "
 " Note: Based on the monokai theme for textmate
-" by Wimer Hazenberg and its darker variant 
+" by Wimer Hazenberg and its darker variant
 " by Hamish Stuart Macpherson
 "
 
@@ -78,7 +78,8 @@ hi InterestingWord1 guifg=#000000 guibg=#FFA700
 hi InterestingWord2 guifg=#000000 guibg=#53FF00
 hi InterestingWord3 guifg=#000000 guibg=#FF74F8
 
-hi MatchParen      guifg=#E4E400 guibg=#434748 gui=bold
+"hi MatchParen      guifg=#E4E400 guibg=#434748 gui=bold,underline
+"hi MatchParen      guifg=#E4E400  guibg=bg      gui=bold,underline
 hi ModeMsg         guifg=#E6DB74
 hi MoreMsg         guifg=#E6DB74
 hi Operator        guifg=#F92672
@@ -177,7 +178,8 @@ if &t_Co > 255
    hi MailHeaderEmail ctermfg=3  ctermbg=233
    hi MailEmail       ctermfg=3  ctermbg=233
 
-   hi MatchParen      ctermfg=16  ctermbg=208 cterm=bold
+   "hi MatchParen      ctermfg=16  ctermbg=208 cterm=bold
+   hi MatchParen      ctermfg=231  ctermbg=161 cterm=bold
    hi ModeMsg         ctermfg=229
    hi MoreMsg         ctermfg=229
    hi Operator        ctermfg=161
@@ -222,7 +224,7 @@ if &t_Co > 255
 
    hi Normal          ctermfg=252 ctermbg=233
    hi Comment         ctermfg=59
-   hi CursorLine                  ctermbg=234   cterm=none
+   hi CursorLine                  ctermbg=0     cterm=none
    hi CursorColumn                ctermbg=234
    hi ColorColumn                 ctermbg=234
    hi LineNr          ctermfg=250 ctermbg=233
