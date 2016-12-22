@@ -28,3 +28,38 @@ if [ -n "$TP_ID" ]; then
         xinput set-prop "$TP_ID" "$AS_ID" 1 # maximize acceleration
 fi
 ```
+
+
+Fixing the touchpad again:
+
+
+In file `/lib/udev/rules.d/66-xorg-synaptics-quirks.rules`:
+
+```
+ATTR{[dmi/id]product_version}=="ThinkPad X230*", ENV{ID_INPUT.tags}="lenovo_x230_all"
+```
+
+And then in `/usr/share/X11/xorg.conf.d/50-thinkpad-touchpad.conf`:
+
+```
+Section "InputClass"
+        Identifier "touchpad"
+        MatchProduct "SynPS/2 Synaptics TouchPad"
+        MatchTag "lenovo_x230_all"
+        Driver "synaptics"
+        # fix touchpad resolution
+        # Option "VertResolution" "100"
+        # Option "HorizResolution" "65"
+        # disable synaptics driver pointer acceleration
+        Option "MinSpeed" "1"
+        Option "MaxSpeed" "1"
+        # tweak the X-server pointer acceleration
+        Option "AccelerationProfile" "2"
+        Option "AdaptiveDeceleration" "1000"
+        Option "ConstantDeceleration" "16"
+        Option "VelocityScale" "30"
+        Option "AccelerationNumerator" "30"
+        Option "AccelerationDenominator" "10"
+        Option "AccelerationThreshold" "10"
+EndSection
+```
