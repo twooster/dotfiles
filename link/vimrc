@@ -145,7 +145,7 @@ call pathogen#infect()
     let g:CommandTMatchWindowReverse=1
     let g:CommandTCancelMap='<ESC>'
     let g:CommandTFileScanner='find'
-    let g:CommandTWildIgnore=&wildignore . ",_site/*,node_modules/*,dist/*,build/*,env/*,bower_components/*,public/*"
+    let g:CommandTWildIgnore=&wildignore . ",*/_site/*,*/node_modules/*,*/dist/*,*/build/*,*/env/*,*/bower_components/*,*/public/*"
     let g:CommandTTraverseSCM='pwd'
 
 " }
@@ -264,7 +264,13 @@ call pathogen#infect()
     nmap <Leader>r :redraw!<CR>
 
     " Folding...
-    nnoremap <space>f za
+    nnoremap <Leader>f za
+
+    if has('clipboard')
+      nnoremap <Leader>y :let @*=@"<cr>:echo Copied to system Clipboard<cr>
+      nnoremap <Leader>p "*p
+      nnoremap <Leader>P "*P
+    endif
 
     " clipper support
     "nnoremap <leader>y :call system('nc localhost 8399', @0)<CR>
