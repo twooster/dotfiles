@@ -37,10 +37,13 @@
 	url = git://github.com/pangloss/vim-javascript.git
 [submodule "link/vim/bundle/vim-elixir"]
 	path = link/vim/bundle/vim-elixir
-	url = https://github.com/elixir-lang/vim-elixir.git
+	url = git@github.com:elixir-lang/vim-elixir.git
 [submodule "link/IN-bin/VIS-git-subrepo"]
 	path = link/IN-bin/VIS-git-subrepo
 	url = git@github.com:ingydotnet/git-subrepo.git
+[submodule "link/vim/bundle/you-complete-me"]
+	path = link/vim/bundle/you-complete-me
+	url = git@github.com:Valloric/YouCompleteMe.git
 [submodule "link/vim/bundle/nerdtree"]
 	path = link/vim/bundle/nerdtree
 	url = git@github.com:scrooloose/nerdtree.git

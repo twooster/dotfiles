@@ -29,7 +29,6 @@ call pathogen#infect()
     set title                       " show title
     set ttyfast                     " derp
     set smarttab
-    set autoindent
     set langnoremap
     set whichwrap=b,s,~
 
@@ -59,11 +58,9 @@ call pathogen#infect()
     set incsearch               " highlight as search phrase typed
     set laststatus=2            " always show the status line
     set lazyredraw              " do not redraw while running macros
-    set linespace=0             " don't insert any extra pixel lines
-                                " betweens rows
     set list                    " show special characters
     set listchars=tab:▸\ ,eol:¬,extends:»,precedes:«,trail:•
-    set matchtime=5             " how many tenths of a second to blink
+    set matchtime=1             " how many tenths of a second to blink
                                 " matching brackets for
     set nostartofline           " leave my cursor where it was
     set novisualbell            " don't blink
@@ -76,7 +73,7 @@ call pathogen#infect()
                                 " 'press a key' prompt
     set showcmd                 " show the command being typed
     set showmatch               " show matching brackets
-    set sidescrolloff=10        " keep X lines at the sides
+    set sidescrolloff=10        " keep X characters at the sides
     set hlsearch
     set history=10000
 
@@ -105,10 +102,12 @@ call pathogen#infect()
     set ignorecase         " case insensitive by default
     set infercase          " case inferred by default
     set nowrap             " do not wrap line
-    set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
+"    set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
     set shiftwidth=2       " auto-indent amount when using cindent,
     set smartcase          " if there are caps, go case-sensitive
-"    set smartindent        " Use slightly smarter indentation
+"    set autoindent         " Previous line indentation
+    set smartindent        " Slightly smarter indentation
+"    set cindent            " Smarter still
     set softtabstop=2      " tab converted to X spaces
     set tabstop=8          " real tabs X spaces wide
 
@@ -124,6 +123,11 @@ call pathogen#infect()
     " Turn on all python highlighting
     let python_highlight_all = 1
     let python_slow_sync = 1
+" }
+
+" Folding {
+    set foldmethod=syntax
+    set foldlevel=99
 " }
 
 " Plugin Settings {
@@ -259,6 +263,9 @@ call pathogen#infect()
     " redraw arg!
     nmap <Leader>r :redraw!<CR>
 
+    " Folding...
+    nnoremap <space>f za
+
     " clipper support
     "nnoremap <leader>y :call system('nc localhost 8399', @0)<CR>
 " }
@@ -285,7 +292,7 @@ endif
 
     au FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType python     setlocal tabstop=8 softtabstop=4 shiftwidth=4
-    au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 cindent
     au FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType gitcommit  setlocal textwidth=70 fo+=t
 
@@ -298,6 +305,8 @@ endif
 
 " GUI Settings {
 if has("gui_running")
+    set linespace=0             " don't insert any extra pixel lines
+                                " betweens rows
     " Basics {
         set columns=120
         set guioptions=ce
