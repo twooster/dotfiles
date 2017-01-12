@@ -1,0 +1,66 @@
+#! /bin/bash
+
+set -e
+
+WARN_PERCENT=20      # Warn at this level
+CRITICAL_PERCENT=10  # Critical warning at this level
+SUSPEND_PERCENT=5    # Suspend at this level
+
+BAT_UEVENT=/sys/class/power_supply/BAT0/uevent
+SLEEP_TIME=30
+
+notify()
+{
+  LEVEL="$1"
+  shift
+  notify-send -c device -i battery-low -u "${LEVEL}" -t 10000 -- "$@"
+}
+
+critical()
+{
+  notify critical "CRITICAL: $@"
+}
+
+warn()
+{
+  notify normal "WARNING: $@"
+}
+
+suspend_system() {
+  systemctl suspend
+}
+
+LAST_STATE=0
+while true; do
+  . "${BAT_UEVENT}"
+
+  PCT=$(echo "${POWER_SUPPLY_ENERGY_NOW} / ${POWER_SUPPLY_ENERGY_FULL_DESIGN} * 100" | bc -l)
+  STATE=$(echo "pct=$PCT; \
+                if (pct <= ${SUSPEND_PERCENT})  { 3 } \
+                else if (pct <= ${CRITICAL_PERCENT}) { 2 } \
+                else if (pct <= ${WARN_PERCENT})     { 1 } \
+                else { 0 }" | bc -l)
+
+  if [ "${POWER_SUPPLY_STATUS}" = "Discharging" ]; then
+    if [ "${STATE}" -gt "${LAST_STATE}" ]; then
+      case "${STATE}" in
+        3)
+          suspend_system
+          ;;
+        2)
+          critical "Battery critically low, at ${PCT}%! Suspending at ${SUSPEND_PERCENT}%!"
+          ;;
+        1)
+          warn "Battery getting low, at ${PCT}%"
+          ;;
+        *)
+          true
+          ;;
+      esac
+    fi
+  fi
+
+  LAST_STATE="${STATE}"
+
+  sleep "${SLEEP_TIME}"
+done

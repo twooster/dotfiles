@@ -12,8 +12,14 @@
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 exec --no-startup-id nm-applet
+exec --no-startup-id ~/bin/battery-mon
 exec --no-startup-id compton --config ~/.config/compton -b
-exec --no-startup-id xautolock -time 10 -lockaftersleep -locker i3lock
+exec --no-startup-id xautolock \
+    -time 3 -detectsleep \
+    -locker i3lock \
+    -corners 0-0- \
+    -notify 30 \
+    -notifier "notify-send -u critical -t 10000 -- '*** Locking screen in 30 seconds ***'"
 
 set $mod Mod1
 
