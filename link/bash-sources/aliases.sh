@@ -3,6 +3,7 @@
 #-------------------------------------------------------------------------------
 alias more="less"
 
+alias dc="docker-compose"
 alias ccat="pygmentize -g"
 alias ll="ls -l"
 alias l.="ls -d .*"
