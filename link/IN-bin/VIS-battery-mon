@@ -1,12 +1,11 @@
 #! /bin/bash
-
 set -e
 
 WARN_PERCENT=20      # Warn at this level
 CRITICAL_PERCENT=10  # Critical warning at this level
 SUSPEND_PERCENT=5    # Suspend at this level
 
-BAT_UEVENT=/sys/class/power_supply/BAT0/uevent
+BAT_ENV_STATUS_FILE=/sys/class/power_supply/BAT0/uevent
 SLEEP_TIME=30
 
 notify()
@@ -32,15 +31,15 @@ suspend_system() {
 
 LAST_STATE=0
 while true; do
-  . "${BAT_UEVENT}"
+  . "${BAT_ENV_STATUS_FILE}"
 
-  PCT=$(echo "${POWER_SUPPLY_ENERGY_NOW} / ${POWER_SUPPLY_ENERGY_FULL_DESIGN} * 100" | bc -l)
-  STATE=$(echo "pct=$PCT; \
-                if (pct <= ${SUSPEND_PERCENT})  { 3 } \
-                else if (pct <= ${CRITICAL_PERCENT}) { 2 } \
-                else if (pct <= ${WARN_PERCENT})     { 1 } \
-                else { 0 }" | bc -l)
-
+  PCT=$( awk "BEGIN { printf ${POWER_SUPPLY_ENERGY_NOW} / ${POWER_SUPPLY_ENERGY_FULL_DESIGN} * 100 }" )
+  STATE=$( awk -v "p=${PCT}" "BEGIN {
+    if (p <= ${SUSPEND_PERCENT})       { printf 3 }
+    else if (p <= ${CRITICAL_PERCENT}) { printf 2 }
+    else if (p <= ${WARN_PERCENT})     { printf 1 }
+    else                               { printf 0 }
+  }" )
   if [ "${POWER_SUPPLY_STATUS}" = "Discharging" ]; then
     if [ "${STATE}" -gt "${LAST_STATE}" ]; then
       case "${STATE}" in
