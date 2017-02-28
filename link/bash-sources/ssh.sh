@@ -2,30 +2,46 @@
 # SSH HELPERS
 #-------------------------------------------------------------------------------
 
-apply_ssh() {
+# TODO[tmw]: probably actually want to use ssh-copy-id
+apply-ssh() {
   ssh $1 "cat >> ~/.ssh/authorized_keys" < ${2-~/.ssh/id_rsa.pub}
 }
 
-ssh-reagent () {
+ssh-reagent() {
+  if [ "$1" != '-f' -a -S "${SSH_AUTH_SOCK}" ]; then
+    [ "$1" = '-l' ] \
+      || echo "ssh-agent already exists and is a socket; use -f to force"
+    return
+  fi
+
+  SSH_AGENT_PID=
+  SSH_AUTH_SOCK=
+
+  local agent
   for agent in /tmp/ssh-*/agent.*; do
-    export SSH_AUTH_SOCK=$agent
-    if ssh-add -l 2>&1 > /dev/null; then
-      echo Found working SSH Agent:
-      ssh-add -l
-      return
+    SSH_AUTH_SOCK="${agent}" ssh-add -l > /dev/null 2>&1
+    # ssh-add can return exit code 1 if the agent has no identities, but
+    # exit code 2 means it wasn't able to establish a connection
+    if [ $? -ne 2 ]; then
+      SSH_AUTH_SOCK="${agent}"
+      break
     fi
   done
-  echo Cannot find ssh agent - maybe you should reconnect and forward it?
+
+  if [ -z "${SSH_AUTH_SOCK}" ]; then
+    [ "$1" = '-l' ] \
+      || echo "Cannot find ssh-agent - restart ssh-agent, or forward it with ssh -A"
+  else
+    SSH_AGENT_PID="${SSH_AUTH_SOCK##*agent.}"
+    export SSH_AUTH_SOCK SSH_AGENT_PID
+    echo "Found new ssh-agent (pid: ${SSH_AGENT_PID})"
+
+    if [ -n "${TMUX}" ]; then
+      tmux set-environment SSH_AUTH_SOCK "${SSH_AUTH_SOCK}"
+      tmux set-environment SSH_AGENT_PID "${SSH_AGENT_PID}"
+      echo "Re-set tmux env variables for SSH_AUTH_SOCK and SSH_AGENT_PID"
+    fi
+  fi
 }
 
-if [ $TMUX ]; then
-  export SSH_AUTH_SOCK=$HOME/.ssh/auth
-else
-  ln -sf $SSH_AUTH_SOCK $HOME/.ssh/auth
-fi
-
-# Tab completion for ssh hosts, from:
-#  http://feeds.macosxhints.com/~r/macosxhints/recent/~3/257065700/article.php
-if [ -r "$HOME/.ssh/known_hosts" ]; then
-  complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh apply_ssh
-fi
+ssh-reagent -l
