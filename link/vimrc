@@ -105,7 +105,7 @@ call pathogen#infect()
 "    set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
     set shiftwidth=2       " auto-indent amount when using cindent,
     set smartcase          " if there are caps, go case-sensitive
-"    set autoindent         " Previous line indentation
+"    set autondent         " Previous line indentation
     set smartindent        " Slightly smarter indentation
 "    set cindent            " Smarter still
     set softtabstop=2      " tab converted to X spaces
@@ -190,6 +190,10 @@ call pathogen#infect()
     map <Leader>j <C-w>j
     map <Leader>k <C-w>k
     map <Leader>l <C-w>l
+
+
+    map <Leader>c :w !xclip -selection clipboard<cr><cr>
+    map <Leader>v :r !xclip -selection clipboard -o<cr>
 
     " The 'make tab switching easy' section
 
@@ -297,7 +301,7 @@ endif
     au BufNewFile,BufRead *.sls setlocal filetype=yaml
 
     au FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    au FileType python     setlocal tabstop=8 softtabstop=4 shiftwidth=4
+    au FileType python     setlocal tabstop=8 softtabstop=4 shiftwidth=4 cindent
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 cindent
     au FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType gitcommit  setlocal textwidth=70 fo+=t
