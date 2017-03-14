@@ -1,50 +1,47 @@
-#! /bin/bash
+#!/bin/bash
 set -e
 
 WARN_PERCENT=20      # Warn at this level
 CRITICAL_PERCENT=10  # Critical warning at this level
 SUSPEND_PERCENT=5    # Suspend at this level
 
-BAT_ENV_STATUS_FILE=/sys/class/power_supply/BAT0/uevent
+BATTERY=0
 SLEEP_TIME=30
 
-notify()
-{
-  LEVEL="$1"
-  shift
-  notify-send -c device -i battery-low -u "${LEVEL}" -t 10000 -- "$@"
+notify() {
+  notify-send -c device -i battery-low -u "$1" -t 10000 -- "${@:2}"
 }
 
-critical()
-{
-  notify critical "CRITICAL: $@"
+critical() {
+  notify critical CRITICAL: "$@"
 }
 
-warn()
-{
-  notify normal "WARNING: $@"
+warn() {
+  notify normal WARNING: "$@"
 }
 
-suspend_system() {
-  systemctl suspend
-}
-
+BAT_ENV_STATUS_FILE="/sys/class/power_supply/BAT${BATTERY}/uevent"
 LAST_STATE=0
+
 while true; do
   . "${BAT_ENV_STATUS_FILE}"
 
-  PCT=$( awk "BEGIN { printf ${POWER_SUPPLY_ENERGY_NOW} / ${POWER_SUPPLY_ENERGY_FULL_DESIGN} * 100 }" )
-  STATE=$( awk -v "p=${PCT}" "BEGIN {
-    if (p <= ${SUSPEND_PERCENT})       { printf 3 }
-    else if (p <= ${CRITICAL_PERCENT}) { printf 2 }
-    else if (p <= ${WARN_PERCENT})     { printf 1 }
-    else                               { printf 0 }
-  }" )
+  PCT=$(( ${POWER_SUPPLY_ENERGY_NOW} * 100 / ${POWER_SUPPLY_ENERGY_FULL_DESIGN} ))
+  if [ "${PCT}" -le "${SUSPEND_PERCENT}" ]; then
+    STATE=3
+  elif [ "${PCT}" -le "${CRITICAL_PERCENT}" ]; then
+    STATE=2
+  elif [ "${PCT}" -le "${WARN_PERCENT}" ]; then
+    STATE=1
+  else
+    STATE=0
+  fi
+
   if [ "${POWER_SUPPLY_STATUS}" = "Discharging" ]; then
     if [ "${STATE}" -gt "${LAST_STATE}" ]; then
       case "${STATE}" in
         3)
-          suspend_system
+          systemctl suspend || critical "Unable to suspend! SYSTEM STATE AT RISK"
           ;;
         2)
           critical "Battery critically low, at ${PCT}%! Suspending at ${SUSPEND_PERCENT}%!"
