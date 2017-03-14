@@ -11,12 +11,15 @@
 
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
+
+set $locker "gnome-screensaver-command -l"
+
 exec --no-startup-id nm-applet
 exec --no-startup-id ~/bin/battery-mon
 exec --no-startup-id compton --config ~/.config/compton -b
 exec --no-startup-id xautolock \
     -time 3 -detectsleep \
-    -locker "gnome-screensaver-command -l" \
+    -locker $locker \
     -detectsleep \
     -corners 0-0- \
     -notify 30 \
@@ -90,10 +93,11 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $ws1 1-term
-set $ws2 2-work
-set $ws3 3-web
-set $ws10 10-muzak
+set $ws1 1:term
+set $ws2 2:misc
+set $ws3 3:web
+set $ws9 9:pass
+set $ws10 10:muzak
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -103,7 +107,7 @@ bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
+bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
@@ -115,7 +119,7 @@ bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
 bindsym $mod+Tab workspace next
@@ -158,12 +162,15 @@ mode "*** RESIZE ***" {
   bindsym Escape mode "default"
 }
 
-set $mode_sysreq "*** SYSREQ: [mod-esc] lock, [q]uit, [s]leep, [h]ibernate ***"
+set $mode_sysreq "*** SYSREQ: [mod-esc, l]ock, [e]nable/[d]isable xautolock, [q]uit, [s]leep, [h]ibernate ***"
 bindsym $mod+Escape mode $mode_sysreq
 
 mode $mode_sysreq {
-  bindsym l mode "default", exec xautolock -locknow
-  bindsym $mod+Escape mode "default", exec xautolock -locknow
+  bindsym $mod+Escape mode "default", exec $locker
+  bindsym l           mode "default", exec $locker
+
+  bindsym d mode "default", exec xautolock -disable, exec notify-send -t 3000 "*** xautolock disabled ***"
+  bindsym e mode "default", exec xautolock -enable, exec notify-send -t 3000 "*** xautolock enabled ***"
   bindsym q exit
   #bindsym r "i3-nagbar -t warning -m 'Restart computer?' -b 'RESTART' 'shutdown -r now'"
   #bindsym d "i3-nagbar -t warning -m 'Shutdown computer?' -b 'SHUTDOWN' 'shutdown -P now'"
