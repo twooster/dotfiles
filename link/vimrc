@@ -11,7 +11,8 @@ call pathogen#infect()
     set nocompatible    " explicitly get out of vi-compatible mode
     set noexrc          " don't use local version of .(g)vimrc, .exrc
     set background=dark " we plan to use a dark background
-    let mapleader=","   " a sensible leader character
+    let mapleader="\<Tab>"  " not a sensible leader character, but can't map
+                            " space directly
     syntax on           " syntax highlighting on
 " }
 
@@ -150,27 +151,47 @@ call pathogen#infect()
 
 " }
 
+" EasyMotion {
+    let g:EasyMotion_do_mapping=0  " Disable default mappings
+    let g:EasyMotion_smartcase=1
+    let g:EasyMotion_use_smartsign_us=1
+    let g:EasyMotion_startofline=0
+
+    map <C-s> <Plug>(easymotion-overwin-f)
+    map <C-a> <Plug>(easymotion-overwin-f2)
+    nmap <Leader>/ <Plug>(easymotion-sn)
+    omap <Leader>/ <Plug>(easymotion-tn)
+
+    map <C-h> <Plug>(easymotion-linebackward)
+    map <C-k> <Plug>(easymotion-k)
+    map <C-j> <Plug>(easymotion-j)
+    map <C-l> <Plug>(easymotion-lineforward)
+
+    map <C-w> <Plug>(easymotion-bd-w)
+    map <C-f> <Plug>(easymotion-bd-f)
+    map <C-t> <Plug>(easymotion-bd-t)
+" }
+
 " Mappings {
     " The 'sane searching' section
     nnoremap / /\v
     vnoremap / /\V%
 
+    " The fuck netrw section
+    map - <Nop>
+
     " The 'make moving around windows easy' section
-"    map <c-h> <c-w>h
-"    map <c-j> <c-w>j
-"    map <c-k> <c-w>k
-"    map <c-l> <c-w>l
+    map <Leader>h <C-w>h
+    map <Leader>j <C-w>j
+    map <Leader>k <C-w>k
+    map <Leader>l <C-w>l
 
     " The 'visual instead of logical lines' section
     nnoremap j gj
     nnoremap k gk
 
-    nnoremap <C-h> 5h
-    nnoremap <C-j> 5j
-    nnoremap <C-k> 5k
-    nnoremap <C-l> 5l
-
     map <Space> <Leader>
+
 
     " The 'make switching quote-types easy' section
     nmap <Leader>' mzcs"'`z
@@ -186,32 +207,27 @@ call pathogen#infect()
     map <Leader>w :w<CR>
     map <Leader>x :x<CR>
 
-    map <Leader>h <C-w>h
-    map <Leader>j <C-w>j
-    map <Leader>k <C-w>k
-    map <Leader>l <C-w>l
-
 
     map <Leader>c :w !xclip -selection clipboard<cr><cr>
     map <Leader>v :r !xclip -selection clipboard -o<cr>
 
     " The 'make tab switching easy' section
 
-    map <C-t>n :tabnew<CR>
-    map <C-t>h :tabprevious<CR>
-    map <C-t>l :tabnext<CR>
-    map <C-t>j :tablast<CR>
-    map <C-t>k :tabfirst<CR>
-    map <C-t>c :tabclose<CR>
-    map <C-t>1 :tabnext 1<CR>
-    map <C-t>2 :tabnext 2<CR>
-    map <C-t>3 :tabnext 3<CR>
-    map <C-t>4 :tabnext 4<CR>
-    map <C-t>5 :tabnext 5<CR>
-    map <C-t>6 :tabnext 6<CR>
-    map <C-t>7 :tabnext 7<CR>
-    map <C-t>8 :tabnext 8<CR>
-    map <C-t>9 :tabnext 9<CR>
+    "map <C-t>n :tabnew<CR>
+    "map <C-t>h :tabprevious<CR>
+    "map <C-t>l :tabnext<CR>
+    "map <C-t>j :tablast<CR>
+    "map <C-t>k :tabfirst<CR>
+    "map <C-t>c :tabclose<CR>
+    "map <C-t>1 :tabnext 1<CR>
+    "map <C-t>2 :tabnext 2<CR>
+    "map <C-t>3 :tabnext 3<CR>
+    "map <C-t>4 :tabnext 4<CR>
+    "map <C-t>5 :tabnext 5<CR>
+    "map <C-t>6 :tabnext 6<CR>
+    "map <C-t>7 :tabnext 7<CR>
+    "map <C-t>8 :tabnext 8<CR>
+    "map <C-t>9 :tabnext 9<CR>
 
     " Delete current buffer, move to previous
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
@@ -244,7 +260,7 @@ call pathogen#infect()
     vmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
 
     " Sort lines inside current paragraph
-    nmap <Leader>s mzvi}:sort<CR>`z
+    "nmap <Leader>s mzvi}:sort<CR>`z
     " Sort selected lines
     vmap <Leader>s :sort<CR>
 
@@ -268,13 +284,13 @@ call pathogen#infect()
     nmap <Leader>r :redraw!<CR>
 
     " Folding...
-    nnoremap <Leader>f za
+    "nnoremap <Leader>f za
 
-    if has('clipboard')
-      nnoremap <Leader>y :let @*=@"<cr>:echo Copied to system Clipboard<cr>
-      nnoremap <Leader>p "*p
-      nnoremap <Leader>P "*P
-    endif
+    "if has('clipboard')
+    "  nnoremap <Leader>y :let @*=@"<cr>:echo Copied to system Clipboard<cr>
+    "  nnoremap <Leader>p "*p
+    "  nnoremap <Leader>P "*P
+    "endif
 
     " clipper support
     "nnoremap <leader>y :call system('nc localhost 8399', @0)<CR>
