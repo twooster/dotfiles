@@ -63,3 +63,10 @@ Section "InputClass"
         Option "AccelerationThreshold" "10"
 EndSection
 ```
+
+
+### Vim8
+
+
+sudo add-apt-repository ppa:jonathonf/vim
+sudo apt-get install vim
