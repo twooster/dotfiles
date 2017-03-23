@@ -73,8 +73,13 @@ export CLICOLOR=yes
 export EDITOR="$(command -v vim vi nvim nano pico | head -1)"
 
 # PAGER
-if [ -n "$(command -v less)" ]; then
-    export LESS="-FiRwX" PAGER=less
+if command -v less > /dev/null ; then
+    export PAGER=less
+    export LESS="-FiRwX"
+
+    if command -v source-highlight > /dev/null ; then
+      export LESSOPEN="|$HOME/bin/lesspipe-highlight.sh %s"
+    fi
 else
     export PAGER=more
 fi
