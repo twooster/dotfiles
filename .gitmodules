@@ -53,3 +53,6 @@
 [submodule "link/vim/bundle/vim-repeat"]
 	path = link/vim/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
+[submodule "link/vim/bundle/typescript-vim"]
+	path = link/vim/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
