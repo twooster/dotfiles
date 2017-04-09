@@ -56,3 +56,6 @@
 [submodule "link/vim/bundle/typescript-vim"]
 	path = link/vim/bundle/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
+[submodule "link/vim/bundle/YouCompleteMe"]
+	path = link/vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
