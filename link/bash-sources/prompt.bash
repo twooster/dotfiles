@@ -15,31 +15,34 @@ LIGHT_YELLOW="\[\e[1;33m\]"
   COLOR_NONE="\[\e[0m\]"
 
 __parse_git_branch() {
-  local git_status
-  git_status="$(git status --no-short 2> /dev/null)" || return
-  local branch_pattern="On branch ([^${IFS}]*)"
-  local remote_pattern="Your branch is (ahead|behind)"
-  local diverge_pattern="Your branch and (.*) have diverged"
+  local branch=
+  local diverge=
+  local dirty=
 
-  local state remote branch
-  if [[ ! ${git_status}} =~ "working directory clean" ]]; then
-    state="${LIGHT_RED}⚡"
+  local git_status="$( git status --porcelain --ignore-submodules=all -z -b -uno 2> /dev/null | head -n 2 )"
+
+  # REGEX                         1-branch                             5-diverge               6-trailing
+  if [[ ! "${git_status}" =~ ^##\ ([^.]+(\.[^.]+)*)(\.\.\.[^\ ]+)?(\ \[(ahead|behind)[^\]]+\])?(.*) ]]; then
+    return
   fi
-  # add an else if or two here if you want to get more specific
-  if [[ ${git_status} =~ ${remote_pattern} ]]; then
-    if [[ ${BASH_REMATCH[1]} == "ahead" ]]; then
-      remote="${LIGHT_YELLOW}↑"
-    else
-      remote="${LIGHT_YELLOW}↓"
-    fi
+
+  branch="${BASH_REMATCH[1]}"
+  diverge="${BASH_REMATCH[5]}"
+  dirty="${BASH_REMATCH[6]}"
+
+  if [ "${diverge}" = "ahead" ]; then
+    diverge="${LIGHT_YELLOW}↑"
+  elif [ "${diverge}" = "behind" ]; then
+    diverge="${LIGHT_YELLOW}↓"
+  else
+    diverge=
   fi
-  if [[ ${git_status} =~ ${diverge_pattern} ]]; then
-    remote="${LIGHT_YELLOW}↕"
+
+  if [ -n "${dirty}" ]; then
+    dirty="${LIGHT_RED}⚡"
   fi
-  if [[ ${git_status} =~ ${branch_pattern} ]]; then
-    branch=${BASH_REMATCH[1]}
-  fi
-  printf ' [%q]%s%s' "${branch}" "${remote}" "${state}"
+
+  printf ' [%q]%s%s' "${branch}" "${diverge}" "${dirty}"
 }
 
 __prompt_func() {
@@ -49,12 +52,18 @@ __prompt_func() {
     # Write history every prompt call
     history -a
 
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        venv="${RED}$(basename ${VIRTUAL_ENV})${LIGHT_GRAY}:"
+    if [[ -n "${VIRTUAL_ENV}" ]]; then
+        venv="${LIGHT_RED}$( basename -z -- ${VIRTUAL_ENV} )${LIGHT_GRAY}:"
     fi
 
-    local prompt="${LIGHT_GRAY}\u@\h ${venv}${LIGHT_BLUE}\w${GREEN}$(__parse_git_branch)${COLOR_NONE}${now}"
-    if test "${previous_return_value}" -eq 0; then
+    local user_color="${LIGHT_GRAY}"
+    if [ "${UID}" = "0" ]; then
+      user_color="${RED}"
+    fi
+
+
+    local prompt="${user_color}\u@\h ${venv}${LIGHT_BLUE}\w${GREEN}$(__parse_git_branch)${COLOR_NONE}"
+    if [ "${previous_return_value}" = "0" ]; then
       PS1="${prompt}\n${BACK_GREEN}>>>${COLOR_NONE} "
     else
         local padded_rv=$(printf "%3d" "${previous_return_value}")
