@@ -14,7 +14,7 @@ LIGHT_YELLOW="\[\e[1;33m\]"
   BACK_GREEN="\[\e[42m\]"
   COLOR_NONE="\[\e[0m\]"
 
-parse_git_branch() {
+__parse_git_branch() {
   local git_status
   git_status="$(git status --no-short 2> /dev/null)" || return
   local branch_pattern="On branch ([^${IFS}]*)"
@@ -42,7 +42,7 @@ parse_git_branch() {
   printf ' [%q]%s%s' "${branch}" "${remote}" "${state}"
 }
 
-prompt_func() {
+__prompt_func() {
     local previous_return_value=$?
     local venv=""
 
@@ -53,13 +53,13 @@ prompt_func() {
         venv="${RED}$(basename ${VIRTUAL_ENV})${LIGHT_GRAY}:"
     fi
 
-    local prompt="${LIGHT_GRAY}\u@\h ${venv}${LIGHT_BLUE}\w${GREEN}$(parse_git_branch)${COLOR_NONE}${now}"
+    local prompt="${LIGHT_GRAY}\u@\h ${venv}${LIGHT_BLUE}\w${GREEN}$(__parse_git_branch)${COLOR_NONE}${now}"
     if test "${previous_return_value}" -eq 0; then
-        PS1="${prompt}\n${BACK_GREEN}>>>${COLOR_NONE} "
+      PS1="${prompt}\n${BACK_GREEN}>>>${COLOR_NONE} "
     else
         local padded_rv=$(printf "%3d" "${previous_return_value}")
         PS1="${prompt}\n${BACK_RED}${padded_rv}${COLOR_NONE} "
     fi
 }
 
-PROMPT_COMMAND="prompt_func"
+PROMPT_COMMAND="__prompt_func"
