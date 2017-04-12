@@ -204,10 +204,10 @@ call pathogen#infect()
     map <F1> <Nop>
 
     " The 'make moving around windows easy' section
-    map <Leader>h <C-w>h
-    map <Leader>j <C-w>j
-    map <Leader>k <C-w>k
-    map <Leader>l <C-w>l
+    noremap <Leader>h <C-w>h
+    noremap <Leader>j <C-w>j
+    noremap <Leader>k <C-w>k
+    noremap <Leader>l <C-w>l
 
     " The 'visual instead of logical lines' section
     nnoremap j gj
