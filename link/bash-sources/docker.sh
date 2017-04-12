@@ -1,3 +1,5 @@
+alias dc="docker-compose"
+
 dclog () {
   docker-compose logs "--tail=${2:-50}" -f "$1"
 }

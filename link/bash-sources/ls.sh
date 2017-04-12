@@ -1,8 +1,17 @@
-if [ "$UNAME" = Darwin ]; then
-    LS_FLAGS="-hBG"
+if command -v exa > /dev/null ; then
+  alias ls="exa"
+  alias ll="exa -lg"
 else
-    LS_FLAGS="-hb --color"
+  if [ "$UNAME" = Darwin ]; then
+      LS_FLAGS="-hBG"
+  else
+      LS_FLAGS="-hb --color"
+  fi
+  alias ls="command ls $LS_FLAGS"
+  unset LS_FLAGS
+
+  alias ll="ls -l"
 fi
 
-# setup the main ls alias if we've established common args
-[ -n "$LS_FLAGS" ] && alias ls="command ls $LS_FLAGS"
+alias l.="ls -d .*"
+alias la="ls -a"
