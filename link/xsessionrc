@@ -14,7 +14,8 @@ case "$(uname -r)" in
 esac
 
 if [ "$( cat /sys/devices/virtual/dmi/id/product_version )" = "ThinkPad X230" ]; then
-  xmodmap -e 'keycode 66 = Control_L'
-  xmodmap -e 'clear Lock'
-  xmodmap -e 'add Control = Control_L'
+  setxkbmap -layout us -option ctrl:nocaps
+#  xmodmap -e 'keycode 66 = Control_L'
+#  xmodmap -e 'clear Lock'
+#  xmodmap -e 'add Control = Control_L'
 fi
