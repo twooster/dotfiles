@@ -131,15 +131,24 @@ call pathogen#infect()
     set foldlevel=99
 " }
 
-" Plugin Settings {
+" Matchit Settings {
     let b:match_ignorecase = 1 " case is stupid
-
-    let g:syntastic_haml_checkers = ['haml_lint']
-
-    let NERDTreeIgnore = ['\.pyc$']
 " }
 
-" CommandT {
+
+" Syntastic Settings {
+    let g:syntastic_haml_checkers = ['haml_lint']
+" }
+
+
+" NERDTree Settings {
+    let NERDTreeIgnore = ['\.pyc$']
+
+    map <Leader>N :NERDTreeToggle<CR>
+    map <Leader>n :NERDTree<CR>
+" }
+
+" CommandT Settings {
     let g:CommandTMaxFiles=20000
     let g:CommandTHighlightColor='Search'
     let g:CommandTMaxHeight=14
@@ -149,9 +158,10 @@ call pathogen#infect()
     let g:CommandTWildIgnore=&wildignore . ",*/_site/*,*/node_modules/*,*/dist/*,*/build/*,*/env/*,*/bower_components/*,*/public/*"
     let g:CommandTTraverseSCM='pwd'
 
+    map <leader>T :CommandTFlush<CR>
 " }
 
-" EasyMotion {
+" EasyMotion Settings {
     let g:EasyMotion_do_mapping=0  " Disable default mappings
     let g:EasyMotion_smartcase=1
     let g:EasyMotion_use_smartsign_us=1
@@ -173,12 +183,25 @@ call pathogen#infect()
 " }
 
 " Mappings {
+
+    " The Leader we've always wanted section
+    map <Space> <Leader>
+
+    " The 'I hate esc' section
+    imap jj <esc>
+
+    " The 'make Y behave like C and D" section
+    nnoremap Y y$
+
     " The 'sane searching' section
     nnoremap / /\v
     vnoremap / /\V%
 
     " The fuck netrw section
     map - <Nop>
+
+    " The F1-is-too-close-to-esc section
+    map <F1> <Nop>
 
     " The 'make moving around windows easy' section
     map <Leader>h <C-w>h
@@ -190,16 +213,10 @@ call pathogen#infect()
     nnoremap j gj
     nnoremap k gk
 
-    map <Space> <Leader>
-
 
     " The 'make switching quote-types easy' section
     nmap <Leader>' mzcs"'`z
     nmap <Leader>" mzcs'"`z
-
-    " The NERDTree section
-    map <Leader>N :NERDTreeToggle<CR>
-    map <Leader>n :NERDTree<CR>
 
     " The colons are hard section
     map <Leader>; :
@@ -208,38 +225,23 @@ call pathogen#infect()
     map <Leader>x :x<CR>
 
 
-    map <Leader>c :w !xclip -selection clipboard<cr><cr>
-    map <Leader>v :r !xclip -selection clipboard -o<cr>
+    " The linux clipboard section
+    "if has('clipboard')
+    "  map <Leader>y :let @*=@"<cr>:echo Copied to system Clipboard<cr>
+    "  nnoremap <Leader>p "*p
+    "  nnoremap <Leader>P "*P
+    "else
+      map <Leader>y :w !xclip -selection clipboard<cr><cr>
+      map <Leader>p :r !xclip -selection clipboard -o<cr>
+      map <Leader>P k:r !xclip -selection clipboard -o<cr>
+    "endif
 
-    " The 'make tab switching easy' section
-
-    "map <C-t>n :tabnew<CR>
-    "map <C-t>h :tabprevious<CR>
-    "map <C-t>l :tabnext<CR>
-    "map <C-t>j :tablast<CR>
-    "map <C-t>k :tabfirst<CR>
-    "map <C-t>c :tabclose<CR>
-    "map <C-t>1 :tabnext 1<CR>
-    "map <C-t>2 :tabnext 2<CR>
-    "map <C-t>3 :tabnext 3<CR>
-    "map <C-t>4 :tabnext 4<CR>
-    "map <C-t>5 :tabnext 5<CR>
-    "map <C-t>6 :tabnext 6<CR>
-    "map <C-t>7 :tabnext 7<CR>
-    "map <C-t>8 :tabnext 8<CR>
-    "map <C-t>9 :tabnext 9<CR>
 
     " Delete current buffer, move to previous
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
 
     " Highlighting debugging:
     " map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-    " The 'I hate esc' section
-    imap jj <esc>
-
-    " CommandT
-    map <leader>T :CommandTFlush<CR>
 
     " Ruby 1.9 hash rocket helper
     " vmap <leader>rh :s/\%V\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
@@ -269,13 +271,6 @@ call pathogen#infect()
     nmap <Leader><Bar> :vsp<CR>
     nmap <Leader>-     :sp<CR>
 
-    " Sort lines inside current paragraph
-    "nmap <Leader>n :cn<CR>
-    "nmap <Leader>p :cp<CR>
-
-    " The 'make Y behave like C and D" section
-    nnoremap Y y$
-
     " Command mode readline mappings
     cnoremap <C-a> <Home>
     cnoremap <C-e> <End>
@@ -285,15 +280,6 @@ call pathogen#infect()
 
     " Folding...
     "nnoremap <Leader>f za
-
-    "if has('clipboard')
-    "  nnoremap <Leader>y :let @*=@"<cr>:echo Copied to system Clipboard<cr>
-    "  nnoremap <Leader>p "*p
-    "  nnoremap <Leader>P "*P
-    "endif
-
-    " clipper support
-    "nnoremap <leader>y :call system('nc localhost 8399', @0)<CR>
 " }
 
 " Also from @sds by way of @wincent, by way of ?
