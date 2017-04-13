@@ -1,6 +1,7 @@
 if command -v exa > /dev/null ; then
   alias ls="exa"
   alias ll="exa -lg"
+  alias tree="exa -T"
 else
   if [ "$UNAME" = Darwin ]; then
       LS_FLAGS="-hBG"
