@@ -21,14 +21,18 @@ __parse_git_branch() {
 
   local git_status="$( git status --porcelain --ignore-submodules=all -z -b -uno 2> /dev/null | head -n 2 )"
 
-  # REGEX                         1-branch                             5-diverge               6-trailing
-  if [[ ! "${git_status}" =~ ^##\ ([^.]+(\.[^.]+)*)(\.\.\.[^\ ]+)?(\ \[(ahead|behind)[^\]]+\])?(.*) ]]; then
+  if [[ "${git_status}" =~ ^##\ Initial\ commit\ on\ ([^ ]+)(.*) ]]; then
+    branch="${BASH_REMATCH[1]}"
+    dirty="${BASH_REMATCH[2]}"
+    diverge=
+  elif [[ "${git_status}" =~ ^##\ ([^.]+(\.[^.]+)*)(\.\.\.[^\ ]+)?(\ \[(ahead|behind)[^\]]+\])?(.*) ]]; then
+    # REGEX                       1-branch                             5-diverge               6-trailing
+    branch="${BASH_REMATCH[1]}"
+    diverge="${BASH_REMATCH[5]}"
+    dirty="${BASH_REMATCH[6]}"
+  else
     return
   fi
-
-  branch="${BASH_REMATCH[1]}"
-  diverge="${BASH_REMATCH[5]}"
-  dirty="${BASH_REMATCH[6]}"
 
   if [ "${diverge}" = "ahead" ]; then
     diverge="${LIGHT_YELLOW}↑"
