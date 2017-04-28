@@ -59,3 +59,6 @@
 [submodule "link/vim/bundle/YouCompleteMe"]
 	path = link/vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "link/vim/bundle/vim-jinja"]
+	path = link/vim/bundle/vim-jinja
+	url = https://github.com/lepture/vim-jinja.git
