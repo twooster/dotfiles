@@ -41,10 +41,13 @@ while true; do
     if [ "${STATE}" -gt "${LAST_STATE}" ]; then
       case "${STATE}" in
         3)
-          systemctl hybrid-sleep || critical "Unable to suspend! SYSTEM STATE AT RISK"
+          warn "Attempting to suspend NOW!"
+          sudo systemctl hybrid-sleep || \
+            sudo systemctl suspend || \
+            critical "Unable to suspend! SYSTEM STATE AT RISK"
           ;;
         2)
-          critical "Battery critically low, at ${PCT}%! Suspending at ${SUSPEND_PERCENT}%!"
+          critical "Battery critically low, at ${PCT}%! Hibernating at ${SUSPEND_PERCENT}%!"
           ;;
         1)
           warn "Battery getting low, at ${PCT}%"
