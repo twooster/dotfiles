@@ -197,6 +197,9 @@ call pathogen#infect()
     nnoremap / /\v
     vnoremap / /\V%
 
+    " The 'I don't like s and it's too close to my tmux prefix' section
+    map s <Nop>
+
     " The fuck netrw section
     map - <Nop>
 
