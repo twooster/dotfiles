@@ -25,8 +25,8 @@ __parse_git_branch() {
     branch="${BASH_REMATCH[1]}"
     dirty="${BASH_REMATCH[2]}"
     diverge=
-  elif [[ "${git_status}" =~ ^##\ ([^.]+(\.[^.]+)*)(\.\.\.[^\ ]+)?(\ \[(ahead|behind)[^\]]+\])?(.*) ]]; then
-    # REGEX                       1-branch                             5-diverge               6-trailing
+  elif [[ "${git_status}" =~ ^##\ ([^.\ ]+(\.[^.\ ]+)*)(\.\.\.[^\ ]+)?(\ \[(ahead|behind)[^\]]+\])?(.*) ]]; then
+    # REGEX                       1-branch                                 5-diverge               6-trailing
     branch="${BASH_REMATCH[1]}"
     diverge="${BASH_REMATCH[5]}"
     dirty="${BASH_REMATCH[6]}"
