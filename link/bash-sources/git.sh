@@ -13,11 +13,14 @@ if command -v git > /dev/null ; then
   alias g='git'
   alias gs='git status'
   alias gap='git add -p'
-  alias gcm='git commit -m'
   alias gol='git log --graph --oneline --decorate'
   alias gca='git commit --amend'
   alias gsu='git submodule update --init'
   alias gc='git cached'
+
+  gcm() {
+    git commit -m "$*"
+  }
 
   u() {
     local top=`git rev-parse --show-toplevel 2> /dev/null || pwd`
