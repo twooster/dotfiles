@@ -5,6 +5,7 @@ alias more="less"
 alias vimrc="vim ~/.vimrc"
 alias sr='ssh-reagent'
 alias :q='exit'
+alias ack='ag'
 #alias rc='be rails c'
 #alias rs='be rails s'
 #alias r='be rails'
