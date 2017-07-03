@@ -23,3 +23,14 @@ docker-remove-dangling-volumes() {
     echo 'Aborted.'
   fi
 }
+
+docker-remove-matching-images() {
+  matching_images="$( docker images | cut -d' ' -f1 | grep -E -e "$1" )"
+
+  echo Will erase:
+  echo ${matching_images}
+  read -p "Okay? [y/N]" yn
+  if [ $yn = 'y' ]; then
+    docker rmi ${matching_images}
+  fi
+}
