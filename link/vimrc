@@ -309,6 +309,7 @@ endif
     au FileType python     setlocal tabstop=8 softtabstop=4 shiftwidth=4 cindent
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 cindent
     au FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au FileType go         setlocal noet shiftwidth=4 tabstop=4 listchars=tab:\ \ ,eol:¬,extends:»,precedes:«,trail:•
     au FileType gitcommit  setlocal textwidth=70 fo+=t
 
     " Remove all trailing whitespace on save
