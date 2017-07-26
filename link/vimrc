@@ -155,7 +155,7 @@ call pathogen#infect()
     let g:CommandTMatchWindowReverse=1
     let g:CommandTCancelMap='<ESC>'
     let g:CommandTFileScanner='find'
-    let g:CommandTWildIgnore=&wildignore . ",*/_site/*,*/node_modules/*,*/dist/*,*/build/*,*/env/*,*/bower_components/*,*/public/*"
+    let g:CommandTWildIgnore=&wildignore . ",*/_site/*,*/node_modules/*,*/dist/*,*/build/*,*/bower_components/*,*/public/*"
     let g:CommandTTraverseSCM='pwd'
 
     map <leader>T :CommandTFlush<CR>
