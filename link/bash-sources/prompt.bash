@@ -18,9 +18,8 @@ __parse_git_branch() {
   local branch=
   local diverge=
   local dirty=
-  local index=
 
-  local branch=$( git rev-parse --abbrev-ref HEAD 2>/dev/null )
+  branch="$( git rev-parse --abbrev-ref HEAD 2>/dev/null )"
   [ $? -eq 0 ] || return
 
   if git diff --no-ext-diff --cached --quiet || git diff --no-ext-diff --quiet ; then
