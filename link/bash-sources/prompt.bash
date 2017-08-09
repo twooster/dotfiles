@@ -18,35 +18,34 @@ __parse_git_branch() {
   local branch=
   local diverge=
   local dirty=
+  local index=
 
-  local git_status="$( git status --porcelain --ignore-submodules=all -z -b -uno 2> /dev/null | head -n 2 )"
+  local branch=$( git rev-parse --abbrev-ref HEAD 2>/dev/null )
+  [ $? -eq 0 ] || return
 
-  if [[ "${git_status}" =~ ^##\ Initial\ commit\ on\ ([^ ]+)(.*) ]]; then
-    branch="${BASH_REMATCH[1]}"
-    dirty="${BASH_REMATCH[2]}"
-    diverge=
-  elif [[ "${git_status}" =~ ^##\ ([^.\ ]+(\.[^.\ ]+)*)(\.\.\.[^\ ]+)?(\ \[(ahead|behind)[^\]]+\])?(.*) ]]; then
-    # REGEX                       1-branch                                 5-diverge               6-trailing
-    branch="${BASH_REMATCH[1]}"
-    diverge="${BASH_REMATCH[5]}"
-    dirty="${BASH_REMATCH[6]}"
-  else
-    return
-  fi
-
-  if [ "${diverge}" = "ahead" ]; then
-    diverge="${LIGHT_YELLOW}↑"
-  elif [ "${diverge}" = "behind" ]; then
-    diverge="${LIGHT_YELLOW}↓"
-  else
-    diverge=
-  fi
-
-  if [ -n "${dirty}" ]; then
+  if git diff --no-ext-diff --cached --quiet || git diff --no-ext-diff --quiet ; then
     dirty="${LIGHT_RED}⚡"
   fi
 
-  printf ' [%q]%s%s' "${branch}" "${diverge}" "${dirty}"
+
+  local count="$( git rev-list --count --left-right @{u}...HEAD 2>/dev/null )"
+  case "$count" in
+    "") # no upstream
+      ;;
+    "0	0") # equal to upstream
+      #diverge="${LIGHT_YELLOW}●"
+      ;;
+    "0	"*) # ahead of upstream
+      diverge="${LIGHT_YELLOW}↑"
+      ;;
+    *"	0") # behind upstream
+      diverge="${LIGHT_YELLOW}↓"
+      ;;
+    *)      # diverged from upstream
+      diverge="${LIGHT_YELLOW}↕"
+  esac
+
+  echo " [${branch}]${diverge}${dirty}"
 }
 
 __prompt_func() {
@@ -73,6 +72,7 @@ __prompt_func() {
         local padded_rv=$(printf "%3d" "${previous_return_value}")
         PS1="${prompt}\n${BACK_RED}${padded_rv}${COLOR_NONE} "
     fi
+    return ${previous_return_value}
 }
 
 PROMPT_COMMAND="__prompt_func"
