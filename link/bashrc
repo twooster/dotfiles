@@ -62,7 +62,14 @@ esac
 # always use PASSIVE mode ftp
 export FTP_PASSIVE=1
 
-export TERM=xterm-256color
+case "${TERM}" in
+  screen*)
+    export TERM=screen-256color
+    ;;
+  *)
+    export TERM=xterm-256color
+    ;;
+esac
 export CLICOLOR=yes
 
 #-------------------------------------------------------------------------------
