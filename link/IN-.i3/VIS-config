@@ -166,11 +166,11 @@ set $mode_sysreq "*** SYSREQ: [mod-esc, l]ock, [e]nable/[d]isable xautolock, [q]
 bindsym $mod+Escape mode $mode_sysreq
 
 mode $mode_sysreq {
-  bindsym $mod+Escape mode "default", exec $locker
-  bindsym l           mode "default", exec $locker
+  bindsym $mod+Escape mode "default", exec xautolock -enable, exec $locker
+  bindsym l           mode "default", exec xautolock -enable, exec $locker
 
   bindsym d mode "default", exec xautolock -disable, exec notify-send -t 3000 "*** xautolock disabled ***"
-  bindsym e mode "default", exec xautolock -enable, exec notify-send -t 3000 "*** xautolock enabled ***"
+  bindsym e mode "default", exec xautolock -enable,  exec notify-send -t 3000 "*** xautolock enabled ***"
   bindsym q exit
   #bindsym r "i3-nagbar -t warning -m 'Restart computer?' -b 'RESTART' 'shutdown -r now'"
   #bindsym d "i3-nagbar -t warning -m 'Shutdown computer?' -b 'SHUTDOWN' 'shutdown -P now'"
