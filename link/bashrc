@@ -2,6 +2,9 @@
 # BASH INITIALIZATION
 #-------------------------------------------------------------------------------
 
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
 # the basics
 HOME=~
 LOGNAME="$(id -un)"
