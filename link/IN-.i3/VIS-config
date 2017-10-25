@@ -12,18 +12,21 @@
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 
-set $locker "gnome-screensaver-command -l"
-
 exec --no-startup-id nm-applet
 exec --no-startup-id ~/bin/battery-mon
 exec --no-startup-id compton --config ~/.config/compton -b
+
+set $locker "gnome-screensaver-command --lock"
+
 exec --no-startup-id xautolock \
-    -time 3 -detectsleep \
-    -locker $locker \
     -detectsleep \
-    -corners 0-0- \
+    -time 3 \
+    -locker $locker \
     -notify 30 \
-    -notifier "notify-send -u critical -i system-lock-screen -t 5000 -- '*** Locking screen in 30 seconds ***'"
+    -notifier "notify-send -u critical -i system-lock-screen -t 5000 -- '*** Locking screen in 30 seconds ***'" \
+    -killtime 15 \
+    -killer "systemctl suspend" \
+    -corners 0-0-
 
 set $mod Mod1
 
@@ -166,8 +169,8 @@ set $mode_sysreq "*** SYSREQ: [mod-esc, l]ock, [e]nable/[d]isable xautolock, [q]
 bindsym $mod+Escape mode $mode_sysreq
 
 mode $mode_sysreq {
-  bindsym $mod+Escape mode "default", exec xautolock -enable, exec $locker
-  bindsym l           mode "default", exec xautolock -enable, exec $locker
+  bindsym $mod+Escape mode "default", exec $locker, exec xautolock -enable
+  bindsym l           mode "default", exec $locker, exec xautolock -enable
 
   bindsym d mode "default", exec xautolock -disable, exec notify-send -t 3000 "*** xautolock disabled ***"
   bindsym e mode "default", exec xautolock -enable,  exec notify-send -t 3000 "*** xautolock enabled ***"
