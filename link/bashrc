@@ -50,6 +50,9 @@ export PATH
 export LANG="en_US.UTF-8"
 export LANGUAGE="en"
 
+# Export UID for docker happiness
+export UID
+
 # detect interactive shell
 case "$-" in
     *i*) INTERACTIVE=yes ;;
