@@ -18,7 +18,7 @@ for fzf_path in "${HOME}/.local/fzf" "${HOME}/.local/.fzf" "${HOME}/.fzf" ; do
   fi
 
   if command -v fd &>/dev/null ; then
-    export FZF_DEFAULT_COMMAND='fd --follow --type file --exclude "{.git,node_modules}/*" 2>/dev/null'
+    export FZF_DEFAULT_COMMAND='fd --follow --type file 2>/dev/null'
     export FZF_ALT_C_COMMAND='fd --follow --type directory --exclude "{.git,node_modules}/*" 2>/dev/null'
   elif command -v rg &>/dev/null ; then
     export FZF_DEFAULT_COMMAND='rg --files --follow -g "!{.git,node_modules}/*" 2> /dev/null'

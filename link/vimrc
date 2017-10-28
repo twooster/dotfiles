@@ -139,7 +139,6 @@ Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 Plug 'easymotion/vim-easymotion'
 
-Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-rails'             ", { 'for': 'ruby' }
@@ -160,15 +159,24 @@ call plug#end()
     let b:match_ignorecase = 1 " case is stupid
 " }
 
-" ack.vim settings {
-  if executable('ag')
-      let g:ackprg = 'ag --vimgrep'
-  endif
-" }
-
 " FZF settings {
+  " Teach fzf.vim about rg:
+  if executable('rg')
+    function! FzfRg(query, ...)
+      if type(a:query) != type('')
+        return s:warn('Invalid query argument')
+      endif
+      let query = empty(a:query) ? '^(?=.)' : a:query
+      let command = fzf#shellescape(query)
+      return call('fzf#vim#grep', extend(['rg --column --color always '.command, 1], a:000))
+    endfunction
+
+    command! -bang -nargs=* Ag call FzfRg(<q-args>, <bang>0)
+  endif
+
   map <Leader>t :Files<CR>
   map <Leader>b :Buffers<CR>
+  map <Leader>g :Ag<Space>
 " }
 
 "" Syntastic Settings {
@@ -181,20 +189,6 @@ call plug#end()
 "
 "    map <Leader>N :NERDTreeToggle<CR>
 "    map <Leader>n :NERDTree<CR>
-"" }
-
-
-"" CommandT Settings {
-"    let g:CommandTMaxFiles=20000
-"    let g:CommandTHighlightColor='Search'
-"    let g:CommandTMaxHeight=14
-"    let g:CommandTMatchWindowReverse=1
-"    let g:CommandTCancelMap='<ESC>'
-"    let g:CommandTFileScanner='find'
-"    let g:CommandTWildIgnore=&wildignore . ",*/_site/*,*/node_modules/*,*/dist/*,*/build/*,*/bower_components/*,*/public/*"
-"    let g:CommandTTraverseSCM='pwd'
-"
-"    map <leader>T :CommandTFlush<CR>
 "" }
 
 " Basic mappings {
