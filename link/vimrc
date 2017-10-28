@@ -4,9 +4,6 @@
 "   Originally by Robert Melton, modified heavily
 " }
 
-" Go Pathogen, go!
-call pathogen#infect()
-
 " Basics {
     set nocompatible    " explicitly get out of vi-compatible mode
     set noexrc          " don't use local version of .(g)vimrc, .exrc
@@ -121,9 +118,11 @@ call pathogen#infect()
     endif
     match OverLength /\%81v.\+/
 
-    " Turn on all python highlighting
-    let python_highlight_all = 1
-    let python_slow_sync = 1
+    " Python syntax highlighting {
+        let python_highlight_all = 1
+        let python_slow_sync = 1
+    " }
+
 " }
 
 " Folding {
@@ -131,59 +130,64 @@ call pathogen#infect()
     set foldlevel=99
 " }
 
+call plug#begin('~/.vim/plugged')
+
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'godlygeek/tabular'
+Plug 'easymotion/vim-easymotion'
+
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-fugitive'
+
+Plug 'tpope/vim-rails'             ", { 'for': 'ruby' }
+Plug 'tpope/vim-markdown'          ", { 'for': 'markdown' }
+Plug 'tpope/vim-haml'              ", { 'for': 'haml' }
+Plug 'elixir-lang/vim-elixir'      ", { 'for': 'elixir' }
+Plug 'pangloss/vim-javascript'     ", { 'for': 'javascript' }
+Plug 'mxw/vim-jsx'                 ", { 'for': 'javascript' }
+Plug 'leafgarland/typescript-vim'  ", { 'for': 'javascript' }
+Plug 'lepture/vim-jinja'           ", { 'for': 'jinja' }
+
+call plug#end()
+
 " Matchit Settings {
     let b:match_ignorecase = 1 " case is stupid
 " }
 
-
-" Syntastic Settings {
-    let g:syntastic_haml_checkers = ['haml_lint']
+" ack.vim settings {
+  if executable('ag')
+      let g:ackprg = 'ag --vimgrep'
+  endif
 " }
 
+"" Syntastic Settings {
+"    let g:syntastic_haml_checkers = ['haml_lint']
+"" }
 
-" NERDTree Settings {
-    let NERDTreeIgnore = ['\.pyc$']
 
-    map <Leader>N :NERDTreeToggle<CR>
-    map <Leader>n :NERDTree<CR>
-" }
+"" NERDTree Settings {
+"    let NERDTreeIgnore = ['\.pyc$']
+"
+"    map <Leader>N :NERDTreeToggle<CR>
+"    map <Leader>n :NERDTree<CR>
+"" }
 
-" CommandT Settings {
-    let g:CommandTMaxFiles=20000
-    let g:CommandTHighlightColor='Search'
-    let g:CommandTMaxHeight=14
-    let g:CommandTMatchWindowReverse=1
-    let g:CommandTCancelMap='<ESC>'
-    let g:CommandTFileScanner='find'
-    let g:CommandTWildIgnore=&wildignore . ",*/_site/*,*/node_modules/*,*/dist/*,*/build/*,*/bower_components/*,*/public/*"
-    let g:CommandTTraverseSCM='pwd'
 
-    map <leader>T :CommandTFlush<CR>
-" }
+"" CommandT Settings {
+"    let g:CommandTMaxFiles=20000
+"    let g:CommandTHighlightColor='Search'
+"    let g:CommandTMaxHeight=14
+"    let g:CommandTMatchWindowReverse=1
+"    let g:CommandTCancelMap='<ESC>'
+"    let g:CommandTFileScanner='find'
+"    let g:CommandTWildIgnore=&wildignore . ",*/_site/*,*/node_modules/*,*/dist/*,*/build/*,*/bower_components/*,*/public/*"
+"    let g:CommandTTraverseSCM='pwd'
+"
+"    map <leader>T :CommandTFlush<CR>
+"" }
 
-" EasyMotion Settings {
-    let g:EasyMotion_do_mapping=0  " Disable default mappings
-    let g:EasyMotion_smartcase=1
-    let g:EasyMotion_use_smartsign_us=1
-    let g:EasyMotion_startofline=0
-
-    map <C-s> <Plug>(easymotion-overwin-f)
-    map <C-a> <Plug>(easymotion-overwin-f2)
-    nmap <Leader>/ <Plug>(easymotion-sn)
-    omap <Leader>/ <Plug>(easymotion-tn)
-
-    map <C-h> <Plug>(easymotion-linebackward)
-    map <C-k> <Plug>(easymotion-k)
-    map <C-j> <Plug>(easymotion-j)
-    map <C-l> <Plug>(easymotion-lineforward)
-
-    map <C-w> <Plug>(easymotion-bd-w)
-    map <C-f> <Plug>(easymotion-bd-f)
-    map <C-t> <Plug>(easymotion-bd-t)
-" }
-
-" Mappings {
-
+" Basic mappings {
     " The Leader we've always wanted section
     map <Space> <Leader>
 
@@ -196,9 +200,6 @@ call pathogen#infect()
     " The 'sane searching' section
     nnoremap / /\v
     vnoremap / /\V%
-
-    " The 'I don't like s and it's too close to my tmux prefix' section
-    map s <Nop>
 
     " The fuck netrw section
     map - <Nop>
@@ -227,7 +228,6 @@ call pathogen#infect()
     map <Leader>w :w<CR>
     map <Leader>x :x<CR>
 
-
     " The linux clipboard section
     "if has('clipboard')
     "  map <Leader>y :let @*=@"<cr>:echo Copied to system Clipboard<cr>
@@ -239,30 +239,11 @@ call pathogen#infect()
       map <Leader>P k:r !xclip -selection clipboard -o<cr>
     "endif
 
-
     " Delete current buffer, move to previous
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
 
     " Highlighting debugging:
     " map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-    " Ruby 1.9 hash rocket helper
-    " vmap <leader>rh :s/\%V\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
-    " nmap <leader>rh :%s/\v([^:]):(\w+)(\s*)\=\>\s?/\1\2:\3/gc<cr>
-
-    " The 'tubular tabular helpers' section
-    " Align all equals
-    nmap <Leader>a= :Tabularize /=<CR>
-    vmap <Leader>a= :Tabularize /=<CR>
-    " Align all commas
-    nmap <Leader>a, :Tabularize /,\zs<CR>
-    vmap <Leader>a, :Tabularize /,\zs<CR>
-    " Align line after first colon
-    nmap <Leader>a; :Tabularize /^[^:]*:\zs<CR>
-    vmap <Leader>a; :Tabularize /^[^:]*:\zs<CR>
-    " Align first colons
-    nmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
-    vmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
 
     " Sort lines inside current paragraph
     "nmap <Leader>s mzvi}:sort<CR>`z
@@ -283,6 +264,44 @@ call pathogen#infect()
 
     " Folding...
     "nnoremap <Leader>f za
+" }
+
+" EasyMotion Settings {
+    let g:EasyMotion_do_mapping=0  " Disable default mappings
+    let g:EasyMotion_smartcase=1
+    let g:EasyMotion_use_smartsign_us=1
+    let g:EasyMotion_startofline=0
+
+    map <C-s> <Plug>(easymotion-overwin-f)
+    map <C-a> <Plug>(easymotion-overwin-f2)
+    nmap <Leader>/ <Plug>(easymotion-sn)
+    omap <Leader>/ <Plug>(easymotion-tn)
+
+    map <C-h> <Plug>(easymotion-linebackward)
+    map <C-k> <Plug>(easymotion-k)
+    map <C-j> <Plug>(easymotion-j)
+    map <C-l> <Plug>(easymotion-lineforward)
+
+    map <C-w> <Plug>(easymotion-bd-w)
+    map <C-f> <Plug>(easymotion-bd-f)
+    map <C-t> <Plug>(easymotion-bd-t)
+" }
+
+" TODO: Replace with with easy-align?
+" Tabularize settings {
+    " The 'tubular tabular helpers' section
+    " Align all equals
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    " Align all commas
+    nmap <Leader>a, :Tabularize /,\zs<CR>
+    vmap <Leader>a, :Tabularize /,\zs<CR>
+    " Align line after first colon
+    nmap <Leader>a; :Tabularize /^[^:]*:\zs<CR>
+    vmap <Leader>a; :Tabularize /^[^:]*:\zs<CR>
+    " Align first colons
+    nmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
+    vmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
 " }
 
 " Also from @sds by way of @wincent, by way of ?
