@@ -143,6 +143,7 @@
     Plug 'junegunn/vim-easy-align'
     Plug 'scrooloose/nerdcommenter'
     Plug 'easymotion/vim-easymotion'
+    "Plug 'Yggdroot/indentLine'
 
     Plug 'tpope/vim-fugitive'
 
@@ -173,6 +174,12 @@
     Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
     call plug#end()
+" }
+
+" IndentLine settings {
+    let g:indentLine_char = '┆'
+    let g:indentLine_color_term = 52
+    "let g:indentLine_bgcolor_term = 233
 " }
 
 " Matchit Settings {
