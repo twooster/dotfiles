@@ -10,6 +10,8 @@
     set background=dark " we plan to use a dark background
     let mapleader="\<Tab>"  " not a sensible leader character, but can't map
                             " space directly
+    " And this makes space work:
+    map <Space> <Leader>
     syntax on           " syntax highlighting on
 " }
 
@@ -149,6 +151,9 @@ Plug 'mxw/vim-jsx'                 ", { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim'  ", { 'for': 'javascript' }
 Plug 'lepture/vim-jinja'           ", { 'for': 'jinja' }
 
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+
 call plug#end()
 
 " Matchit Settings {
@@ -159,6 +164,11 @@ call plug#end()
   if executable('ag')
       let g:ackprg = 'ag --vimgrep'
   endif
+" }
+
+" FZF settings {
+  map <Leader>t :Files<CR>
+  map <Leader>b :Buffers<CR>
 " }
 
 "" Syntastic Settings {
@@ -188,9 +198,6 @@ call plug#end()
 "" }
 
 " Basic mappings {
-    " The Leader we've always wanted section
-    map <Space> <Leader>
-
     " The 'I hate esc' section
     imap jj <esc>
 
