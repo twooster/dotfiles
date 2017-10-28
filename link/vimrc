@@ -60,7 +60,9 @@
     set laststatus=2            " always show the status line
     set lazyredraw              " do not redraw while running macros
     set list                    " show special characters
-    set listchars=tab:▸\ ,eol:¬,extends:»,precedes:«,trail:•
+    " See autocmds for Go, where we drop the tab character
+    let s:other_list_chars = "eol:¬,extends:»,precedes:«,trail:•"
+    let &g:listchars="tab:▸\ ," . s:other_list_chars
     set matchtime=1             " how many tenths of a second to blink
                                 " matching brackets for
     set nostartofline           " leave my cursor where it was
@@ -350,7 +352,8 @@ endif
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 cindent
     au FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType php        setlocal noet shiftwidth=2 softtabstop=2 tabstop=2
-    au FileType go         setlocal noet shiftwidth=4 tabstop=4 listchars=tab:\ \ ,eol:¬,extends:»,precedes:«,trail:•
+    au FileType go         setlocal noet shiftwidth=4 tabstop=4
+                       \ | let &l:listchars = "tab:\ \ ," . s:other_list_chars
     au FileType gitcommit  setlocal textwidth=70 fo+=t
 
     " Remove all trailing whitespace on save
