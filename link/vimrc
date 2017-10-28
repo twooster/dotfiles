@@ -5,14 +5,14 @@
 " }
 
 " Basics {
-    set nocompatible    " explicitly get out of vi-compatible mode
-    set noexrc          " don't use local version of .(g)vimrc, .exrc
-    set background=dark " we plan to use a dark background
-    let mapleader="\<Tab>"  " not a sensible leader character, but can't map
-                            " space directly
+    set nocompatible       " explicitly get out of vi-compatible mode
+    set noexrc             " don't use local version of .(g)vimrc, .exrc
+    set background=dark    " we plan to use a dark background
+
+    let mapleader="\<Tab>" " not a sensible leader character, but can't map
+                           " space directly
     " And this makes space work:
     map <Space> <Leader>
-    syntax on           " syntax highlighting on
 " }
 
 " General {
@@ -32,16 +32,16 @@
     set langnoremap
     set whichwrap=b,s,~
 
-    set wildmenu " turn on command line completion wild style
+    set wildmenu                    " turn on command line completion wild style
     " ignore these list file extensions
     set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,
                     \*.jpg,*.gif,*.png,.git,*.swp
-    set wildmode=list:longest " turn on wild mode huge list
+    set wildmode=list:longest       " turn on wild mode huge list
 
     " Thanks to Wincent's vimrc for this
     if has('persistent_undo')
-      set undodir=~/.vim/tmp,.       " keep undo files out of the way
-      set undofile                        " actually use undo files
+        set undodir=~/.vim/tmp,.       " keep undo files out of the way
+        set undofile                   " actually use undo files
     endif
 
     " Makes vim always overwrite the existing file when saving (rather than
@@ -53,6 +53,7 @@
 " }
 
 " Vim UI {
+    syntax on                   " syntax highlighting on
     colorscheme molokai
     set cursorline              " highlight current line
     set incsearch               " highlight as search phrase typed
@@ -89,7 +90,7 @@
     " Disable Background Color Erase (BCE) so that color schemes
     " work properly when Vim is used inside tmux and GNU screen.
     if &term =~ '256color'
-      set t_ut=
+        set t_ut=
     endif
 " }
 
@@ -102,21 +103,21 @@
     set ignorecase         " case insensitive by default
     set infercase          " case inferred by default
     set nowrap             " do not wrap line
-"    set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
+    "set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
     set shiftwidth=2       " auto-indent amount when using cindent,
     set smartcase          " if there are caps, go case-sensitive
-"    set autondent         " Previous line indentation
     set smartindent        " Slightly smarter indentation
-"    set cindent            " Smarter still
+    "set autondent          " Previous line indentation
+    "set cindent            " Smarter still
     set softtabstop=2      " tab converted to X spaces
     set tabstop=8          " real tabs X spaces wide
 
     " Sets up past-80-column highlighting
     "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     if &t_Co > 255
-      highlight OverLength ctermbg=52 guibg=#592929
+        highlight OverLength ctermbg=52 guibg=#592929
     else
-      highlight OverLength ctermbg=1 guibg=#592929
+        highlight OverLength ctermbg=1 guibg=#592929
     endif
     match OverLength /\%81v.\+/
 
@@ -132,28 +133,45 @@
     set foldlevel=99
 " }
 
-call plug#begin('~/.vim/plugged')
+" Plugins {
+    call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'junegunn/vim-easy-align'
-Plug 'easymotion/vim-easymotion'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-surround'
+    Plug 'junegunn/vim-easy-align'
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'easymotion/vim-easymotion'
 
-Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-fugitive'
 
-Plug 'tpope/vim-rails'             ", { 'for': 'ruby' }
-Plug 'tpope/vim-markdown'          ", { 'for': 'markdown' }
-Plug 'tpope/vim-haml'              ", { 'for': 'haml' }
-Plug 'elixir-lang/vim-elixir'      ", { 'for': 'elixir' }
-Plug 'pangloss/vim-javascript'     ", { 'for': 'javascript' }
-Plug 'mxw/vim-jsx'                 ", { 'for': 'javascript' }
-Plug 'leafgarland/typescript-vim'  ", { 'for': 'javascript' }
-Plug 'lepture/vim-jinja'           ", { 'for': 'jinja' }
+    Plug 'tpope/vim-rails'             ", { 'for': 'ruby' }
+    Plug 'tpope/vim-markdown'          ", { 'for': 'markdown' }
+    Plug 'tpope/vim-haml'              ", { 'for': 'haml' }
+    Plug 'elixir-lang/vim-elixir'      ", { 'for': 'elixir' }
+    Plug 'pangloss/vim-javascript'     ", { 'for': 'javascript' }
+    Plug 'mxw/vim-jsx'                 ", { 'for': 'javascript' }
+    Plug 'leafgarland/typescript-vim'  ", { 'for': 'javascript' }
+    Plug 'lepture/vim-jinja'           ", { 'for': 'jinja' }
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+    Plug 'junegunn/fzf.vim'
 
-call plug#end()
+    " From this discussion ... I like the install guard:
+    " https://github.com/Valloric/YouCompleteMe/issues/1751
+    function! BuildYCM(info)
+        " info is a dictionary with 3 fields
+        " - name:   name of the plugin
+        " - status: 'installed', 'updated', or 'unchanged'
+        " - force:  set on PlugInstall! or PlugUpdate!
+        if a:info.status == 'installed' || a:info.force
+          !./install.py
+        endif
+    endfunction
+
+    Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+
+    call plug#end()
+" }
 
 " Matchit Settings {
     let b:match_ignorecase = 1 " case is stupid
@@ -161,22 +179,22 @@ call plug#end()
 
 " FZF settings {
   " Teach fzf.vim about rg:
-  if executable('rg')
-    function! FzfRg(query, ...)
-      if type(a:query) != type('')
-        return s:warn('Invalid query argument')
-      endif
-      let query = empty(a:query) ? '^(?=.)' : a:query
-      let command = fzf#shellescape(query)
-      return call('fzf#vim#grep', extend(['rg --column --color always '.command, 1], a:000))
-    endfunction
+    if executable('rg')
+        function! FzfRg(query, ...)
+            if type(a:query) != type('')
+              return s:warn('Invalid query argument')
+            endif
+            let query = empty(a:query) ? '^(?=.)' : a:query
+            let command = fzf#shellescape(query)
+            return call('fzf#vim#grep', extend(['rg --column --color always '.command, 1], a:000))
+        endfunction
 
-    command! -bang -nargs=* Ag call FzfRg(<q-args>, <bang>0)
-  endif
+        command! -bang -nargs=* Ag call FzfRg(<q-args>, <bang>0)
+    endif
 
-  map <Leader>t :Files<CR>
-  map <Leader>b :Buffers<CR>
-  map <Leader>g :Ag<Space>
+    map <Leader>t :Files<CR>
+    map <Leader>b :Buffers<CR>
+    map <Leader>g :Ag<Space>
 " }
 
 "" Syntastic Settings {
@@ -190,6 +208,10 @@ call plug#end()
 "    map <Leader>N :NERDTreeToggle<CR>
 "    map <Leader>n :NERDTree<CR>
 "" }
+
+" NERDCommenter Settings {
+    let g:NERDCommentEmptyLines = 1
+" }
 
 " Basic mappings {
     " The 'I hate esc' section
@@ -235,8 +257,8 @@ call plug#end()
     "  nnoremap <Leader>p "*p
     "  nnoremap <Leader>P "*P
     "else
-      map <Leader>y :w !xclip -selection clipboard<cr><cr>
-      map <Leader>p :r !xclip -selection clipboard -o<cr>
+      map <Leader>y :w  !xclip -selection clipboard<cr>
+      map <Leader>p :r  !xclip -selection clipboard -o<cr>
       map <Leader>P k:r !xclip -selection clipboard -o<cr>
     "endif
 
@@ -273,19 +295,19 @@ call plug#end()
     let g:EasyMotion_use_smartsign_us=1
     let g:EasyMotion_startofline=0
 
-    map <C-s> <Plug>(easymotion-overwin-f)
-    map <C-a> <Plug>(easymotion-overwin-f2)
+    map  <C-s>     <Plug>(easymotion-overwin-f)
+    map  <C-a>     <Plug>(easymotion-overwin-f2)
     nmap <Leader>/ <Plug>(easymotion-sn)
     omap <Leader>/ <Plug>(easymotion-tn)
 
-    map <C-h> <Plug>(easymotion-linebackward)
-    map <C-k> <Plug>(easymotion-k)
-    map <C-j> <Plug>(easymotion-j)
-    map <C-l> <Plug>(easymotion-lineforward)
+    map  <C-h>     <Plug>(easymotion-linebackward)
+    map  <C-k>     <Plug>(easymotion-k)
+    map  <C-j>     <Plug>(easymotion-j)
+    map  <C-l>     <Plug>(easymotion-lineforward)
 
-    map <C-w> <Plug>(easymotion-bd-w)
-    map <C-f> <Plug>(easymotion-bd-f)
-    map <C-t> <Plug>(easymotion-bd-t)
+    map  <C-w>     <Plug>(easymotion-bd-w)
+    map  <C-f>     <Plug>(easymotion-bd-f)
+    map  <C-t>     <Plug>(easymotion-bd-t)
 " }
 
 " vim-easy-align settings {
@@ -300,20 +322,23 @@ call plug#end()
 " Support 'bracketed-paste' mode, allowing pasting large chunks of text without
 " having to manually activate PASTE mode.
 if &term =~ "xterm.*"
-  let &t_ti = &t_ti . "\e[?2004h"
-  let &t_te = "\e[?2004l" . &t_te
-  function! XTermPasteBegin(ret)
-    set pastetoggle=<Esc>[201~
-    set paste
-    return a:ret
-  endfunction
-  map <expr> <Esc>[200~ XTermPasteBegin("i")
-  imap <expr> <Esc>[200~ XTermPasteBegin("")
-  cmap <Esc>[200~ <nop>
-  cmap <Esc>[201~ <nop>
+    let &t_ti = &t_ti . "\e[?2004h"
+    let &t_te = "\e[?2004l" . &t_te
+
+    function! XTermPasteBegin(ret)
+        set pastetoggle=<Esc>[201~
+        set paste
+        return a:ret
+    endfunction
+
+    map  <expr>     <Esc>[200~ XTermPasteBegin("i")
+    imap <expr>     <Esc>[200~ XTermPasteBegin("")
+    cmap <Esc>[200~ <nop>
+    cmap <Esc>[201~ <nop>
 endif
 
 " Autocommands {
+    " Salt state files:
     au BufNewFile,BufRead *.sls setlocal filetype=yaml
 
     au FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
@@ -350,4 +375,3 @@ if has("gui_running")
     " }
 endif
 " }
-
