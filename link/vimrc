@@ -136,7 +136,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
 
 Plug 'tpope/vim-fugitive'
@@ -288,21 +288,12 @@ call plug#end()
     map <C-t> <Plug>(easymotion-bd-t)
 " }
 
-" TODO: Replace with with easy-align?
-" Tabularize settings {
-    " The 'tubular tabular helpers' section
-    " Align all equals
-    nmap <Leader>a= :Tabularize /=<CR>
-    vmap <Leader>a= :Tabularize /=<CR>
-    " Align all commas
-    nmap <Leader>a, :Tabularize /,\zs<CR>
-    vmap <Leader>a, :Tabularize /,\zs<CR>
-    " Align line after first colon
-    nmap <Leader>a; :Tabularize /^[^:]*:\zs<CR>
-    vmap <Leader>a; :Tabularize /^[^:]*:\zs<CR>
-    " Align first colons
-    nmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
-    vmap <Leader>a: :Tabularize /^[^:]*\zs:<CR>
+" vim-easy-align settings {
+    " Start interactive EasyAlign in visual mode (e.g. vipga)
+    xmap <Leader>a <Plug>(EasyAlign)
+    "
+    " " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+    nmap <Leader>a <Plug>(EasyAlign)
 " }
 
 " Also from @sds by way of @wincent, by way of ?
