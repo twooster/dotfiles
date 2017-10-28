@@ -339,6 +339,7 @@ endif
                        \ | hi def link pythonAsync Keyword
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 cindent
     au FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au FileType php        setlocal noet shiftwidth=2 softtabstop=2 tabstop=2
     au FileType go         setlocal noet shiftwidth=4 tabstop=4 listchars=tab:\ \ ,eol:¬,extends:»,precedes:«,trail:•
     au FileType gitcommit  setlocal textwidth=70 fo+=t
 
