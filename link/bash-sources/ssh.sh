@@ -47,3 +47,5 @@ ssh-reagent() {
 }
 
 ssh-reagent -q
+
+alias sr='ssh-reagent'
