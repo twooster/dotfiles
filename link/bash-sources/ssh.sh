@@ -8,9 +8,10 @@ apply-ssh() {
 }
 
 ssh-reagent() {
-  if [ "$1" != '-f' -a -S "${SSH_AUTH_SOCK}" ]; then
-    [ "$1" = '-l' ] \
-      || echo "ssh-agent already exists and is a socket; use -f to force"
+  if [ "$1" != '-f' -a -S "${SSH_AUTH_SOCK}" ] ; then
+    if [ "$1" != '-q' ] ; then
+      echo "Socket for ssh-agent already exists; use -f to force"
+    fi
     return
   fi
 
@@ -18,7 +19,7 @@ ssh-reagent() {
   SSH_AUTH_SOCK=
 
   local agent
-  for agent in /tmp/ssh-*/agent.*; do
+  for agent in /tmp/ssh-*/agent.* ; do
     SSH_AUTH_SOCK="${agent}" ssh-add -l > /dev/null 2>&1
     # ssh-add can return exit code 1 if the agent has no identities, but
     # exit code 2 means it wasn't able to establish a connection
@@ -28,9 +29,10 @@ ssh-reagent() {
     fi
   done
 
-  if [ -z "${SSH_AUTH_SOCK}" ]; then
-    [ "$1" = '-l' ] \
-      || echo "Cannot find ssh-agent - restart ssh-agent, or forward it with ssh -A"
+  if [ -z "${SSH_AUTH_SOCK}" ] ; then
+    if [ "$1" != '-q' ] ; then
+      echo "Cannot find ssh-agent - restart ssh-agent, or forward it with ssh -A"
+    fi
   else
     SSH_AGENT_PID="${SSH_AUTH_SOCK##*agent.}"
     export SSH_AUTH_SOCK SSH_AGENT_PID
@@ -44,4 +46,4 @@ ssh-reagent() {
   fi
 }
 
-ssh-reagent -l
+ssh-reagent -q

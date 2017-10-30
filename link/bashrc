@@ -7,7 +7,6 @@
 
 # the basics
 HOME=~
-LOGNAME="$(id -un)"
 UNAME="$(uname)"
 
 # readline config
@@ -18,12 +17,6 @@ set -o emacs
 
 # Notify of background-job completion immediately
 set -o notify
-# Disable core dumps:
-ulimit -S -c 0
-# Sensible umask
-umask 0022
-# Disable flood-control CTRL-S
-stty -ixon
 
 # Add extended globbing
 shopt -s globstar 2> /dev/null
@@ -36,15 +29,22 @@ shopt -s histappend
 # enable strings with !
 set -o histexpand
 
+# Disable core dumps:
+ulimit -S -c 0
+# Sensible umask
+umask 0022
+
+# Disable flood-control CTRL-S
+stty -ixon
+
 HISTSIZE=-1
 HISTFILESIZE=-1
 HISTIGNORE="cd:ls:bg:fg:clear:exit:gp:gs:ll:..:u"
 HISTCONTROL=ignoredups
 
-PATH="/usr/local/bin:${PATH}:/usr/local/sbin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:${PATH}:/usr/local/sbin:/usr/sbin:/sbin"
 [ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
 [ -d "${HOME}/bin" ] && PATH="${HOME}/bin:${PATH}"
-export PATH
 
 # enable en_US locale w/ utf-8 encodings if not already configured
 export LANG="en_US.UTF-8"
@@ -52,18 +52,6 @@ export LANGUAGE="en"
 
 # Export UID for docker happiness
 export UID
-
-# detect interactive shell
-case "$-" in
-    *i*) INTERACTIVE=yes ;;
-    *)   unset INTERACTIVE ;;
-esac
-
-# detect login shell
-case "$0" in
-    -*) LOGIN=yes ;;
-    *)  unset LOGIN ;;
-esac
 
 # always use PASSIVE mode ftp
 export FTP_PASSIVE=1
@@ -84,6 +72,7 @@ export CLICOLOR=yes
 
 
 export EDITOR="$(command -v vim vi nvim nano pico | head -1)"
+export VISUAL="${EDITOR}"
 
 # PAGER
 if command -v less > /dev/null ; then
@@ -97,10 +86,8 @@ else
     export PAGER=more
 fi
 
-export GIT_PAGER="${PAGER}"
-export MANPAGER="${PAGER}"
-export ACK_PAGER="${PAGER}"
-export ACK_PAGER_COLOR="${PAGER}"
+#export GIT_PAGER="${PAGER}"
+#export MANPAGER="${PAGER}"
 
 #-------------------------------------------------------------------------------
 # FINALIZE SETUP

@@ -55,6 +55,7 @@
 " Vim UI {
     syntax on                   " syntax highlighting on
     colorscheme molokai
+
     set cursorline              " highlight current line
     set incsearch               " highlight as search phrase typed
     set laststatus=2            " always show the status line
@@ -66,14 +67,22 @@
     set matchtime=1             " how many tenths of a second to blink
                                 " matching brackets for
     set nostartofline           " leave my cursor where it was
-    set novisualbell            " don't blink
+
+    set visualbell              " we <3 blinking...
+    set t_vb=                   " ...not
+
     set number                  " turn on line numbers
     set numberwidth=4           " good up to 9999 lines
     set report=0                " tell us when anything is changed via :...
     set ruler                   " always show current positions along the bottom
     set scrolloff=7             " keep X lines (top/bottom) for scope
-    set shortmess=aOstTI        " shortens messages to avoid
-                                " 'press a key' prompt
+
+    set shortmess=a             " shorten the file-status indicators
+    set shortmess+=O            " warn on reading will overwrite buffer changes
+    set shortmess+=s            " no 'search hit BOTTOM' message
+    set shortmess+=tT           " truncate some messages to fit on single line
+    set shortmess+=I            " no vim intro message
+
     set showcmd                 " show the command being typed
     set showmatch               " show matching brackets
     set sidescrolloff=10        " keep X characters at the sides
@@ -102,12 +111,12 @@
     set formatoptions+=q   " Allow commenting formatting with 'gq'
     set formatoptions+=r   " Insert comment leader after hitting <enter> in INS
     set formatoptions+=j   " Remove comment leader when joining lines
-    set ignorecase         " case insensitive by default
-    set infercase          " case inferred by default
+    set ignorecase         " insert completion case insensitive by default
+    set infercase          " insert completion case inferred by default
     set nowrap             " do not wrap line
     "set shiftround         " when at 3 spaces, and I hit > ... go to 4, not 5
     set shiftwidth=2       " auto-indent amount when using cindent,
-    set smartcase          " if there are caps, go case-sensitive
+    set smartcase          " if there are caps, go case-sensitive when searching
     set smartindent        " Slightly smarter indentation
     "set autondent          " Previous line indentation
     "set cindent            " Smarter still
@@ -115,13 +124,15 @@
     set tabstop=8          " real tabs X spaces wide
 
     " Sets up past-80-column highlighting
-    "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     if &t_Co > 255
-        highlight OverLength ctermbg=52 guibg=#592929
+        highlight OverLength1 ctermbg=52 guibg=#592929
+        highlight OverLength2 ctermbg=88 guibg=#693939
     else
-        highlight OverLength ctermbg=1 guibg=#592929
+        highlight OverLength1 ctermbg=1
+        highlight OverLength2 ctermbg=9
     endif
-    match OverLength /\%81v.\+/
+    match OverLength1 /\%81v.\+/
+    2match OverLength2 /\%101v.\+/
 
     " Python syntax highlighting {
         let python_highlight_all = 1
@@ -171,7 +182,7 @@
         endif
     endfunction
 
-    Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+"    Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
     call plug#end()
 " }
