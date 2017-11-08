@@ -240,6 +240,7 @@
 
 " NERDCommenter Settings {
     let g:NERDCommentEmptyLines = 1
+    let g:NERDDefaultAlign = 'left'
 " }
 
 " Basic mappings {
