@@ -154,7 +154,16 @@
     Plug 'junegunn/vim-easy-align'
     Plug 'scrooloose/nerdcommenter'
     Plug 'easymotion/vim-easymotion'
+
     "Plug 'Yggdroot/indentLine'
+
+    Plug 'christoomey/vim-tmux-navigator'
+    " The 'make moving around windows easy' section
+    "noremap <C-h> <C-w>h
+    "noremap <C-j> <C-w>j
+    "noremap <C-k> <C-w>k
+    "noremap <C-l> <C-w>l
+
 
     Plug 'tpope/vim-fugitive'
 
@@ -250,12 +259,6 @@
     " The F1-is-too-close-to-esc section
     map <F1> <Nop>
 
-    " The 'make moving around windows easy' section
-    noremap <Leader>h <C-w>h
-    noremap <Leader>j <C-w>j
-    noremap <Leader>k <C-w>k
-    noremap <Leader>l <C-w>l
-
     " The 'visual instead of logical lines' section
     nnoremap j gj
     nnoremap k gk
@@ -277,13 +280,29 @@
     "  nnoremap <Leader>p "*p
     "  nnoremap <Leader>P "*P
     "else
-      map <Leader>y :w  !xclip -selection clipboard<cr>
+      map <Leader>y :w  !xclip -selection clipboard<cr><cr>
       map <Leader>p :r  !xclip -selection clipboard -o<cr>
       map <Leader>P k:r !xclip -selection clipboard -o<cr>
     "endif
 
     " Delete current buffer, move to previous
     nmap <leader>d :bprevious<CR>:bdelete #<CR>
+
+    " Zoom / Restore window.
+    function! s:ZoomToggle() abort
+        if exists('t:zoomed') && t:zoomed
+            execute t:zoom_winrestcmd
+            let t:zoomed = 0
+        else
+            let t:zoom_winrestcmd = winrestcmd()
+            resize
+            vertical resize
+            let t:zoomed = 1
+        endif
+    endfunction
+    command! ZoomToggle call s:ZoomToggle()
+    nnoremap <silent> <Leader>z :ZoomToggle<CR>
+
 
     " Highlighting debugging:
     " map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
@@ -320,10 +339,10 @@
     nmap <Leader>/ <Plug>(easymotion-sn)
     omap <Leader>/ <Plug>(easymotion-tn)
 
-    map  <C-h>     <Plug>(easymotion-linebackward)
-    map  <C-k>     <Plug>(easymotion-k)
-    map  <C-j>     <Plug>(easymotion-j)
-    map  <C-l>     <Plug>(easymotion-lineforward)
+    map  <Leader>h  <Plug>(easymotion-linebackward)
+    map  <Leader>k  <Plug>(easymotion-k)
+    map  <Leader>j  <Plug>(easymotion-j)
+    map  <Leader>l  <Plug>(easymotion-lineforward)
 
     map  <C-w>     <Plug>(easymotion-bd-w)
     map  <C-f>     <Plug>(easymotion-bd-f)
@@ -341,7 +360,7 @@
 " Also from @sds by way of @wincent, by way of ?
 " Support 'bracketed-paste' mode, allowing pasting large chunks of text without
 " having to manually activate PASTE mode.
-if &term =~ "xterm.*"
+if &term =~ "xterm.*" || &term =~ "screen-*"
     let &t_ti = &t_ti . "\e[?2004h"
     let &t_te = "\e[?2004l" . &t_te
 
