@@ -363,7 +363,7 @@
 " Also from @sds by way of @wincent, by way of ?
 " Support 'bracketed-paste' mode, allowing pasting large chunks of text without
 " having to manually activate PASTE mode.
-if &term =~ "xterm.*" || &term =~ "screen-*"
+if &term =~ "xterm.*" || &term =~ "screen-*" || &term =~ "tmux-*"
     let &t_ti = &t_ti . "\e[?2004h"
     let &t_te = "\e[?2004l" . &t_te
 
