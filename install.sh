@@ -6,7 +6,7 @@ else
     LINK_FLAGS=-ns
 fi
 
-export DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export DOTFILES_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd )"
 export AUTOLINK_DIR="${DOTFILES_DIR}/link"
 export AUTORUN_DIR="${DOTFILES_DIR}/run"
 
@@ -16,24 +16,29 @@ autolink_all()
 {
     debug Autolinking all in $1 to $2
     local file
-    for file in $( find "$1" -maxdepth 1 -mindepth 1 ); do
-        local trunc="${file##*/}"
-        case "${trunc}" in
-          IN-*)
-              local dir="$2/${trunc##IN-}"
-              if [ ! -d "$dir" ]; then
-                info Directory $dir does not exist, attempting to create...
-                mkdir $dir || fatal Could not create folder!
-              fi
-              autolink_all "${file}" "$2/${trunc##IN-}"
-              ;;
-          VIS-*)
-              link "${file}" "$2/${trunc##VIS-}"
-              ;;
-          *)
-              link "${file}" "$2/.${trunc}"
-            ;;
-        esac
+    find "$1" -maxdepth 1 -mindepth 1 -not -path '\.*' -print0 \
+    | while IFS= read -d '' -r file ; do
+        local name="${file##*/}"
+        if [[ "${name}" == _* ]] ; then
+              name=".${name#_}"
+        fi
+        local target="$2/${name}"
+
+        if [ -d "${file}" ] ; then
+            local strategy=link
+	    if [ -e "${file}/.dotfiles-strategy" ] ; then
+                strategy="$( cat "${file}/.dotfiles-strategy" )"
+            fi
+            if [ "${strategy}" = "merge" ] ; then
+                if [ ! -d "${target}" ]; then
+                    info Directory ${target} does not exist, attempting to create...
+                    mkdir "${target}" || fatal Could not create folder!
+                fi
+                autolink_all "${file}" "${target}"
+                continue
+            fi
+        fi
+        link "${file}" "${target}"
     done
 }
 
@@ -77,46 +82,30 @@ backup_rename()
     mv "$1" "$1~$i" || warn Backup failed
 }
 
-copy()
-{
-    local source="$1"
-    local target="$2"
-    info COPY ${source} to ${target}
-    # Note we have to test for symlink in case the symlink is dead
-    if [ -e "${target}" ]; then
-        backup_rename "${target}"
-    fi
-    if [ ! -f "${target}" ]; then
-        cp -R "${source}" "${target}" || warn cp failed ${source} to ${target}
-    else
-        warn Target exists, skipping: ${source} to ${target}
-    fi
-}
-
 link()
 {
     local source="$1"
     local target="$2"
     info LINK ${source} to ${target}
     # Note we have to test for symlink in case the symlink is dead
-    if [ -e "${target}" ]; then
-        if [ -h "${target}" ]; then
-            # Symbolic link, so...
-            local rl=$( readlink "${target}" )
-            case "${rl}" in
-              "${AUTOLINK_DIR}"*)
-                debug Removing existing autolink ${target}
-                rm "${target}" || warn Removal failed: ${target}
-                ;;
-              *)
-                backup_rename "${target}"
-                ;;
-            esac
-        else
+    if [ -h "${target}" ]; then
+        # Symbolic link, so...
+        local rl=$( readlink "${target}" )
+        case "${rl}" in
+          "${AUTOLINK_DIR}"*)
+            debug Removing existing autolink ${target}
+            rm "${target}" || warn Removal failed: ${target}
+            ;;
+          *)
             backup_rename "${target}"
-        fi
+            ;;
+        esac
+    elif [ -e "${target}" ]; then
+        backup_rename "${target}"
     fi
-    if [ ! -f "${target}" ]; then
+
+    if [ ! -e "${target}" ]; then
+	debug Linking "${source}" to "${target}"
         ln ${LINK_FLAGS} "${source}" "${target}" || warn ln failed ${source} to ${target}
     else
         warn Target exists, skipping: ${source} to ${target}
