@@ -14,27 +14,38 @@ VERBOSE=
 
 autolink_all()
 {
-    debug Autolinking all in $1 to $2
+    local default_strategy="link"
+    if [ "$3" = "merge-recursive" ] ; then
+      default_strategy=merge-recursive
+    fi
+    debug Autolinking all in $1 to $2 with strategy ${default_strategy}
     local file
     find "$1" -maxdepth 1 -mindepth 1 -not -path '\.*' -print0 \
     | while IFS= read -d '' -r file ; do
         local name="${file##*/}"
-        if [[ "${name}" == _* ]] ; then
-              name=".${name#_}"
+        if [[ "${name}" == __* ]] ; then
+            # __foo -> foo
+            # therefore, ___foo -> _foo
+            name="${name#__}"
+        elif [[ "${name}" == _* ]] ; then
+            # _foo -> .foo
+            name=".${name#_}"
         fi
         local target="$2/${name}"
 
         if [ -d "${file}" ] ; then
-            local strategy=link
+            local strategy="${default_strategy}"
 	    if [ -e "${file}/.dotfiles-strategy" ] ; then
                 strategy="$( cat "${file}/.dotfiles-strategy" )"
             fi
-            if [ "${strategy}" = "merge" ] ; then
+            if [ "${strategy}" = "merge" -o "${strategy}" = "merge-recursive" ] ; then
                 if [ ! -d "${target}" ]; then
-                    info Directory ${target} does not exist, attempting to create...
-                    mkdir "${target}" || fatal Could not create folder!
+                    if [ -e "${target}" ]; then
+                      fatal "Destination folder ${target} (for ${file}) exists but is not a directory!"
+                    fi
+                    mkdir "${target}" || fatal Could not create directory "${target}"
                 fi
-                autolink_all "${file}" "${target}"
+                autolink_all "${file}" "${target}" "${strategy}"
                 continue
             fi
         fi
@@ -127,7 +138,7 @@ info GIT Updating submodules
 git submodule update --init
 
 autorun_all  "${AUTORUN_DIR}"
-autolink_all "${AUTOLINK_DIR}" "${HOME}"
+autolink_all "${AUTOLINK_DIR}" "${HOME}" "link"
 
 info SOURCE bashrc
 . ~/.bashrc
