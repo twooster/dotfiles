@@ -50,6 +50,8 @@
     set backupcopy=yes
     set directory=~/.vim-tmp/swap//,.
     set backupdir=~/.vim-tmp/backup//,.
+
+    set mouse=a
 " }
 
 " Vim UI {
