@@ -2,5 +2,5 @@
 #bind '"\e\e[C": forward-word'
 #bind '"\e\e[B": end-of-line'
 #bind '"\e\e[A": beginning-of-line'
-# Ctrl-E:
-bind '"\005": clear-screen'
+# Ctrl-Q:
+bind '"\021": clear-screen'
