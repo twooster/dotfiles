@@ -382,6 +382,7 @@ endif
 " Autocommands {
     " Salt state files:
     au BufNewFile,BufRead *.sls setlocal filetype=yaml
+    au BufNewFile,BufRead *.vue setlocal filetype=html
 
     au FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType python     setlocal tabstop=8 softtabstop=4 shiftwidth=4 cindent
