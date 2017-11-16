@@ -1,0 +1,177 @@
+{
+    // Prevents vscode from capturing capslock on remapped keyboard
+    "keyboard.dispatch": "keyCode",
+
+    "editor.renderWhitespace": "boundary",
+    "editor.fontSize": 13,
+    "editor.rulers": [80, 120],
+    "terminal.integrated.fontSize": 13,
+    "editor.fontFamily": "'Input', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "workbench.colorTheme": "Monokai",
+    "window.zoomLevel": -1,
+
+    "scrolloff.scrolloff": 10,
+    "vim.useSystemClipboard": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j","j"],
+            "after":  ["<Esc>"]
+        }
+    ],
+
+    "alignment.surroundSpace": {
+        "colon":      [-1, 1],
+        "assignment": [1, 1],
+        "arrow":      [1, 1],
+        "comment":    2
+    },
+
+    "vim.leader": "<space>",
+    "vim.easymotion": true,
+    "vim.otherModesKeyBindingsNonRecursive": [
+        {
+            "before":   ["<leader>","\\"],
+            "after":    [],
+            "commands": [
+                {
+                    "command": "workbench.action.splitEditor"
+                }
+            ]
+        }
+        ,
+        {
+            "before":   ["<leader>", "t"],
+            "after":    [],
+            "commands": [
+                {
+                    "command": "workbench.action.quickOpen"
+                }
+            ]
+        }
+        ,
+        {
+            "before":   ["<leader>", "x"],
+            "after":    [],
+            "commands": [
+                {
+                    "command": "workbench.action.files.save"
+                },
+                {
+                    "command": "workbench.action.closeActiveEditor"
+                }
+            ]
+        }
+        ,
+        {
+            "before":   ["<leader>", "q"],
+            "after":    [],
+            "commands": [
+                {
+                    "command": "workbench.action.closeActiveEditor"
+                }
+            ]
+        }
+        ,
+        {
+            "before":   ["<leader>", "w"],
+            "after":    [],
+            "commands": [
+                {
+                    "command": "workbench.action.files.save"
+                }
+            ]
+        }
+        ,
+        { 
+            "before":   ["<c-b>"],
+            "after":    [],
+            "commands": [
+                {
+                    "command": "workbench.action.toggleSidebarVisibility"
+                }
+            ]
+        }
+        ,
+        { 
+            "before":   ["<leader>", "a"],
+            "after":    [],
+            "commands": [
+                {
+                    "command": "wwm.aligncode"
+                }
+            ]
+        }
+        ,
+        {
+            "before": ["<leader>", "e"],
+            "after":  [],
+            "commands": [
+                {
+                    "command": "workbench.view.explorer"
+                }
+            ]
+        }
+        ,
+        {
+            "before": ["<leader>", "k", "z"],
+            "after":  [],
+            "commands": [
+                {
+                    "command": "workbench.action.toggleZenMode"
+                }
+            ]
+        }
+        ,
+        {
+            "before": ["<leader>", "k", "x"],
+            "after":  [],
+            "commands": [
+                {
+                    "command": "workbench.view.extensions"
+                }
+            ]
+        }
+        ,
+        {
+            "before": ["<leader>", "k", "s"],
+            "after":  [],
+            "commands": [
+                {
+                    "command": "workbench.action.openGlobalKeybindings"
+                }
+            ]
+        }
+        ,
+        {
+            "before": ["<c-u>"],
+            "after":  ["1", "5", "k"]
+        }
+        ,
+        {
+            "before": ["<c-d>"],
+            "after":  ["1", "5", "j"]
+        }
+        ,
+        {
+            "before": ["<c-j>"],
+            "after":  ["<c-w>", "j"]
+        }
+        ,
+        {
+            "before": ["<c-k>"],
+            "after":  ["<c-w>", "k"]
+        }
+        ,
+        {
+            "before": ["<c-h>"],
+            "after":  ["<c-w>", "h"]
+        }
+        ,
+        {
+            "before": ["<c-l>"],
+            "after":  ["<c-w>", "l"]
+        }
+    ],
+    "workbench.statusBar.visible": true,
+    "editor.minimap.enabled": false,
+}
