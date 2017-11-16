@@ -26,6 +26,22 @@
         "comment":    2
     },
 
+    "extension-manager.extensions": [
+        "BriteSnow.vscode-toggle-quotes",
+        "PeterJausovec.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "hoovercj.vscode-settings-cycler",
+        "liuji-jim.vue",
+        "mjmcloug.vscode-elixir",
+        "octref.vetur",
+        "s3gf4ult.monokai-vibrant",
+        "tickleforce.scrolloff",
+        "vilicvane.es-quotes",
+        "vscodevim.vim",
+        "webstp.extension-manager",
+        "wwm.better-align"
+    ],
+
     "vim.leader": "<space>",
     "vim.easymotion": true,
     "vim.otherModesKeyBindingsNonRecursive": [
@@ -82,7 +98,7 @@
             ]
         }
         ,
-        { 
+        {
             "before":   ["<c-b>"],
             "after":    [],
             "commands": [
@@ -92,7 +108,7 @@
             ]
         }
         ,
-        { 
+        {
             "before":   ["<leader>", "a"],
             "after":    [],
             "commands": [
@@ -108,6 +124,16 @@
             "commands": [
                 {
                     "command": "workbench.view.explorer"
+                }
+            ]
+        }
+        ,
+        {
+            "before": ["<leader>", "k", "f"],
+            "after":  [],
+            "commands": [
+                {
+                    "command": "workbench.action.toggleFullScreen"
                 }
             ]
         }
@@ -140,6 +166,26 @@
                     "command": "workbench.action.openGlobalKeybindings"
                 }
             ]
+        }
+        ,
+        {
+            "before": ["<c-bs>"],
+            "after":  [],
+            "commands": [
+                {
+                    "command": "editor.action.trimTrailingWhitespace"
+                }
+            ]
+        }
+        ,
+        {
+            "before": ["<leader>", "'"],
+            "after":  ["c", "s", "\"", "'"]
+        }
+        ,
+        {
+            "before": ["<leader>", "\""],
+            "after":  ["c", "s", "'", "\""]
         }
         ,
         {

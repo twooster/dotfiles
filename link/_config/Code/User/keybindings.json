@@ -1,18 +1,29 @@
-// Place your key bindings in this file to overwrite the defaults
 [
     {
-        "key": "ctrl+h",
+        "key":     "ctrl+h",
         "command": "extension.vim_ctrl+h",
-        "when": "vim.active && vim.use<C-h> && !inDebugRepl"
-    },
-    {
-        "key": "ctrl+l",
-        "command": "extension.vim_navigateRight",
-        "when": "vim.active && !inDebugRepl"
-    },
-    {
-        "command": "hideSuggestWidget",
-        "key": "escape",
-        "when": "editorTextFocus && suggestWidgetVisible"
+        "when":    "vim.active && vim.use<C-h> && !inDebugRepl"
     }
+    ,
+    {
+        "key":     "ctrl+l",
+        "command": "extension.vim_navigateRight",
+        "when":    "vim.active && !inDebugRepl"
+    }
+    ,
+    {
+        "key":     "ctrl+backspace",
+        "command": "editor.action.trimTrailingWhitespace",
+        "when":    "editorTextFocus && !editorReadonly"
+    }
+    ,
+    {
+        "key":     "escape",
+        "command": "hideSuggestWidget",
+        "when":    "editorTextFocus && suggestWidgetVisible"
+    },
+    {
+        "key": "meta+'",
+        "command": "-editor.togglequotes"
+    },
 ]
