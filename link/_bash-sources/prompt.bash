@@ -22,7 +22,7 @@ __parse_git_branch() {
   branch="$( git rev-parse --abbrev-ref HEAD 2>/dev/null )"
   [ $? -eq 0 ] || return
 
-  if git diff --no-ext-diff --cached --quiet || git diff --no-ext-diff --quiet ; then
+  if git diff --no-ext-diff --cached --quiet 2>/dev/null || git diff --no-ext-diff --quiet 2>/dev/null ; then
     dirty="${LIGHT_RED}⚡"
   fi
 
