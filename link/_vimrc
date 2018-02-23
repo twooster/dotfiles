@@ -198,6 +198,10 @@
     call plug#end()
 " }
 
+" christoomey/vim-tmux-navigator settings {
+    let g:tmux_navigator_disable_when_zoomed = 1
+" }
+
 " IndentLine settings {
     let g:indentLine_char = '┆'
     let g:indentLine_color_term = 52
@@ -347,7 +351,7 @@
     map  <Leader>j  <Plug>(easymotion-j)
     map  <Leader>l  <Plug>(easymotion-lineforward)
 
-    map  <C-w>     <Plug>(easymotion-bd-w)
+"    map  <C-w>     <Plug>(easymotion-bd-w)
     map  <C-f>     <Plug>(easymotion-bd-f)
     map  <C-t>     <Plug>(easymotion-bd-t)
 " }
@@ -397,8 +401,16 @@ endif
                        \ | let &l:listchars = "tab:\ \ ," . s:other_list_chars
     au FileType gitcommit  setlocal textwidth=70 fo+=t
 
+    fun! StripTrailingWhitespace()
+        " Don't strip on these filetypes
+        if &ft =~ '^diff$'
+            return
+        endif
+        %s/\s\+$//e
+    endfun
+
     " Remove all trailing whitespace on save
-    au BufWritePre * :%s/\s\+$//e
+    autocmd BufWritePre * call StripTrailingWhitespace()
 
     " disable paste mode on leaving insert mode (thanks @wincent)
     au InsertLeave * set nopaste
