@@ -31,6 +31,8 @@
         rbc = rebase --continue
         sui = submodule update --init
         apum = !sh -c 'UM=$(git diff --name-status --diff-filter=U | cut -f2) git reset -- "${UM}" && git add -p "${UM}"'
+        ol = log --graph --oneline --decorate
+        pso = !sh -c 'git push --set-upstream origin "$( git rev-parse --abbrev-ref HEAD )"'
 
 [core]
         excludesfile = ~/.gitconfig-ignore
