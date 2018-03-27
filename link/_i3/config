@@ -96,11 +96,11 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $ws1 1:term
-set $ws2 2:misc
-set $ws3 3:web
-set $ws9 9:pass
-set $ws10 10:muzak
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws9 9
+set $ws10 10
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -125,8 +125,8 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
-bindsym $mod+Tab workspace next
-bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+Left move workspace to output left
+bindsym $mod+Right move workspace to output right
 
 # Volume control
 bindsym XF86AudioRaiseVolume exec "~/bin/cb-vol-up; ~/bin/cb-beep"
@@ -165,16 +165,15 @@ mode "*** RESIZE ***" {
   bindsym Escape mode "default"
 }
 
-set $mode_sysreq "*** SYSREQ: [mod-esc, l]ock, [e]nable/[d]isable xautolock, [q]uit, [s]leep, [h]ibernate ***"
+set $mode_sysreq "*** SYSREQ: [mod-esc] lock, [e]nable/[d]isable xautolock, [shift+q]uit, [s]leep, [h]ibernate ***"
 bindsym $mod+Escape mode $mode_sysreq
 
 mode $mode_sysreq {
   bindsym $mod+Escape mode "default", exec $locker, exec xautolock -enable
-  bindsym l           mode "default", exec $locker, exec xautolock -enable
 
   bindsym d mode "default", exec xautolock -disable, exec notify-send -t 3000 "*** xautolock disabled ***"
   bindsym e mode "default", exec xautolock -enable,  exec notify-send -t 3000 "*** xautolock enabled ***"
-  bindsym q exit
+  bindsym Shift+q exit
   #bindsym r "i3-nagbar -t warning -m 'Restart computer?' -b 'RESTART' 'shutdown -r now'"
   #bindsym d "i3-nagbar -t warning -m 'Shutdown computer?' -b 'SHUTDOWN' 'shutdown -P now'"
   bindsym s mode "default", exec systemctl suspend
