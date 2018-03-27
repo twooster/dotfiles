@@ -20,17 +20,15 @@
         cpa = cherry-pick --abort
         cpc = cherry-pick --continue
         cp = cherry-pick
-        dc = diff --cached
-        fix = "!f(){ OVERCOMMIT_DISABLED=1 git rebase --autosquash -i \"${1:-$( git merge-base HEAD @{u}  )}\" ; }; f"
+        fix = "!f(){ git rebase --no-verify --autosquash -i \"${1:-$( git merge-base HEAD @{u}  )}\" ; }; f"
         forget = rm --cache --
         from = !sh -c 'git fetch && git rebase origin/master'
         fro = !sh -c 'git fetch && git rebase "origin/$1"'
         fu = commit --fixup
-        hard = reset --hard
         rba = rebase --abort
         rbc = rebase --continue
         sui = submodule update --init
-        apum = !sh -c 'UM=$(git diff --name-status --diff-filter=U | cut -f2) git reset -- "${UM}" && git add -p "${UM}"'
+        apum = "!sh -c 'UM=$(git diff --name-status --diff-filter=U | cut -f2) ; git reset -- ${UM} && git add -p ${UM}'"
         ol = log --graph --oneline --decorate
         pso = !sh -c 'git push --set-upstream origin "$( git rev-parse --abbrev-ref HEAD )"'
 
