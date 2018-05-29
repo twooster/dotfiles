@@ -13,3 +13,4 @@
 --type-set=txt=.txt
 --type-add=ruby=.rake
 --type-set=crontab=.crontab
+--follow
