@@ -14,7 +14,7 @@
 
 exec --no-startup-id nm-applet
 exec --no-startup-id ~/bin/battery-mon
-exec --no-startup-id compton --config ~/.config/compton -b
+#exec --no-startup-id compton --config ~/.config/compton -b
 
 set $locker "gnome-screensaver-command --lock"
 
@@ -46,7 +46,18 @@ font pango:DejaVu Sans Mono 8
 floating_modifier $mod
 
 # fixup the windows
-bindsym $mod+x exec xrandr --auto
+set $mode_xrandr "*** XRANDR *** (a)uto, external (s)creens"
+bindsym $mod+x mode $mode_xrandr
+mode $mode_xrandr {
+  # These bindings trigger as soon as you enter the resize mode
+
+  bindsym a mode "default", exec xrandr --auto
+  bindsym s mode "default", exec xrandr --output DP-1 --left-of LVDS-1
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
@@ -135,6 +146,10 @@ bindsym $mod+Right move workspace to output right
 bindsym XF86AudioRaiseVolume exec "~/bin/cb-vol-up; ~/bin/cb-beep"
 bindsym XF86AudioLowerVolume exec "~/bin/cb-vol-down; ~/bin/cb-beep"
 bindsym XF86AudioMute exec "~/bin/cb-vol-mute; ~/bin/cb-beep"
+bindsym XF86AudioPlay exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+bindsym XF86AudioStop exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
+bindsym XF86AudioNext exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+bindsym XF86AudioPrev exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
