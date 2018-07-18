@@ -59,7 +59,7 @@ export FTP_PASSIVE=1
 # Is this even necessary?
 case "${TERM}" in
   tmux*)
-    export TERM=tmux-256color
+    export TERM=screen-256color
     ;;
   screen*)
     export TERM=screen-256color
