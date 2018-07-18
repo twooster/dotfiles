@@ -16,7 +16,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id ~/bin/battery-mon
 #exec --no-startup-id compton --config ~/.config/compton -b
 
-set $locker "gnome-screensaver-command --lock"
+set $locker "i3lock"
 
 exec --no-startup-id xautolock \
     -detectsleep \
