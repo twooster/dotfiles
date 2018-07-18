@@ -13,7 +13,9 @@ case "$(uname -r)" in
   *galliumos*) setup_for_chromebook ;;
 esac
 
-if [ "$( cat /sys/devices/virtual/dmi/id/product_version )" = "ThinkPad X230" ]; then
+PROD_VER=$( cat /sys/devices/virtual/dmi/id/product_version )
+if [ "${PROD_VER}" = "ThinkPad X230" -o \
+     "${PROD_VER}" = "ThinkPad X1 Carbon 6th" ]; then
   setxkbmap -layout us -option ctrl:nocaps
 #  xmodmap -e 'keycode 66 = Control_L'
 #  xmodmap -e 'clear Lock'
