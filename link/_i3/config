@@ -20,7 +20,7 @@ set $locker "i3lock"
 
 exec --no-startup-id xautolock \
     -detectsleep \
-    -time 3 \
+    -time 2 \
     -locker $locker \
     -notify 30 \
     -notifier "notify-send -u critical -i system-lock-screen -t 5000 -- '*** Locking screen in 30 seconds ***'" \
