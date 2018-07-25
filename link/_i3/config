@@ -143,9 +143,9 @@ bindsym $mod+Left move workspace to output left
 bindsym $mod+Right move workspace to output right
 
 # Volume control
-bindsym XF86AudioRaiseVolume exec "~/bin/cb-vol-up; ~/bin/cb-beep"
-bindsym XF86AudioLowerVolume exec "~/bin/cb-vol-down; ~/bin/cb-beep"
-bindsym XF86AudioMute exec "~/bin/cb-vol-mute; ~/bin/cb-beep"
+bindsym XF86AudioRaiseVolume exec "~/bin/vol-up; ~/bin/vol-beep"
+bindsym XF86AudioLowerVolume exec "~/bin/vol-down; ~/bin/vol-beep"
+bindsym XF86AudioMute exec "~/bin/vol-mute; ~/bin/vol-beep"
 bindsym XF86AudioPlay exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
 bindsym XF86AudioStop exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
 bindsym XF86AudioNext exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next

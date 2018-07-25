@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+if command -v xclip 2>&1 > /dev/null ; then
+  exec xclip -selection c
+elif command -v xsel 2>&1 > /dev/null ; then
+  exec xsel -ib
+fi

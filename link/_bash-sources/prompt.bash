@@ -90,7 +90,7 @@ __prompt_func() {
 
     # Write history every prompt call
     history -a
-    __rebuild_dynamic_binpath
+    #__rebuild_dynamic_binpath
 
     if [[ -n "${VIRTUAL_ENV}" ]]; then
         venv="${LIGHT_RED}$( basename -z -- ${VIRTUAL_ENV} )${LIGHT_GRAY}:"

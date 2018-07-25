@@ -1,7 +1,0 @@
-#!/bin/sh
-if [ "$( uname -s )" = "Linux" ] ; then
-  xclip -in -selection clipboard
-else
-  echo Unknown system.
-  exit 1
-fi

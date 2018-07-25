@@ -22,14 +22,29 @@ if command -v git > /dev/null ; then
     git commit -m "$*"
   }
 
-  u() {
-    local top=`git rev-parse --show-toplevel 2> /dev/null || pwd`
-    cd "${top}/$1"
+  __u_dir() {
+    local dir=$( dirname "${PWD}" )
+    local chg=$PWD
+
+    while : ; do
+      if [ -e "${dir}/.git" -o -e "${dir}/.ustop" ] ; then
+        chg="${dir}"
+        break
+      fi
+      if [ "${dir}" = "/" ] ; then break ; fi
+      dir=$( dirname "${dir}" )
+    done
+
+    echo "${chg}"
   }
 
-  _u_completion() {
-    local top=`git rev-parse --show-toplevel 2> /dev/null || pwd`
-    COMPREPLY=( $( cd "$top"; compgen -d "${COMP_WORDS[COMP_CWORD]}" ) )
+  __u_completion() {
+    COMPREPLY=( $( cd "$( __u_dir )"; compgen -d "${COMP_WORDS[COMP_CWORD]}" ) )
   }
+
+  u() {
+    cd "$( __u_dir )/$1"
+  }
+
   complete -o filenames -o nospace -F _u_completion u
 fi
