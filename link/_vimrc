@@ -40,16 +40,19 @@
 
     " Thanks to Wincent's vimrc for this
     if has('persistent_undo')
-        set undodir=~/.vim/tmp,.       " keep undo files out of the way
-        set undofile                   " actually use undo files
+        set undodir=~/.vim/tmp/undo//,.   " keep undo files out of the way
+        set undofile                      " actually use undo files
     endif
+
+    " For swap files
+    set directory=~/.vim/tmp/swap//,.
+
 
     " Makes vim always overwrite the existing file when saving (rather than
     " doing a copy/rename); this is 'slower' but shouldn't matter on modern
     " machines, and plays nicely with common file-watching/rebuild strategies
     set backupcopy=yes
-    set directory=~/.vim-tmp/swap//,.
-    set backupdir=~/.vim-tmp/backup//,.
+    set backupdir=~/.vim/tmp/backup//,.
 
     set mouse=a
 " }
