@@ -20,46 +20,52 @@ warn() {
   notify normal WARNING: "$@"
 }
 
-BAT_ENV_STATUS_FILE="/sys/class/power_supply/BAT${BATTERY}/uevent"
+BAT="/sys/class/power_supply/BAT${BATTERY}"
 LAST_STATE=0
 
-while true; do
-  . "${BAT_ENV_STATUS_FILE}"
+main() {
+  while true; do
+    POWER_SUPPLY_ENERGY_NOW=$( cat ${BAT}/energy_now )
+    POWER_SUPPLY_ENERGY_FULL_DESIGN=$( cat ${BAT}/energy_full_design )
+    POWER_SUPPLY_STATUS=$( cat ${BAT}/status )
 
-  PCT=$(( ${POWER_SUPPLY_ENERGY_NOW} * 100 / ${POWER_SUPPLY_ENERGY_FULL_DESIGN} ))
-  if [ "${PCT}" -le "${SUSPEND_PERCENT}" ]; then
-    STATE=3
-  elif [ "${PCT}" -le "${CRITICAL_PERCENT}" ]; then
-    STATE=2
-  elif [ "${PCT}" -le "${WARN_PERCENT}" ]; then
-    STATE=1
-  else
-    STATE=0
-  fi
-
-  if [ "${POWER_SUPPLY_STATUS}" = "Discharging" ]; then
-    if [ "${STATE}" -gt "${LAST_STATE}" ]; then
-      case "${STATE}" in
-        3)
-          warn "Attempting to suspend NOW!"
-          sudo systemctl hybrid-sleep || \
-            sudo systemctl suspend || \
-            critical "Unable to suspend! SYSTEM STATE AT RISK"
-          ;;
-        2)
-          critical "Battery critically low, at ${PCT}%! Hibernating at ${SUSPEND_PERCENT}%!"
-          ;;
-        1)
-          warn "Battery getting low, at ${PCT}%"
-          ;;
-        *)
-          true
-          ;;
-      esac
+    PCT=$(( ${POWER_SUPPLY_ENERGY_NOW} * 100 / ${POWER_SUPPLY_ENERGY_FULL_DESIGN} ))
+    if [ "${PCT}" -le "${SUSPEND_PERCENT}" ]; then
+      STATE=3
+    elif [ "${PCT}" -le "${CRITICAL_PERCENT}" ]; then
+      STATE=2
+    elif [ "${PCT}" -le "${WARN_PERCENT}" ]; then
+      STATE=1
+    else
+      STATE=0
     fi
-  fi
 
-  LAST_STATE="${STATE}"
+    if [ "${POWER_SUPPLY_STATUS}" = "Discharging" ]; then
+      if [ "${STATE}" -gt "${LAST_STATE}" ]; then
+        case "${STATE}" in
+          3)
+            warn "Attempting to suspend NOW!"
+            sudo systemctl hybrid-sleep || \
+              sudo systemctl suspend || \
+              critical "Unable to suspend! SYSTEM STATE AT RISK"
+            ;;
+          2)
+            critical "Battery critically low, at ${PCT}%! Hibernating at ${SUSPEND_PERCENT}%!"
+            ;;
+          1)
+            warn "Battery getting low, at ${PCT}%"
+            ;;
+          *)
+            true
+            ;;
+        esac
+      fi
+    fi
 
-  sleep "${SLEEP_TIME}"
-done
+    LAST_STATE="${STATE}"
+
+    sleep "${SLEEP_TIME}"
+  done
+}
+
+main
