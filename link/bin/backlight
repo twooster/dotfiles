@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+
+set -e
+shopt -s nullglob
+
+__fatal() {
+  echo "$@" >&2
+  exit 1
+}
+
+__get_first_backlight() {
+  for file in /sys/class/backlight/* ; do
+    echo "${file}"
+    break
+  done
+}
+
+__setup() {
+  backlight=$( __get_first_backlight )
+  if [ -z "${backlight}" ] ; then
+    __fatal Unable to find backlight device
+  fi
+  brightness=$( cat "${backlight}/actual_brightness" )
+  max_brightness=$( cat "${backlight}/max_brightness" )
+  scale_factor=$( echo "scale=10; ${max_brightness}/100" | bc )
+  if [ "${brightness}" = 1 ] ; then
+    pct_brightness=1
+  elif [ "${brightness}" = "${max_brightness}" ] ; then
+    pct_brightness=100
+  else
+    pct_brightness=$( echo "scale=10; v=${brightness}/${scale_factor}; scale=0; v/1" | bc )
+    if [ "${pct_brightness}" = 1 ] ; then
+      pct_brightness=2
+    fi
+  fi
+}
+
+__cmd_get() {
+  # 0, 1, ..., 100
+  echo ${pct_brightness}
+}
+
+__write_backlight() {
+  echo $1 > "${backlight}/brightness"
+}
+
+__set_backlight() {
+  if [ "$1" = 1 ] ; then
+    __write_backlight 1
+  elif [ "$1" = 100 ] ; then
+    __write_backlight "${max_brightness}"
+  else
+    actual_brightness=$( echo "scale=10; v=${scale_factor} * $1; scale=0; v/1" | bc )
+    __write_backlight "${actual_brightness}"
+  fi
+}
+
+__check_num() {
+  case $1 in
+    ''|*[!0-9]*)
+      __fatal Unable to parse number "$1"
+      ;;
+  esac
+}
+
+__cmd_set() {
+  case "$1" in
+    "+"*)
+      # Increment
+      inc=${1:1:${#1}-1}
+      __check_num "${inc}"
+      if [ ${inc} -gt 0 ] ; then
+        new_backlight=$( echo "${pct_brightness} + ${inc}" | bc )
+        if [ "${new_backlight}" -gt 100 ] ; then
+          new_backlight=100
+        fi
+      fi
+      ;;
+    "-"*)
+      # Decrement
+      dec=${1:1:${#1}-1}
+      __check_num "${dec}"
+      if [ $dec -gt 0 ] ; then
+        if [ "${pct_brightness}" = 1 ] ; then
+          new_backlight=0
+        else
+          new_backlight=$( echo "${pct_brightness} - ${dec}" | bc )
+          if [ "${new_backlight}" -lt 1 ] ; then
+            new_backlight=1
+          fi
+        fi
+      fi
+      ;;
+    *)
+      __check_num "$1"
+      new_backlight=$1
+      if [ "${new_backlight}" -lt 0 ] ; then
+        new_backlight=0
+      elif [ "${new_backlight}" -gt 100 ] ; then
+        new_backlight=100
+      fi
+      # Set directly
+      ;;
+  esac
+  __set_backlight "${new_backlight}"
+}
+
+__main() {
+  __setup
+  if [ $# -eq 0 ] ; then
+    __cmd_get
+  else
+    __cmd_set "$@"
+  fi
+}
+
+__main "$@"
