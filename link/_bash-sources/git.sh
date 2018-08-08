@@ -18,6 +18,23 @@ if command -v git > /dev/null ; then
   alias gsu='git submodule update --init'
   alias gc='git cached'
 
+  ogh() {
+    local remote_branch="$( git rev-parse --abbrev-ref --symbolic-full-name @{u} )"
+    local remote="${remote_branch%/*}"
+    local branch="${remote_branch#*/}"
+    local remote_url="$( git remote get-url "$remote" )"
+    case "$remote_url" in
+      http*)
+        :
+        ;;
+      *)
+        remote_url="$( echo "$remote_url" | sed -r 's#^([^@]+@)?([^:]+):#\2/#' )"
+          remote_url="https://${remote_url%.git}/tree/${branch}"
+        ;;
+    esac
+    xdg-open "${remote_url}"
+  }
+
   gcm() {
     git commit -m "$*"
   }
