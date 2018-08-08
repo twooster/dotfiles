@@ -8,6 +8,7 @@
         diff = auto
 
 [alias]
+        b = branch
         cached = diff --cached
         co = checkout
         d = diff
