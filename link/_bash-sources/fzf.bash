@@ -27,6 +27,7 @@ for fzf_path in "${HOME}/.local/fzf" "${HOME}/.local/.fzf" "${HOME}/.fzf" ; do
     export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
   fi
   if [ -n "${TMUX}" ] ; then
-    export FZF_TMUX=1
+    :
+    #export FZF_TMUX=1
   fi
 done
