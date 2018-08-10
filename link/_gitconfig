@@ -21,7 +21,7 @@
         cpa = cherry-pick --abort
         cpc = cherry-pick --continue
         cp = cherry-pick
-        fix = "!f(){ git rebase --no-verify --autosquash -i \"${1:-$( git merge-base HEAD @{u}  )}\" ; }; f"
+        rb = "!f(){ git rebase --no-verify --autosquash -i \"${@}\" ; }; f"
         forget = rm --cache --
         from = !sh -c 'git fetch && git rebase origin/master'
         fro = !sh -c 'git fetch && git rebase "origin/$1"'

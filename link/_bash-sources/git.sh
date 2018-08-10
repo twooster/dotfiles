@@ -29,7 +29,7 @@ if command -v git > /dev/null ; then
         ;;
       *)
         remote_url="$( echo "$remote_url" | sed -r 's#^([^@]+@)?([^:]+):#\2/#' )"
-          remote_url="https://${remote_url%.git}/tree/${branch}"
+          remote_url="https://${remote_url%.git}/compare/${branch}?expand=1"
         ;;
     esac
     xdg-open "${remote_url}"

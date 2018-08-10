@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -x
+
+if [ $# -eq 0 ] ; then
+  set -- "@master"
+fi
+
+REF=$1
+shift
+
+if [ "${REF:0:1}" = "@" ] ; then
+  FP="$( git merge-base --fork-point "${REF:1}" )"
+  if [ -z "$FP" ] ; then
+    echo "Unable to find fork point from $REF"
+    exit 1
+  fi
+  REF="$FP"
+fi
+
+git rebase --no-verify --autosquash -i "${@}" "${REF}"
