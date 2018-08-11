@@ -12,6 +12,7 @@
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 
+exec --no-startup-id redshift-gtk
 exec --no-startup-id nm-applet
 exec --no-startup-id ~/bin/battery-mon
 #exec --no-startup-id compton --config ~/.config/compton -b
