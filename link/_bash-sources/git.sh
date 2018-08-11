@@ -20,6 +20,10 @@ if command -v git > /dev/null ; then
 
   ogh() {
     local remote_branch="$( git rev-parse --abbrev-ref --symbolic-full-name @{u} )"
+    if [ -z "$remote_branch" ] ; then
+      echo "Unable to detect upstream branch. Maybe you need to push?"
+      return 1
+    fi
     local remote="${remote_branch%/*}"
     local branch="${remote_branch#*/}"
     local remote_url="$( git remote get-url "$remote" )"
