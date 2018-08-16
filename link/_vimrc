@@ -59,7 +59,7 @@
 
 " Vim UI {
     syntax on                   " syntax highlighting on
-    colorscheme monokai-phoenix
+    colorscheme molokai " monokai-phoenix
 
     set cursorline              " highlight current line
     set incsearch               " highlight as search phrase typed
