@@ -1,0 +1,17 @@
+#!/bin/sh
+
+xrandr --output eDP-1 --mode 1600x900
+xrandr --output HDMI-1 --auto --right-of eDP-1 --primary
+i3-msg workspace 9
+i3-msg move workspace to output eDP-1
+i3-msg workspace 10
+i3-msg move workspace to output eDP-1
+i3-msg workspace 2
+i3-msg move workspace to output HDMI-1
+i3-msg workspace 3
+i3-msg move workspace to output HDMI-1
+i3-msg workspace 4
+i3-msg move workspace to output HDMI-1
+i3-msg workspace 1
+i3-msg move workspace to output HDMI-1
+i3-msg workspace 1

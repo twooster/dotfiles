@@ -53,7 +53,8 @@ mode $mode_xrandr {
   # These bindings trigger as soon as you enter the resize mode
 
   bindsym a mode "default", exec xrandr --auto
-  bindsym s mode "default", exec xrandr --output DP-1 --left-of LVDS-1
+  bindsym w mode "default", exec disp-work
+  bindsym x mode "default", exec disp-laptop
 
   # back to normal: Enter or Escape
   bindsym Return mode "default"
