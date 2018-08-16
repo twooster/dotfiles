@@ -185,6 +185,8 @@
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
 
+    Plug 'hashivim/vim-terraform'
+
     " From this discussion ... I like the install guard:
     " https://github.com/Valloric/YouCompleteMe/issues/1751
     function! BuildYCM(info)
