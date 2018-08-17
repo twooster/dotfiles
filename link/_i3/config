@@ -19,8 +19,10 @@ exec --no-startup-id ~/bin/battery-mon
 
 set $locker "i3lock"
 
+exec --no-startup-id xss-lock "$locker"
+
 exec --no-startup-id xautolock \
-    -detectsleep \
+    $( command -v xss-lock 1>&2 > /dev/null || echo "-detectsleep" ) \
     -time 2 \
     -locker $locker \
     -notify 30 \
