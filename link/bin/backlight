@@ -81,7 +81,9 @@ __cmd_set() {
       dec=${1:1:${#1}-1}
       __check_num "${dec}"
       if [ $dec -gt 0 ] ; then
-        if [ "${pct_brightness}" = 1 ] ; then
+        if [ "${pct_brightness}" = 0 ] ; then
+          :
+        elif [ "${pct_brightness}" = 1 ] ; then
           new_backlight=0
         else
           new_backlight=$( echo "${pct_brightness} - ${dec}" | bc )
