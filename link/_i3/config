@@ -17,9 +17,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id ~/bin/battery-mon
 #exec --no-startup-id compton --config ~/.config/compton -b
 
-set $locker "i3lock"
-
-exec --no-startup-id xss-lock "$locker"
+set $locker "i3lock -n -e -c 000033"
 
 exec --no-startup-id xautolock \
     $( command -v xss-lock 1>&2 > /dev/null || echo "-detectsleep" ) \
@@ -30,6 +28,9 @@ exec --no-startup-id xautolock \
     -killtime 15 \
     -killer "systemctl suspend" \
     -corners 0-0-
+
+exec --no-startup-id xss-lock "xautolock -locknow"
+
 
 set $mod Mod4
 
