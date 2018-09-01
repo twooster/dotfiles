@@ -170,6 +170,8 @@
     "noremap <C-l> <C-w>l
 
 
+    Plug 'dag/vim-fish'
+
     Plug 'tpope/vim-fugitive'
 
     Plug 'tpope/vim-rails'             ", { 'for': 'ruby' }
