@@ -18,6 +18,10 @@ if command -v git > /dev/null ; then
   alias gsu='git submodule update --init'
   alias gc='git cached'
 
+  git-cleanup-branches() {
+    git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
+  }
+
   ogh() {
     local remote_branch="$( git rev-parse --abbrev-ref --symbolic-full-name @{u} )"
     if [ -z "$remote_branch" ] ; then
