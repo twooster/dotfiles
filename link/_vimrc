@@ -270,7 +270,9 @@
     map - <Nop>
 
     " The F1-is-too-close-to-esc section
-    map <F1> <Nop>
+    noremap <F1> <esc>
+    noremap! <F1> <esc>
+    cnoremap <F1> <C-C>
 
     " The 'visual instead of logical lines' section
     nnoremap j gj
