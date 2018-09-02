@@ -13,3 +13,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 
 alias k='kubectl'
+
+recd() {
+  cd "$PWD"
+}
