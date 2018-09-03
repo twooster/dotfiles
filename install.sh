@@ -90,22 +90,23 @@ backup_rename()
         let i=i+1
     done
     info Renaming existing $1 to $1~$i...
-    mv "$1" "$1~$i" || warn Backup failed
+    mv -n "$1" "$1~$i" || warn Backup failed
 }
 
 link()
 {
     local source="$1"
     local target="$2"
-    info LINK ${source} to ${target}
+    debug Linking "${source}" to "${target}"
     # Note we have to test for symlink in case the symlink is dead
-    if [ -h "${target}" ]; then
+    if [ -L "${target}" ]; then
         # Symbolic link, so...
         local rl=$( readlink "${target}" )
         case "${rl}" in
           "${AUTOLINK_DIR}"*)
-            debug Removing existing autolink ${target}
-            rm "${target}" || warn Removal failed: ${target}
+            #debug Removing existing autolink ${target}
+            #rm "${target}" || warn Removal failed: ${target}
+            : # noop
             ;;
           *)
             backup_rename "${target}"
@@ -116,7 +117,7 @@ link()
     fi
 
     if [ ! -e "${target}" ]; then
-	debug Linking "${source}" to "${target}"
+        info LINK ${source} to ${target}
         ln ${LINK_FLAGS} "${source}" "${target}" || warn ln failed ${source} to ${target}
     else
         warn Target exists, skipping: ${source} to ${target}
