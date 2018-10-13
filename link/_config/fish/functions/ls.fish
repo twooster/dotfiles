@@ -1,5 +1,5 @@
 if command -s exa >/dev/null
   alias ls 'exa -g'
 else
-  alias ls "-hb --color"
+  alias ls "ls -hb --color"
 end
