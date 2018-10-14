@@ -11,8 +11,14 @@ LOCKER_CMD=( i3lock --nofork --ignore-empty-password --color=000033 --image="${I
 # Run before starting the locker
 pre_lock() {
     BACKLIGHT=$( "${BACKLIGHT_CMD}" )
-    import -window root "${IMG_FORMAT}":- | mogrify -grayscale Rec709Luma -virtual-pixel mirror -blur 0x4 "${IMG_FORMAT}":- > "${IMG_PATH}"
-    backlight 30
+    import \
+      -window root \
+      -colorspace Gray \
+      -filter gaussian \
+      -define filter:blur=12 \
+      -resize '100%' \
+      "${IMG_PATH}"
+    backlight 20
 }
 
 # Run after the locker exits
