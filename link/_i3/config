@@ -12,25 +12,15 @@
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 
-exec --no-startup-id redshift-gtk
-exec --no-startup-id nm-applet
-exec --no-startup-id ~/bin/battery-mon
-#exec --no-startup-id compton --config ~/.config/compton -b
+exec --no-startup-id exec exec redshift-gtk
+exec --no-startup-id exec exec nm-applet
+exec --no-startup-id exec exec ~/bin/battery-mon
 
-set $locker "i3lock -n -e -c 000033"
-
-exec --no-startup-id xautolock \
-    $( command -v xss-lock 1>&2 > /dev/null || echo "-detectsleep" ) \
-    -time 2 \
-    -locker $locker \
-    -notify 30 \
-    -notifier "notify-send -u critical -i system-lock-screen -t 5000 -- '*** Locking screen in 30 seconds ***'" \
-    -killtime 15 \
-    -killer "systemctl suspend" \
-    -corners 0-0-
-
-exec --no-startup-id xss-lock "xautolock -locknow"
-
+exec --no-startup-id exec exec xset 90 30
+exec --no-startup-id exec exec xss-lock \
+    --notifier="$HOME/bin/screenlock/notify.sh" \
+    --transfer-sleep-lock \
+    -- "$HOME/bin/screenlock/locker.sh"
 
 set $mod Mod4
 
@@ -57,7 +47,6 @@ mode $mode_xrandr {
 
   bindsym a mode "default", exec xrandr --auto
   bindsym w mode "default", exec disp-work
-  bindsym x mode "default", exec disp-laptop
 
   # back to normal: Enter or Escape
   bindsym Return mode "default"
@@ -65,13 +54,13 @@ mode $mode_xrandr {
 }
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+w kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -148,9 +137,9 @@ bindsym $mod+Left move workspace to output left
 bindsym $mod+Right move workspace to output right
 
 # Volume control
-bindsym XF86AudioRaiseVolume exec "~/bin/vol-up; ~/bin/vol-beep"
-bindsym XF86AudioLowerVolume exec "~/bin/vol-down; ~/bin/vol-beep"
-bindsym XF86AudioMute exec "~/bin/vol-mute; ~/bin/vol-beep"
+bindsym XF86AudioRaiseVolume exec ~/bin/vol-up && ~/bin/vol-beep
+bindsym XF86AudioLowerVolume exec ~/bin/vol-down && ~/bin/vol-beep
+bindsym XF86AudioMute exec ~/bin/vol-mute && ~/bin/vol-beep
 bindsym XF86AudioPlay exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
 bindsym XF86AudioStop exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
 bindsym XF86AudioNext exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
@@ -194,10 +183,10 @@ set $mode_sysreq "*** SYSREQ: [mod-esc] lock, [e]nable/[d]isable xautolock, [shi
 bindsym $mod+Escape mode $mode_sysreq
 
 mode $mode_sysreq {
-  bindsym $mod+Escape mode "default", exec xautolock -enable, exec $locker
+  bindsym $mod+Escape mode "default", exec xset s activate
 
-  bindsym d mode "default", exec xautolock -disable, exec notify-send -t 3000 "*** xautolock disabled ***"
-  bindsym e mode "default", exec xautolock -enable,  exec notify-send -t 3000 "*** xautolock enabled ***"
+  bindsym d mode "default", exec xset s disable && notify-send -t 3000 "*** screenlock disabled ***"
+  bindsym e mode "default", exec xset s enable  && notify-send -t 3000 "*** screenlock enabled ***"
 
   bindsym Shift+q exit
   #bindsym r "i3-nagbar -t warning -m 'Restart computer?' -b 'RESTART' 'shutdown -r now'"
@@ -214,7 +203,7 @@ mode $mode_sysreq {
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command exec i3status
 }
 
 for_window [class="Pavucontrol"] floating enable
