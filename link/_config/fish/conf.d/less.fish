@@ -1,0 +1,1 @@
+set -x LESS="-FiRwX"
