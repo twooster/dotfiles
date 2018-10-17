@@ -14,10 +14,10 @@
 
 exec --no-startup-id exec exec redshift-gtk
 exec --no-startup-id exec exec nm-applet
-exec --no-startup-id exec exec ~/bin/battery-mon
+exec --no-startup-id exec ~/bin/battery-mon
 
 exec --no-startup-id exec exec xset s 90 30
-exec --no-startup-id exec exec xss-lock \
+exec --no-startup-id exec xss-lock \
     --notifier="$HOME/bin/screenlock/notify.sh" \
     --transfer-sleep-lock \
     -- "$HOME/bin/screenlock/locker.sh"
