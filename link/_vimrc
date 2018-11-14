@@ -207,6 +207,12 @@
     call plug#end()
 " }
 
+
+" scrooloose/nerdcommenter settings {
+    let g:NERDSpaceDelims = 1
+" }
+
+" fatih/vim-go settings {
     let g:go_highlight_extra_types = 1
     let g:go_highlight_fields = 1
     let g:go_highlight_types = 1
@@ -216,6 +222,7 @@
     let g:go_highlight_format_strings = 1
     "let g:go_highlight_variable_declarations = 1
     "let g:go_highlight_variable_assignments = 1
+" }
 
 " christoomey/vim-tmux-navigator settings {
     let g:tmux_navigator_disable_when_zoomed = 1
