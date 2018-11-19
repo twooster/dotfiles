@@ -64,7 +64,7 @@ autorun_all()
 
 warn()
 {
-    echo x WARN "$@" &>2
+    echo x WARN "$@" >&2
 }
 
 info()
