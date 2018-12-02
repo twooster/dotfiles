@@ -315,7 +315,7 @@
     "  nnoremap <Leader>p "*p
     "  nnoremap <Leader>P "*P
     "else
-      map <Leader>y :w  !setclip<cr><cr>
+      map <Leader>y "zy:call system('setclip', getreg('z', 1, 1))<cr>
       map <Leader>p :r  !getclip<cr>
       map <Leader>P k:r !getclip<cr>
     "endif
