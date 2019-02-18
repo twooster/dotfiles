@@ -1,1 +1,0 @@
-pacmd set-sink-port alsa_output.platform-byt-max98090.analog-stereo analog-output-headphones
