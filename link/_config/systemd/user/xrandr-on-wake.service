@@ -1,0 +1,12 @@
+[Unit]
+Description=Run xrandr auto on wake
+Before=sleep.target
+StopWhenUnneeded=true
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStop=%h/bin/systemd/xrandr-auto
+
+[Install]
+WantedBy=sleep.target

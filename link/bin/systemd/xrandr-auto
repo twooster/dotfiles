@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# # From https://backreference.org/2009/12/09/using-shell-variables-in-sed/
+# SAFE_USER="$( printf '%s\n' "$USER" | sed 's/[[\.*^$(){}?+|/]/\\&/g' )"
+# X_SESSIONS="$( who -s | sed -nE 's/^'"$SAFE_USER"'+[[:space:]]+(:[[:digit:]]+).*/\1/p' | sort | uniq )"
+#
+# for display in $X_SESSIONS ; do
+#   /usr/bin/xrandr --display "$display" --auto
+# done
+
+if [ -n "$DISPLAY" ] ; then
+  /usr/bin/xrandr --display "$DISPLAY" --auto
+fi
