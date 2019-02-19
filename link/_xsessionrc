@@ -9,10 +9,6 @@ setup_for_chromebook() {
 }
 
 
-case "$(uname -r)" in
-  *galliumos*) setup_for_chromebook ;;
-esac
-
 PROD_VER=$( cat /sys/devices/virtual/dmi/id/product_version )
 if [ "${PROD_VER}" = "ThinkPad X230" -o \
      "${PROD_VER}" = "ThinkPad X1 Carbon 6th" ]; then
