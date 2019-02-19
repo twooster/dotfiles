@@ -1,14 +1,15 @@
 #!/bin/bash
 
+SCRIPT_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd )"
+LINK_DIR="${SCRIPT_DIR}/link"
+TARGET_DIR="$HOME"
+STRATEGY_FILE=".dotfiles-strategy"
+
 if [ "$( uname )" = "Darwin" ]; then
     LINK_FLAGS=-hs
 else
     LINK_FLAGS=-ns
 fi
-
-export DOTFILES_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd )"
-export AUTOLINK_DIR="${DOTFILES_DIR}/link"
-export AUTORUN_DIR="${DOTFILES_DIR}/run"
 
 VERBOSE=
 DRY_RUN=
@@ -16,18 +17,18 @@ DRY_RUN=
 link_dir()
 {
     local strategy="$3"
-    if [ -e "$1/.dotfiles-strategy" ] ; then
-        strategy="$( cat "$1/.dotfiles-strategy" )"
+    if [ -e "$1/${STRATEGY_FILE}" ] ; then
+        strategy="$( cat "$1/${STRATEGY_FILE}" )"
     fi
 
     if [ "${strategy}" = "link" ] ; then
-      link "$1" "$2"
-      return 0
+        link "$1" "$2"
+        return 0
     fi
 
     local substrategy
     if [ "${strategy}" != "merge-recursive" ] ; then
-      substrategy="link"
+        substrategy="link"
     fi
 
     if [ -e "$2" ] ; then
@@ -39,7 +40,7 @@ link_dir()
     fi
 
     local src
-    find "$1" -maxdepth 1 -mindepth 1 -not -name '.dotfiles-strategy' -print0 \
+    find "$1" -maxdepth 1 -mindepth 1 -not -name "${STRATEGY_FILE}" -print0 \
     | while IFS= read -d '' -r src ; do
         local name="${src##*/}"
         if [[ "${name}" == __* ]] ; then
@@ -107,7 +108,7 @@ link()
         # Symbolic link, so...
         local rl=$( readlink "${target}" )
         case "${rl}" in
-          "${AUTOLINK_DIR}"*)
+          "${LINK_DIR}"*)
             debug "Skipping existing link ${target}"
             return
             ;;
@@ -132,10 +133,10 @@ do
     case "${opt}" in
         d) DRY_RUN=1 ;;
         v) VERBOSE=1 ;;
-        t) DOTFILES_TARGET="${OPTARG}" ;;
+        t) TARGET_DIR="${OPTARG}" ;;
         *) fatal Unknown option chosen ;;
     esac
 done
 
 cmd git submodule update --init
-link_dir "${AUTOLINK_DIR}" "${HOME}" "merge"
+link_dir "${LINK_DIR}" "${TARGET_DIR}" "merge"
