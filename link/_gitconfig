@@ -41,13 +41,13 @@
 
 [merge]
         conflictstyle = diff3
-        ff = only
+#        ff = only
 
 [pull]
         ff = only
 
 [rebase]
-        autoSquash = true
+#        autoSquash = true
 
 [rerere]
         enabled = true
