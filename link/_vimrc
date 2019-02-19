@@ -239,23 +239,11 @@
 " }
 
 " FZF settings {
-  " Teach fzf.vim about rg:
-    if executable('rg')
-        function! FzfRg(query, ...)
-            if type(a:query) != type('')
-              return s:warn('Invalid query argument')
-            endif
-            let query = empty(a:query) ? '^(?=.)' : a:query
-            let command = fzf#shellescape(query)
-            return call('fzf#vim#grep', extend(['rg --column --color always '.command, 1], a:000))
-        endfunction
-
-        command! -bang -nargs=* Ag call FzfRg(<q-args>, <bang>0)
-    endif
 
     map <Leader>t :Files<CR>
+    map <Leader>l :Lines<CR>
     map <Leader>b :Buffers<CR>
-    map <Leader>g :Ag<Space>
+    map <Leader>g :Rg<Space>
 " }
 
 "" Syntastic Settings {
