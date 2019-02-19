@@ -8,7 +8,7 @@
     "terminal.integrated.fontSize": 13,
     "editor.fontFamily": "'Input', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "workbench.colorTheme": "Monokai",
-    "window.zoomLevel": -1,
+    "window.zoomLevel": 1,
 
     "scrolloff.scrolloff": 10,
     "vim.useSystemClipboard": true,
