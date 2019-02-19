@@ -9,5 +9,8 @@
 # done
 
 if [ -n "$DISPLAY" ] ; then
+  echo "Auto-configuring display $DISPLAY"
   /usr/bin/xrandr --display "$DISPLAY" --auto
+else
+  echo "No DISPLAY set for ${USER}"
 fi
