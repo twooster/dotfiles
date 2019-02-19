@@ -123,6 +123,17 @@ bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
+workspace $ws1 output primary
+workspace $ws2 output primary
+workspace $ws3 output primary
+workspace 4 output primary
+workspace 5 output primary
+workspace 6 output primary
+workspace 7 output primary
+workspace 8 output primary
+workspace $ws9 output eDP-1
+workspace $ws10 output eDP-1
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
