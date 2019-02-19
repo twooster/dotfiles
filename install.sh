@@ -11,18 +11,37 @@ export AUTOLINK_DIR="${DOTFILES_DIR}/link"
 export AUTORUN_DIR="${DOTFILES_DIR}/run"
 
 VERBOSE=
+DRY_RUN=
 
-autolink_all()
+link_dir()
 {
-    local default_strategy="link"
-    if [ "$3" = "merge-recursive" ] ; then
-      default_strategy=merge-recursive
+    local strategy="$3"
+    if [ -e "$1/.dotfiles-strategy" ] ; then
+        strategy="$( cat "$1/.dotfiles-strategy" )"
     fi
-    debug Autolinking all in $1 to $2 with strategy ${default_strategy}
-    local file
-    find "$1" -maxdepth 1 -mindepth 1 -not -path '\.*' -print0 \
-    | while IFS= read -d '' -r file ; do
-        local name="${file##*/}"
+
+    if [ "${strategy}" = "link" ] ; then
+      link "$1" "$2"
+      return 0
+    fi
+
+    local substrategy
+    if [ "${strategy}" != "merge-recursive" ] ; then
+      substrategy="link"
+    fi
+
+    if [ -e "$2" ] ; then
+        if [ ! -d "$2" ] ; then
+            fatal "Destination folder $2 (for $1) exists but is not a directory!"
+        fi
+    else
+        cmd mkdir -p "$2" || fatal "Could not create directory $2"
+    fi
+
+    local src
+    find "$1" -maxdepth 1 -mindepth 1 -not -name '.dotfiles-strategy' -print0 \
+    | while IFS= read -d '' -r src ; do
+        local name="${src##*/}"
         if [[ "${name}" == __* ]] ; then
             # __foo -> foo
             # therefore, ___foo -> _foo
@@ -33,80 +52,64 @@ autolink_all()
         fi
         local target="$2/${name}"
 
-        if [ -d "${file}" ] ; then
-            local strategy="${default_strategy}"
-	    if [ -e "${file}/.dotfiles-strategy" ] ; then
-                strategy="$( cat "${file}/.dotfiles-strategy" )"
-            fi
-            if [ "${strategy}" = "merge" -o "${strategy}" = "merge-recursive" ] ; then
-                if [ ! -d "${target}" ]; then
-                    if [ -e "${target}" ]; then
-                      fatal "Destination folder ${target} (for ${file}) exists but is not a directory!"
-                    fi
-                    mkdir "${target}" || fatal Could not create directory "${target}"
-                fi
-                autolink_all "${file}" "${target}" "${strategy}"
-                continue
-            fi
+        if [ ! -d "${src}" ] ; then
+            link "${src}" "${target}"
+        else
+            link_dir "${src}" "${target}" "${substrategy}"
         fi
-        link "${file}" "${target}"
     done
 }
 
-autorun_all()
-{
-    local file
-    for file in $( find "$1" -mindepth 1 -executable ); do
-        info RUN ${file}
-        ${file}
-    done
+cmd() {
+    printf "  run: %s\n" "$*"
+    if [ -z "${DRY_RUN}" ] ; then
+        "$@"
+    fi
 }
 
-warn()
-{
-    echo x WARN "$@" >&2
+warn() {
+    printf " warn: %s\n" "$*" >&2
 }
 
-info()
-{
-    echo + "$@"
+info() {
+    printf " info: %s\n" "$*"
 }
 
-debug()
-{
-    [ -z "${VERBOSE}" ] || echo ++ "$@"
+debug() {
+    if [ -n "${VERBOSE}" ] ; then
+        printf "debug: %s\n" "$*"
+    fi
 }
 
-fatal()
-{
-    echo xx FATAL "$@" &>2
+fatal() {
+    printf "fatal: %s\n" "$*" >&2
     exit 1
 }
 
 backup_rename()
 {
     local i=0
-    while [ -e "$1~$i" ]; do
+    while [ -e "$1~$i" ] ; do
         let i=i+1
     done
-    info Renaming existing $1 to $1~$i...
-    mv -n "$1" "$1~$i" || warn Backup failed
+    info "Backup existing $1 to $1~$i"
+    cmd mv -n "$1" "$1~$i" || \
+      warn "Backup failed"
 }
 
 link()
 {
     local source="$1"
     local target="$2"
-    debug Linking "${source}" to "${target}"
+    debug "Linking ${source} to ${target}"
     # Note we have to test for symlink in case the symlink is dead
     if [ -L "${target}" ]; then
         # Symbolic link, so...
         local rl=$( readlink "${target}" )
         case "${rl}" in
           "${AUTOLINK_DIR}"*)
-            #debug Removing existing autolink ${target}
-            #rm "${target}" || warn Removal failed: ${target}
-            : # noop
+            debug "Skipping existing link ${target}"
+            return
             ;;
           *)
             backup_rename "${target}"
@@ -117,31 +120,22 @@ link()
     fi
 
     if [ ! -e "${target}" ]; then
-        info LINK ${source} to ${target}
-        ln ${LINK_FLAGS} "${source}" "${target}" || warn ln failed ${source} to ${target}
+        cmd ln "${LINK_FLAGS}" "${source}" "${target}" || \
+          warn "ln failed ${source} to ${target}"
     else
-        warn Target exists, skipping: ${source} to ${target}
+        warn "Target exists, skipping: ${source} to ${target}"
     fi
 }
 
-while getopts "vt:" opt
+while getopts "dvt:" opt
 do
     case "${opt}" in
+        d) DRY_RUN=1 ;;
         v) VERBOSE=1 ;;
         t) DOTFILES_TARGET="${OPTARG}" ;;
         *) fatal Unknown option chosen ;;
     esac
 done
 
-info START
-
-info GIT Updating submodules
-git submodule update --init
-
-autorun_all  "${AUTORUN_DIR}"
-autolink_all "${AUTOLINK_DIR}" "${HOME}" "link"
-
-info SOURCE bashrc
-. ~/.bashrc
-
-info STOP
+cmd git submodule update --init
+link_dir "${AUTOLINK_DIR}" "${HOME}" "merge"
