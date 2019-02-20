@@ -1,19 +1,7 @@
 #!/bin/bash
 
-setup_for_chromebook() {
-  setxkbmap -model chromebook_m_ralt
-  xinput set-prop "Elan Touchpad" "Tap Minimum Pressure" 40
-  xinput set-prop "Elan Touchpad" "Fat Finger Width Ratio" 2.0
-  xmodmap -e "remove mod4 = Super_L"
-  xmodmap -e "add control = Super_L"
-}
-
-
 PROD_VER=$( cat /sys/devices/virtual/dmi/id/product_version )
 if [ "${PROD_VER}" = "ThinkPad X230" -o \
      "${PROD_VER}" = "ThinkPad X1 Carbon 6th" ]; then
   setxkbmap -layout us -option ctrl:nocaps
-#  xmodmap -e 'keycode 66 = Control_L'
-#  xmodmap -e 'clear Lock'
-#  xmodmap -e 'add Control = Control_L'
 fi
