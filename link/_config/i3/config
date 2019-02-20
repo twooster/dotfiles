@@ -14,6 +14,7 @@
 
 exec --no-startup-id exec exec redshift-gtk
 exec --no-startup-id exec exec nm-applet
+exec --no-startup-id exec exec blueman-applet
 exec --no-startup-id exec ~/bin/battery-mon
 
 exec --no-startup-id exec exec xset s 90 30
@@ -224,4 +225,6 @@ bar {
         status_command exec i3status
 }
 
+
 for_window [class="Pavucontrol"] floating enable
+assign [class="^Spotify$"] 10

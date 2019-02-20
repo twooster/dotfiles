@@ -34,7 +34,7 @@
         pso = !sh -c 'git push --set-upstream origin "$( git rev-parse --abbrev-ref HEAD )"'
 
 [core]
-        excludesfile = ~/.gitconfig-ignore
+        excludesfile = ignore
 
 [diff]
         algorithm = histogram
@@ -63,4 +63,4 @@
         default = simple
 
 [include]
-        path = .gitconfig-local
+        path = local

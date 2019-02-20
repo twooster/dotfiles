@@ -4,6 +4,15 @@
 "   Originally by Robert Melton, modified heavily
 " }
 
+
+if empty($XDG_CACHE_HOME)
+    let $XDG_CACHE_HOME=$HOME."/.cache"
+endif
+
+if empty($XDG_CONFIG_HOME)
+    let $XDG_CONFIG_HOME=$HOME."/.config"
+endif
+
 " Basics {
     set nocompatible       " explicitly get out of vi-compatible mode
     set noexrc             " don't use local version of .(g)vimrc, .exrc
@@ -40,19 +49,22 @@
 
     " Thanks to Wincent's vimrc for this
     if has('persistent_undo')
-        set undodir=~/.vim/tmp/undo//,.   " keep undo files out of the way
-        set undofile                      " actually use undo files
+        set undodir=$XDG_CACHE_HOME/vim/undo//,.   " keep undo files out of the way
+        set undofile                           " actually use undo files
     endif
 
     " For swap files
-    set directory=~/.vim/tmp/swap//,.
+    set directory=$XDG_CACHE_HOME/vim/swap//,.
 
 
     " Makes vim always overwrite the existing file when saving (rather than
     " doing a copy/rename); this is 'slower' but shouldn't matter on modern
     " machines, and plays nicely with common file-watching/rebuild strategies
     set backupcopy=yes
-    set backupdir=~/.vim/tmp/backup//,.
+    set backupdir=$XDG_CACHE_HOME/vim/backup//,.
+
+    set viminfo+='1000,n$XDG_CACHE_HOME/vim/viminfo
+    set runtimepath=$XDG_CONFIG_HOME/vim,$VIM,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
 
     set mouse=a
 " }
@@ -108,6 +120,9 @@
     if &term =~ '256color'
         set t_ut=
     endif
+
+    "hi Normal guibg=NONE ctermbg=NONE
+    "hi CursorLine guibg=NONE ctermbg=NONE
 " }
 
 " Text Formatting/Layout {
@@ -152,13 +167,15 @@
 " }
 
 " Plugins {
-    call plug#begin('~/.vim/plugged')
+    call plug#begin($XDG_CONFIG_HOME.'/vim/plugged')
 
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'junegunn/vim-easy-align'
     Plug 'scrooloose/nerdcommenter'
     Plug 'easymotion/vim-easymotion'
+
+    "Plug 'Quramy/tsuquyomi'
 
     "Plug 'Yggdroot/indentLine'
 
