@@ -4,6 +4,7 @@ IMG_FORMAT=png
 IMG_PATH="${XDG_RUNTIME_DIR:-${HOME}}/sleepshot.${IMG_FORMAT}"
 
 INHIBIT_TIME=0.5
+SLEEP_TIMEOUT=300
 
 BACKLIGHT_CMD="$HOME/bin/backlight"
 BACKLIGHT=100
@@ -38,16 +39,23 @@ post_lock() {
   fi
 }
 
+LOCK_PID=
+SLEEP_PID=
+kill_pids() {
+  kill $LOCK_PID $SLEEP_PID
+}
+
 ###############################################################################
 
 pre_lock
 
 # kill locker if we get killed
-trap 'kill %%' TERM INT
+trap 'kill_pids' TERM INT
 
 if [ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ] ; then
   # lock fd is open, make sure the locker does not inherit a copy
   "${LOCKER_CMD[@]}" ${XSS_SLEEP_LOCK_FD}<&- &
+  LOCK_PID=$!
 
   sleep "${INHIBIT_TIME}"
 
@@ -55,8 +63,15 @@ if [ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ] ; then
   eval "exec ${XSS_SLEEP_LOCK_FD}<&-"
 else
   "${LOCKER_CMD[@]}" &
+  LOCK_PID=$!
+
+  if [ "$SLEEP_TIMEOUT" -gt 0 ] ; then
+    ( sleep ${SLEEP_TIMEOUT} && systemctl suspend ) &
+    SLEEP_PID=$!
+  fi
 fi
 
-wait # for locker to exit
+wait "${LOCK_PID}" # for locker to exit
+kill "${SLEEP_PID}"
 
 post_lock
