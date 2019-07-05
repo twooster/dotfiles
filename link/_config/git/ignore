@@ -8,3 +8,4 @@
 *.un~
 .ustop
 .envrc
+.npmrc
