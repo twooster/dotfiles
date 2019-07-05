@@ -12,4 +12,6 @@ abbr kc kubectl
 abbr o xdg-open
 abbr sa ssh-add
 abbr sr ssh-reagent
-abbr v vim
+abbr v nvim
+abbr vim nvim
+abbr c cd
