@@ -63,7 +63,9 @@ endif
     set backupcopy=yes
     set backupdir=$XDG_CACHE_HOME/vim/backup//,.
 
-    set viminfo+='1000,n$XDG_CACHE_HOME/vim/viminfo
+    if !has('nvim')
+        set viminfo+='1000,n$XDG_CACHE_HOME/vim/viminfo
+    endif
     set runtimepath=$XDG_CONFIG_HOME/vim,$VIM,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
 
     set mouse=a
@@ -118,7 +120,9 @@ endif
     " Disable Background Color Erase (BCE) so that color schemes
     " work properly when Vim is used inside tmux and GNU screen.
     if &term =~ '256color'
-        set t_ut=
+        if !has('nvim')
+            set t_ut=
+        endif
     endif
 
     "hi Normal guibg=NONE ctermbg=NONE
@@ -175,7 +179,30 @@ endif
     Plug 'scrooloose/nerdcommenter'
     Plug 'easymotion/vim-easymotion'
 
-    "Plug 'Quramy/tsuquyomi'
+    if has('nvim')
+
+        " Syntax highlighting
+        Plug 'leafgarland/typescript-vim'  ", { 'for': 'javascript' }
+        "Plug 'HerringtonDarkholme/yats.vim'
+
+        " Completion
+        Plug 'Valloric/YouCompleteMe'
+        " Or:
+        "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+        "Plug 'Shougo/deoplete.nvim'
+
+        "let g:deoplete#enable_at_startup = 1
+        "let g:nvim_typescript#diagnostics_enable = 0
+
+        "map <Leader>o :call deoplete#toggle()<CR>
+        "map <c-]> :TSTypeDef<CR>
+        "map <Leader>p :TSDefPreview<CR>
+        "map K :TSDoc<CR>
+    else
+        Plug 'Quramy/tsuquyomi'
+        Plug 'mxw/vim-jsx'                 ", { 'for': 'javascript' }
+        Plug 'leafgarland/typescript-vim'  ", { 'for': 'javascript' }
+    endif
 
     "Plug 'Yggdroot/indentLine'
 
@@ -197,12 +224,10 @@ endif
     Plug 'tpope/vim-haml'              ", { 'for': 'haml' }
     Plug 'elixir-lang/vim-elixir'      ", { 'for': 'elixir' }
     Plug 'pangloss/vim-javascript'     ", { 'for': 'javascript' }
-    Plug 'mxw/vim-jsx'                 ", { 'for': 'javascript' }
-    Plug 'leafgarland/typescript-vim'  ", { 'for': 'javascript' }
 "    Plug 'lepture/vim-jinja'           ", { 'for': 'jinja' }
     Plug 'mustache/vim-mustache-handlebars'
 
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+    Plug 'junegunn/fzf', { 'dir': '~/.local/fzf', 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
 
     Plug 'hashivim/vim-terraform'
@@ -303,6 +328,9 @@ endif
     nnoremap j gj
     nnoremap k gk
 
+    " When pasting over a selection, make sure we don't actually
+    " lose our yanked value
+    vnoremap p pgvygvv
 
     " The 'make switching quote-types easy' section
     nmap <Leader>' mzcs"'`z
@@ -326,7 +354,7 @@ endif
     "endif
 
     " Delete current buffer, move to previous
-    nmap <leader>d :bprevious<CR>:bdelete #<CR>
+    nmap <leader>D :bprevious<CR>:bdelete! #<CR>
 
     " Zoom / Restore window.
     function! s:ZoomToggle() abort
@@ -345,7 +373,7 @@ endif
 
 
     " Highlighting debugging:
-    " map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+    map <C-F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
     " Sort lines inside current paragraph
     "nmap <Leader>s mzvi}:sort<CR>`z
@@ -428,6 +456,7 @@ endif
                        \ | syn keyword pythonAsync async
                        \ | hi def link pythonAsync Keyword
     au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 cindent
+    au FileType typescript setlocal signcolumn=yes
     au FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
     au FileType php        setlocal noet shiftwidth=2 softtabstop=2 tabstop=2
     au FileType go         setlocal noet shiftwidth=4 tabstop=4
