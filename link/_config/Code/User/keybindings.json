@@ -1,29 +1,36 @@
 [
-    {
-        "key":     "ctrl+h",
-        "command": "extension.vim_ctrl+h",
-        "when":    "vim.active && vim.use<C-h> && !inDebugRepl"
-    }
-    ,
-    {
-        "key":     "ctrl+l",
-        "command": "extension.vim_navigateRight",
-        "when":    "vim.active && !inDebugRepl"
-    }
-    ,
+    // {
+    //     "key":     "ctrl+h",
+    //     "command": "extension.vim_ctrl+h",
+    //     "when":    "vim.active && vim.use<C-h> && !inDebugRepl"
+    // }
+    // ,
+    // {
+    //     "key":     "ctrl+l",
+    //     "command": "extension.vim_navigateRight",
+    //     "when":    "vim.active && !inDebugRepl"
+    // }
+    // ,
     {
         "key":     "ctrl+backspace",
         "command": "editor.action.trimTrailingWhitespace",
         "when":    "editorTextFocus && !editorReadonly"
     }
     ,
+    // {
+        // "key":     "escape",
+        // "command": "hideSuggestWidget",
+        // "when":    "editorTextFocus && suggestWidgetVisible"
+    // }
+    // ,
     {
-        "key":     "escape",
+        "key": "ctrl+space",
         "command": "hideSuggestWidget",
-        "when":    "editorTextFocus && suggestWidgetVisible"
-    },
-    {
-        "key": "meta+'",
-        "command": "-editor.togglequotes"
-    },
+        "when": "suggestWidgetVisible && textInputFocus"
+    }
+    // ,
+    // {
+    //     "key": "meta+'",
+    //     "command": "-editor.togglequotes"
+    // },
 ]

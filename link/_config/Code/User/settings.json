@@ -1,6 +1,7 @@
 {
     // Prevents vscode from capturing capslock on remapped keyboard
     "keyboard.dispatch": "keyCode",
+    "editor.parameterHints.enabled": false,
 
     "editor.renderWhitespace": "boundary",
     "editor.fontSize": 13,
@@ -8,9 +9,8 @@
     "terminal.integrated.fontSize": 13,
     "editor.fontFamily": "'Input', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "workbench.colorTheme": "Monokai",
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 0,
 
-    "scrolloff.scrolloff": 10,
     "vim.useSystemClipboard": true,
     "vim.insertModeKeyBindings": [
         {
@@ -19,6 +19,7 @@
         }
     ],
 
+    "scrolloff.scrolloff": 10,
     "alignment.surroundSpace": {
         "colon":      [-1, 1],
         "assignment": [1, 1],
@@ -42,9 +43,8 @@
         "wwm.better-align"
     ],
 
-    "vim.leader": "<space>",
-    "vim.easymotion": true,
-    "vim.otherModesKeyBindingsNonRecursive": [
+    "vim.leader": " ",
+    "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before":   ["<leader>","\\"],
             "after":    [],
@@ -220,4 +220,12 @@
     ],
     "workbench.statusBar.visible": true,
     "editor.minimap.enabled": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "editor.tabSize": 2,
+    "go.useLanguageServer": true,
+    "vim.easymotion": true,
+    "editor.renderControlCharacters": false,
+    "breadcrumbs.enabled": true,
+    "workbench.activityBar.visible": false,
 }
