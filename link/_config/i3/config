@@ -149,6 +149,8 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 bindsym $mod+Left move workspace to output left
 bindsym $mod+Right move workspace to output right
+bindsym $mod+Up move workspace to output up
+bindsym $mod+Down move workspace to output down
 
 # Volume control
 bindsym XF86AudioRaiseVolume exec ~/bin/vol-up && ~/bin/vol-beep
