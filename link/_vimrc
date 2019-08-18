@@ -227,7 +227,7 @@ endif
 "    Plug 'lepture/vim-jinja'           ", { 'for': 'jinja' }
     Plug 'mustache/vim-mustache-handlebars'
 
-    Plug 'junegunn/fzf', { 'dir': '~/.local/fzf', 'do': './install --bin' }
+    Plug 'junegunn/fzf', { 'dir': '~/.local/opt/fzf', 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
 
     Plug 'hashivim/vim-terraform'

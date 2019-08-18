@@ -15,3 +15,5 @@ abbr sr ssh-reagent
 abbr v nvim
 abbr vim nvim
 abbr c cd
+abbr kx kubectx
+abbr kn kubens

@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -e
+set +x
 
 SCRIPT_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd )"
 LINK_DIR="${SCRIPT_DIR}/link"
@@ -138,5 +141,8 @@ do
     esac
 done
 
+info Updating submodules
 cmd git submodule update --init
+info Installing dotfiles
 link_dir "${LINK_DIR}" "${TARGET_DIR}" "merge"
+info Complete

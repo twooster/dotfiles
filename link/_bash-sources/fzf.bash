@@ -1,6 +1,6 @@
 # Setup fzf
 # ---------
-for fzf_path in "${HOME}/.local/fzf" "${HOME}/.local/.fzf" "${HOME}/.fzf" ; do
+for fzf_path in "${HOME}/.local/fzf" "${HOME}/.local/.fzf" "$HOME"/.local/opt/fzf "${HOME}/.fzf" ; do
   if [ -d "${fzf_path}" ] ; then
     if ! command -v fzf &>/dev/null ; then
       PATH="${fzf_path}/bin:${PATH}"
