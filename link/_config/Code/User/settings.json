@@ -228,4 +228,8 @@
     "editor.renderControlCharacters": false,
     "breadcrumbs.enabled": true,
     "workbench.activityBar.visible": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "files.insertFinalNewline": true,
+    "editor.renderFinalNewline": false,
+    "files.trimTrailingWhitespace": true,
 }
