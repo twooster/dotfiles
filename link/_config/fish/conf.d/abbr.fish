@@ -17,3 +17,4 @@ abbr vim nvim
 abbr c cd
 abbr kx kubectx
 abbr kn kubens
+abbr btc bluetoothctl
