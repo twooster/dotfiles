@@ -65,3 +65,6 @@
 
 [include]
         path = ~/.config/git/local
+
+[web]
+        browser = sensible-browser
