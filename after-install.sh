@@ -33,3 +33,4 @@ which bat || cargo install bat
 which exa || cargo install exa
 which fd || cargo install fd-find
 which rg || cargo install ripgrep
+which xidlehook || cargo install xidlehook --no-default-features --version 0.7.1

@@ -12,14 +12,19 @@
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 
-exec --no-startup-id exec exec redshift-gtk
-exec --no-startup-id exec exec nm-applet
-exec --no-startup-id exec exec blueman-applet
-exec --no-startup-id exec ~/bin/battery-mon
+#exec --no-startup-id exec exec redshift-gtk
+exec --no-startup-id exec nm-applet
+#exec --no-startup-id exec exec blueman-applet
+exec --no-startup-id exec $HOME/bin/battery-mon
 
-exec --no-startup-id exec exec xset s 90 30
+exec --no-startup-id exec xidlehook \
+  --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" \
+  --timer normal 30 '"$HOME"/bin/screenlock/notify.sh' '' \
+  --timer primary 90 'xset s activate' '' \
+  --timer normal 300 'systemctl suspend' ''
+
+exec --no-startup-id exec xset s 0 0
 exec --no-startup-id exec xss-lock \
-    --notifier="$HOME/bin/screenlock/notify.sh" \
     --transfer-sleep-lock \
     -- "$HOME/bin/screenlock/locker.sh"
 
@@ -206,8 +211,13 @@ bindsym $mod+Escape mode $mode_sysreq
 mode $mode_sysreq {
   bindsym $mod+Escape mode "default", exec xset s activate
 
-  bindsym d mode "default", exec xset s 0  30 && notify-send -t 3000 "*** screenlock disabled ***"
-  bindsym e mode "default", exec xset s 90 30 && notify-send -t 3000 "*** screenlock enabled ***"
+  bindsym d mode "default", exec \
+    xidlehook-client --disable --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" && \
+    notify-send -t 3000 "*** screenlock disabled ***"
+
+  bindsym e mode "default", exec \
+    xidlehook-client --enable --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" && \
+    notify-send -t 3000 "*** screenlock enabled ***"
 
   bindsym Shift+q exit
   #bindsym r "i3-nagbar -t warning -m 'Restart computer?' -b 'RESTART' 'shutdown -r now'"
