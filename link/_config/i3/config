@@ -12,15 +12,15 @@
 # Use compton for compositing to stop tearing
 #exec --no-startup-id compton --no-dock-shadow --no-dnd-shadow --daemon --glx-no-stencil --glx-use-copysubbuffermesa --backend glx --vsync opengl
 
-#exec --no-startup-id exec exec redshift-gtk
+#exec --no-startup-id exec redshift-gtk
+#exec --no-startup-id exec blueman-applet
 exec --no-startup-id exec nm-applet
-#exec --no-startup-id exec exec blueman-applet
 exec --no-startup-id exec $HOME/bin/battery-mon
 
 exec --no-startup-id exec xidlehook \
   --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" \
-  --timer normal 30 '"$HOME"/bin/screenlock/notify.sh' '' \
-  --timer primary 90 'xset s activate' '' \
+  --timer normal 90 '"$HOME"/bin/screenlock/notify.sh 30' '' \
+  --timer primary 120 'xset s activate' '' \
   --timer normal 300 'systemctl suspend' ''
 
 exec --no-startup-id exec xset s 0 0

@@ -6,5 +6,5 @@ if ! [ -e "${XDG_RUNTIME_DIR}/screenlock.flag" ] ; then
     -u critical \
     -i system-lock-screen \
     -t 5000 \
-    -- '*** LOCKING SCREEN IN 30 SECS ***'
+    -- "*** LOCKING SCREEN IN ${1:-30} SECS ***"
 fi
