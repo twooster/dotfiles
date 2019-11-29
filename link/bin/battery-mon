@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+if [ -z "$XDG_RUNTIME_DIR" ] ; then
+  LOCK_FILE="$HOME/.battery-mon.lock"
+else
+  LOCK_FILE="${XDG_RUNTIME_DIR}/battery-mon.lock"
+fi
+
+[ "${LOCK_ACQUIRED}" != "$0" ] && exec env LOCK_ACQUIRED="$0" flock -en "$LOCK_FILE" "$0" "$@" || :
+
 WARN_PERCENT=20      # Warn at this level
 CRITICAL_PERCENT=10  # Critical warning at this level
 SUSPEND_PERCENT=5    # Suspend at this level
@@ -24,7 +32,10 @@ BAT="/sys/class/power_supply/BAT${BATTERY}"
 LAST_STATE=0
 
 main() {
-  while true; do
+  while sleep "${SLEEP_TIME}" ; do
+    if ! i3 nop ; then
+      exit 0
+    fi
     POWER_SUPPLY_ENERGY_NOW=$( cat ${BAT}/energy_now )
     POWER_SUPPLY_ENERGY_FULL_DESIGN=$( cat ${BAT}/energy_full_design )
     POWER_SUPPLY_STATUS=$( cat ${BAT}/status )
@@ -45,8 +56,8 @@ main() {
         case "${STATE}" in
           3)
             warn "Attempting to suspend NOW!"
-            sudo systemctl hybrid-sleep || \
-              sudo systemctl suspend || \
+            systemctl hybrid-sleep || \
+              systemctl suspend || \
               critical "Unable to suspend! SYSTEM STATE AT RISK"
             ;;
           2)
@@ -63,8 +74,6 @@ main() {
     fi
 
     LAST_STATE="${STATE}"
-
-    sleep "${SLEEP_TIME}"
   done
 }
 
