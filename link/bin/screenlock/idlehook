@@ -1,0 +1,13 @@
+#!/bin/sh
+
+IDLE_SOCKET="${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock"
+
+rm -f "$IDLE_SOCKET"
+
+xidlehook \
+  --socket "$IDLE_SOCKET" \
+  --timer normal 90 'echo "$HOME"/bin/screenlock/notify.sh 30' '' \
+  --timer primary 30 'echo xset s activate' '' \
+  --timer normal 180 'systemctl suspend' ''
+
+rm -f "$IDLE_SOCKET"

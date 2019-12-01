@@ -33,7 +33,8 @@ LAST_STATE=0
 
 main() {
   while sleep "${SLEEP_TIME}" ; do
-    if ! i3 nop ; then
+    if ! i3 nop > /dev/null ; then
+      echo "i3 seems to have died, battery-mon is dying"
       exit 0
     fi
     POWER_SUPPLY_ENERGY_NOW=$( cat ${BAT}/energy_now )

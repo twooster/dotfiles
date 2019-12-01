@@ -14,14 +14,11 @@
 
 #exec --no-startup-id exec redshift-gtk
 #exec --no-startup-id exec blueman-applet
+
 exec --no-startup-id exec nm-applet
 exec --no-startup-id exec $HOME/bin/battery-mon
 
-exec --no-startup-id exec xidlehook \
-  --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" \
-  --timer normal 90 '"$HOME"/bin/screenlock/notify.sh 30' '' \
-  --timer primary 120 'xset s activate' '' \
-  --timer normal 300 'systemctl suspend' ''
+exec --no-startup-id exec $HOME/bin/screenlock/idlehook
 
 exec --no-startup-id exec xset s 0 0
 exec --no-startup-id exec xss-lock \
