@@ -109,45 +109,40 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $ws1 1
-set $ws2 2
-set $ws3 3
-set $ws9 9
-set $ws10 10
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
 
-workspace $ws1 output primary
-workspace $ws2 output primary
-workspace $ws3 output primary
+workspace 1 output primary
+workspace 2 output primary
+workspace 3 output primary
 workspace 4 output primary
 workspace 5 output primary
 workspace 6 output primary
 workspace 7 output primary
 workspace 8 output primary
-workspace $ws9 output eDP-1
-workspace $ws10 output eDP-1
+workspace 9 output eDP-1
+workspace 10 output eDP-1
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
 
 bindsym $mod+Left move workspace to output left
 bindsym $mod+Right move workspace to output right
@@ -209,11 +204,11 @@ mode $mode_sysreq {
   bindsym $mod+Escape mode "default", exec xset s activate
 
   bindsym d mode "default", exec \
-    xidlehook-client --disable --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" && \
+    xidlehook-client --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" control --action Disable && \
     notify-send -t 3000 "*** screenlock disabled ***"
 
   bindsym e mode "default", exec \
-    xidlehook-client --enable --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" && \
+    xidlehook-client --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" control --action Enable && \
     notify-send -t 3000 "*** screenlock enabled ***"
 
   bindsym Shift+q exit
@@ -234,6 +229,5 @@ bar {
         status_command exec i3status
 }
 
-
 for_window [class="Pavucontrol"] floating enable
-assign [class="^Spotify$"] 10
+for_window [class="^Spotify$"] move container to workspace 10
