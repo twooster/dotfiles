@@ -227,9 +227,12 @@
     "vim.easymotion": true,
     "editor.renderControlCharacters": false,
     "breadcrumbs.enabled": true,
-    "workbench.activityBar.visible": false,
+    "workbench.activityBar.visible": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "files.insertFinalNewline": true,
     "editor.renderFinalNewline": false,
     "files.trimTrailingWhitespace": true,
+    "javascript.suggest.autoImports": false,
+    "typescript.suggest.autoImports": false,
+    "vim.sneak": true,
 }
