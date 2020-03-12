@@ -231,3 +231,9 @@ bar {
 
 for_window [class="Pavucontrol"] floating enable
 for_window [class="^Spotify$"] move container to workspace 10
+
+# Zoom settings...
+for_window [class="zoom" title="^Settings"] floating enable
+for_window [class="zoom" title="^Zoom Group Chat"] floating enable
+for_window [class="zoom" title="^Participants"] floating enable
+for_window [class="zoom" title="^Zoom - "] floating enable
