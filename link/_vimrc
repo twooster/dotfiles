@@ -226,6 +226,7 @@ endif
     Plug 'pangloss/vim-javascript'     ", { 'for': 'javascript' }
 "    Plug 'lepture/vim-jinja'           ", { 'for': 'jinja' }
     Plug 'mustache/vim-mustache-handlebars'
+    Plug 'fgsch/vim-varnish'
 
     Plug 'junegunn/fzf', { 'dir': '~/.local/opt/fzf', 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
