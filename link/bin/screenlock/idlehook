@@ -2,6 +2,8 @@
 
 IDLE_SOCKET="${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock"
 
+rm -f "$IDLE_SOCKET" || :
+
 xidlehook \
   --socket "$IDLE_SOCKET" \
   --not-when-fullscreen \
