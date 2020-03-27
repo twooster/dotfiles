@@ -109,16 +109,6 @@
         }
         ,
         {
-            "before":   ["<leader>", "a"],
-            "after":    [],
-            "commands": [
-                {
-                    "command": "wwm.aligncode"
-                }
-            ]
-        }
-        ,
-        {
             "before": ["<leader>", "e"],
             "after":  [],
             "commands": [
@@ -217,14 +207,36 @@
             "before": ["<c-l>"],
             "after":  ["<c-w>", "l"]
         }
+        ,
+        {
+            "before": ["<leader>", "h"],
+            "after":  ["<leader>", "<leader>", "h"]
+        }
+        ,
+        {
+            "before": ["<leader>", "j"],
+            "after":  ["<leader>", "<leader>", "j"]
+        }
+        ,
+        {
+            "before": ["<leader>", "k"],
+            "after":  ["<leader>", "<leader>", "k"]
+        }
+        ,
+        {
+            "before": ["<leader>", "l"],
+            "after":  ["<leader>", "<leader>", "l"]
+        }
     ],
+
+    "vim.easymotion": true,
+
     "workbench.statusBar.visible": true,
     "editor.minimap.enabled": false,
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "editor.tabSize": 2,
     "go.useLanguageServer": true,
-    "vim.easymotion": true,
     "editor.renderControlCharacters": false,
     "breadcrumbs.enabled": true,
     "workbench.activityBar.visible": true,
@@ -234,5 +246,4 @@
     "files.trimTrailingWhitespace": true,
     "javascript.suggest.autoImports": false,
     "typescript.suggest.autoImports": false,
-    "vim.sneak": true,
 }
