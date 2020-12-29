@@ -11,14 +11,6 @@
     "workbench.colorTheme": "Monokai",
     "window.zoomLevel": 0,
 
-    "vim.useSystemClipboard": true,
-    "vim.insertModeKeyBindings": [
-        {
-            "before": ["j","j"],
-            "after":  ["<Esc>"]
-        }
-    ],
-
     "scrolloff.scrolloff": 10,
     "alignment.surroundSpace": {
         "colon":      [-1, 1],
@@ -43,193 +35,173 @@
         "wwm.better-align"
     ],
 
+
     "vim.leader": " ",
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j","j"],
+            "after":  ["<Esc>"]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        /*
+        {
+            "before":   ["j"],
+            "after":    ["g", "j"],
+        },
+        {
+            "before":   ["k"],
+            "after":    ["g", "k"],
+        },
+        */
+    ],
     "vim.normalModeKeyBindingsNonRecursive": [
+        /*
+        {
+            "before":   ["j"],
+            "after":    ["g", "j"],
+        },
+        {
+            "before":   ["k"],
+            "after":    ["g", "k"],
+        },
+        */
         {
             "before":   ["<leader>","\\"],
             "after":    [],
             "commands": [
-                {
-                    "command": "workbench.action.splitEditor"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.action.splitEditor" }
+            ],
+        },
         {
             "before":   ["<leader>", "t"],
             "after":    [],
             "commands": [
-                {
-                    "command": "workbench.action.quickOpen"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.action.quickOpen" }
+            ],
+        },
         {
             "before":   ["<leader>", "x"],
             "after":    [],
             "commands": [
-                {
-                    "command": "workbench.action.files.save"
-                },
-                {
-                    "command": "workbench.action.closeActiveEditor"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.action.files.save" },
+                { "command": "workbench.action.closeActiveEditor" }
+            ],
+        },
         {
             "before":   ["<leader>", "q"],
             "after":    [],
             "commands": [
-                {
-                    "command": "workbench.action.closeActiveEditor"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.action.closeActiveEditor" }
+            ],
+        },
         {
             "before":   ["<leader>", "w"],
             "after":    [],
             "commands": [
-                {
-                    "command": "workbench.action.files.save"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.action.files.save" }
+            ],
+        },
         {
             "before":   ["<c-b>"],
             "after":    [],
             "commands": [
-                {
-                    "command": "workbench.action.toggleSidebarVisibility"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.action.toggleSidebarVisibility" }
+            ],
+        },
         {
             "before": ["<leader>", "e"],
             "after":  [],
             "commands": [
-                {
-                    "command": "workbench.view.explorer"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.view.explorer" }
+            ],
+        },
         {
             "before": ["<leader>", "k", "f"],
             "after":  [],
             "commands": [
-                {
-                    "command": "workbench.action.toggleFullScreen"
-                }
+                { "command": "workbench.action.toggleFullScreen" }
             ]
-        }
-        ,
+        },
         {
             "before": ["<leader>", "k", "z"],
             "after":  [],
             "commands": [
-                {
-                    "command": "workbench.action.toggleZenMode"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.action.toggleZenMode" }
+            ],
+        },
         {
             "before": ["<leader>", "k", "x"],
             "after":  [],
             "commands": [
-                {
-                    "command": "workbench.view.extensions"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.view.extensions" }
+            ],
+        },
         {
             "before": ["<leader>", "k", "s"],
             "after":  [],
             "commands": [
-                {
-                    "command": "workbench.action.openGlobalKeybindings"
-                }
-            ]
-        }
-        ,
+                { "command": "workbench.action.openGlobalKeybindings" }
+            ],
+        },
         {
             "before": ["<c-bs>"],
             "after":  [],
             "commands": [
-                {
-                    "command": "editor.action.trimTrailingWhitespace"
-                }
-            ]
-        }
-        ,
+                { "command": "editor.action.trimTrailingWhitespace" }
+            ],
+        },
         {
             "before": ["<leader>", "'"],
             "after":  ["c", "s", "\"", "'"]
-        }
-        ,
+        },
         {
             "before": ["<leader>", "\""],
             "after":  ["c", "s", "'", "\""]
-        }
-        ,
+        },
         {
             "before": ["<c-u>"],
             "after":  ["1", "5", "k"]
-        }
-        ,
+        },
         {
             "before": ["<c-d>"],
             "after":  ["1", "5", "j"]
-        }
-        ,
+        },
         {
             "before": ["<c-j>"],
             "after":  ["<c-w>", "j"]
-        }
-        ,
+        },
         {
             "before": ["<c-k>"],
             "after":  ["<c-w>", "k"]
-        }
-        ,
+        },
         {
             "before": ["<c-h>"],
             "after":  ["<c-w>", "h"]
-        }
-        ,
+        },
         {
             "before": ["<c-l>"],
             "after":  ["<c-w>", "l"]
-        }
-        ,
+        },
         {
             "before": ["<leader>", "h"],
             "after":  ["<leader>", "<leader>", "h"]
-        }
-        ,
+        },
         {
             "before": ["<leader>", "j"],
             "after":  ["<leader>", "<leader>", "j"]
-        }
-        ,
+        },
         {
             "before": ["<leader>", "k"],
             "after":  ["<leader>", "<leader>", "k"]
-        }
-        ,
+        },
         {
             "before": ["<leader>", "l"],
             "after":  ["<leader>", "<leader>", "l"]
-        }
+        },
     ],
-
-    "vim.easymotion": true,
 
     "workbench.statusBar.visible": true,
     "editor.minimap.enabled": false,
@@ -246,4 +218,9 @@
     "files.trimTrailingWhitespace": true,
     "javascript.suggest.autoImports": false,
     "typescript.suggest.autoImports": false,
+    "explorer.confirmDelete": false,
+    "extensions.ignoreRecommendations": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "workbench.startupEditor": "newUntitledFile",
 }

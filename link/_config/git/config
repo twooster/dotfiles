@@ -1,5 +1,6 @@
 [user]
         name = Tony Wooster
+        email = twooster@gmail.com
         useConfigOnly = true
 
 [color]
@@ -18,9 +19,7 @@
         ca = commit --amend
         ci = commit
         cop = checkout -p
-        cpa = cherry-pick --abort
-        cpc = cherry-pick --continue
-        cp = cherry-pick
+        cp = commit -m 'checkpoint'
         rb = "!f(){ git rebase --no-verify --autosquash -i \"${@}\" ; }; f"
         forget = rm --cache --
         from = !sh -c 'git fetch && git rebase origin/master'
@@ -63,8 +62,14 @@
 [push]
         default = simple
 
-[include]
-        path = ~/.config/git/local
+;[include]
+;        path = ~/.config/git/local
 
 [web]
         browser = sensible-browser
+
+[github]
+	user = twooster
+
+[gpg]
+        program = gpg

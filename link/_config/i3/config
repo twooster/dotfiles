@@ -10,7 +10,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # Use compton for compositing to stop tearing
-exec --no-startup-id compton
+#exec --no-startup-id compton
 
 #exec --no-startup-id exec redshift-gtk
 #exec --no-startup-id exec blueman-applet

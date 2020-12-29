@@ -3,5 +3,5 @@
 PROD_VER=$( cat /sys/devices/virtual/dmi/id/product_version )
 if [ "${PROD_VER}" = "ThinkPad X230" -o \
      "${PROD_VER}" = "ThinkPad X1 Carbon 6th" ]; then
-  setxkbmap -layout us -option ctrl:nocaps
+  setxkbmap -layout us -variant altgr-intl -option ctrl:nocaps
 fi

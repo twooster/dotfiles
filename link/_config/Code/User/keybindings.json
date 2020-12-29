@@ -17,6 +17,11 @@
         "when":    "editorTextFocus && !editorReadonly"
     }
     ,
+    {
+        "key": "ctrl+i",
+        "command": "editor.action.showHover",
+        "when": "editorTextFocus"
+    },
     // {
         // "key":     "escape",
         // "command": "hideSuggestWidget",
@@ -33,4 +38,14 @@
     //     "key": "meta+'",
     //     "command": "-editor.togglequotes"
     // },
+    {
+    "key": "k",
+    "command": "cursorUp",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+    },
+    {
+    "key": "j",
+    "command": "cursorDown",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+    }
 ]
