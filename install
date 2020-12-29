@@ -1,0 +1,193 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+SCRIPT_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd )"
+PACKAGE_DIR="${SCRIPT_DIR}/pkg"
+TARGET_DIR="$HOME"
+STRATEGY_FILE=".dotfiles"
+
+if [[ "$( uname )" = "Darwin" ]] ; then
+    LINK_FLAGS=-hs
+else
+    LINK_FLAGS=-ns
+fi
+
+VERBOSE=
+DRY_RUN=
+
+if [[ -t 1 ]] ; then
+    RESET="\e[0m"
+    DGRAY="\e[90m"
+    GRAY="\e[37m"
+    GREEN="\e[32m"
+    RED="\e[31m"
+    BLUE="\e[34m"
+    YELLOW="\e[33m"
+else
+    RESET=""
+    DGRAY=""
+    GRAY=""
+    GREEN=""
+    RED=""
+    BLUE=""
+    YELLOW=""
+fi
+
+cmd() {
+    printf "${BLUE}[info]  ${RESET}> %s\n" "$*"
+    if [[ -z "$DRY_RUN" ]] ; then
+        "$@"
+    fi
+}
+
+warn() {
+    printf "${YELLOW}[warn]  ${RESET}%s\n" "$*" >&2
+}
+
+info() {
+    printf "${BLUE}[info]  ${RESET}%s\n" "$*"
+}
+
+debug() {
+    if [[ -n "$VERBOSE" ]] ; then
+        printf "${DGRAY}[debug] ${RESET}%s\n" "$*"
+    fi
+}
+
+fatal() {
+    printf "${RED}[fatal] ${RESET}%s\n" "$*" >&2
+    exit 1
+}
+
+link_dir() {
+    local source="$1"
+    local target="$2"
+
+    if [[ ! -L "$source" ]] && [[ -d "$source" ]] ; then
+      local strategy
+
+      if [[ -e "${source}/${STRATEGY_FILE}" ]] ; then
+          strategy="$( cat "${source}/${STRATEGY_FILE}" )"
+      fi
+
+      if [[ "$strategy" = "link" ]] ; then
+          link_file "$source" "$target"
+          return 0
+      fi
+
+      if [[ -e "$target" ]] ; then
+          if [[ ! -d "$target" ]] ; then
+              fatal "Target folder ${target} (for ${source}) exists but is not a directory!"
+          fi
+      else
+          debug "Target directory $target missing, creating..."
+          cmd mkdir -p "$target" || fatal "Could not create directory ${target}"
+      fi
+    fi
+
+    local src
+    find "$source" -maxdepth 1 -mindepth 1 -not -name "$STRATEGY_FILE" -not -name ".gitignore" -print0 \
+    | while IFS= read -d '' -r src ; do
+        local name="${src##*/}"
+        if [[ "$name" == __* ]] ; then
+            # __foo -> foo
+            # therefore, ___foo -> _foo
+            name="${name#__}"
+        elif [[ "$name" == _* ]] ; then
+            # _foo -> .foo
+            name=".${name#_}"
+        fi
+        local target="$2/${name}"
+
+        if [[ -L "$src" ]] || [[ ! -d "$src" ]] ; then
+            link_file "$src" "$target"
+        else
+            link_dir "$src" "$target"
+        fi
+    done
+}
+
+backup_rename() {
+    local src="$1"
+
+    local i=0
+    local target
+
+    while : ; do
+        target="${src}~${i}"
+        if [[ ! -e "$target" ]] ; then
+          break
+        fi
+        let i=i+1
+    done
+    info "Backup existing ${src} to ${target}"
+    cmd mv -n "$src" "$target" || \
+      warn "Backup failed"
+}
+
+link_file()
+{
+    local source="$1"
+    local target="$2"
+
+    # Note we have to test for symlink in case the symlink is dead
+    if [[ -L "$target" ]]; then
+        # Symbolic link, so...
+        local rl=$( readlink "$target" )
+        case "$rl" in
+          "$source")
+            debug "Exists: ${target}"
+            return
+            ;;
+          "$PKG_DIR"*)
+            warn "Removing mismatch: ${target} -> ${rl}"
+            cmd rm -- "$target"
+            ;;
+          *)
+            backup_rename "$target"
+            ;;
+        esac
+    elif [[ -e "$target" ]]; then
+        backup_rename "$target"
+    fi
+
+    if [[ ! -e "$target" ]]; then
+        debug "Linking ${source} to ${target}"
+        cmd ln "$LINK_FLAGS" "$source" "$target" || \
+          fatal "Link creation failed: ${source} -> ${target}"
+    else
+        fatal "Target exists, skipping: ${source} -> ${target}"
+    fi
+}
+
+link_packages() {
+  local pkgdir="$1"
+  local targetdir="$2"
+
+  find "$pkgdir" -maxdepth 1 -mindepth 1 -type d -print0 \
+  | while IFS= read -d '' -r pkg ; do
+    local name="${pkg##*/}"
+    link_dir "${pkgdir}/${name}" "$targetdir"
+  done
+}
+
+while getopts "dvt:" opt ; do
+    case "$opt" in
+        d)
+          DRY_RUN=1
+          warn "Running in dry-run mode"
+          ;;
+        v) VERBOSE=1 ;;
+        t) TARGET_DIR="$OPTARG" ;;
+        *) fatal "Unknown option chosen ${opt}" ;;
+    esac
+done
+
+info "Updating submodules"
+cmd git submodule update --init
+info "Installing dotfiles"
+debug "Package dir: $PACKAGE_DIR"
+debug "Target dir: $TARGET_DIR"
+link_packages "$PACKAGE_DIR" "$TARGET_DIR"
+info "Done"
