@@ -1,24 +1,32 @@
 #!/bin/bash
-TMUX_VER=$( tmux -V | cut -c 6- )
+set -e
+
+TMUX_VER=$( tmux -V | sed -E 's/tmux ([0-9]+(\.[0-9]+)).*/\1/' )
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 _load_tmux_configs() {
-  for file in $@; do
-    basename=$( basename "${file}" )
-    noext=${basename%.conf}
-    case "${noext}" in
-      after-*)
-        ver=${noext#after-}
-        [ $( echo "${TMUX_VER} >= ${ver}" | bc ) -eq 1 ] && tmux source-file "${file}"
+  for file in "$@"; do
+    basename=$( basename "$file" )
+    case "$basename" in
+      *-to-*.conf)
+        noext=${basename%.conf}
+        minVer=${noext%-to-*}
+        maxVer=${noext#*-to-}
+        if [[ "$( echo "$TMUX_VER < $maxVer && $TMUX_VER >= $minVer" | bc )" -eq 1 ]]; then
+          echo Load "$file"
+          tmux source-file "$file"
+        else
+          echo Skip "$file"
+        fi
         ;;
-      before-*)
-        ver=${noext#before-}
-        [ $( echo "${TMUX_VER} < ${ver}" | bc ) -eq 1 ] && tmux source-file "${file}"
+      *.conf)
+        echo Load "$file"
+        tmux source-file "$file"
         ;;
       *)
-        tmux source-file "${file}"
+        ;;
     esac
   done
 }
 
-_load_tmux_configs "${SCRIPT_DIR}/*.conf"
+_load_tmux_configs "${SCRIPT_DIR}"/*.conf
