@@ -5,10 +5,10 @@ set -e
 set -o pipefail
 set +x
 
-systemctl --user enable \
-  sleep.target \
-  watch-sleep.service \
-  xrandr-on-wake.service
+#systemctl --user enable \
+#  sleep.target \
+#  watch-sleep.service \
+#  xrandr-on-wake.service
 
 mkdir -p "$HOME/.cache"
 mkdir -p "$HOME/.local/opt"

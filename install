@@ -126,8 +126,7 @@ backup_rename() {
       warn "Backup failed"
 }
 
-link_file()
-{
+link_file() {
     local source="$1"
     local target="$2"
 

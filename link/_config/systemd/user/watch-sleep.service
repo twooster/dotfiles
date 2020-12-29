@@ -1,9 +1,0 @@
-[Unit]
-Description=watch for sleep signal to start sleep.target
-
-[Service]
-ExecStart=%h/bin/systemd/watch-sleep
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
