@@ -42,8 +42,7 @@ fatal() {
     exit 1
 }
 
-link_dir()
-{
+link_dir() {
     local source="$1"
     local target="$2"
     local strategy="$3"
@@ -93,13 +92,20 @@ link_dir()
 
 backup_rename()
 {
-    local file="$1"
+    local src="$1"
+
     local i=0
-    while [[ -e "${file}~${i}" ]] ; do
+    local target
+
+    while : ; do
+        target="${src}~${i}"
+        if ! [[ -e "$target" ]] ; then
+          break
+        fi
         let i=i+1
     done
-    info "Backup existing ${file} to ${file}~${i}"
-    cmd mv -n "$file" "${file}~${i}" || \
+    info "Backup existing ${src} to ${target}"
+    cmd mv -n "$src" "$target" || \
       warn "Backup failed"
 }
 
