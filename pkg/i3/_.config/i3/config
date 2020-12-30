@@ -15,15 +15,19 @@
 #exec --no-startup-id exec redshift-gtk
 #exec --no-startup-id exec blueman-applet
 
+#exec --no-startup-id exec $HOME/bin/battery-mon
+
+#exec --no-startup-id exec $HOME/bin/screenlock/idlehook
+
+#exec --no-startup-id exec xset s 0 0
+#exec --no-startup-id exec xss-lock \
+#    --transfer-sleep-lock \
+#    -- "$HOME/bin/screenlock/locker.sh"
+
+exec --no-startup-id exec xrandr --output eDP-1 --mode 1600x900
+exec --no-startup-id exec xfce4-screensaver
+exec --no-startup-id exec xfce4-power-manager
 exec --no-startup-id exec nm-applet
-exec --no-startup-id exec $HOME/bin/battery-mon
-
-exec --no-startup-id exec $HOME/bin/screenlock/idlehook
-
-exec --no-startup-id exec xset s 0 0
-exec --no-startup-id exec xss-lock \
-    --transfer-sleep-lock \
-    -- "$HOME/bin/screenlock/locker.sh"
 
 set $mod Mod4
 
@@ -48,8 +52,8 @@ bindsym $mod+x mode $mode_xrandr
 mode $mode_xrandr {
   # These bindings trigger as soon as you enter the resize mode
 
-  bindsym 1 mode "default", exec disp-home-1
-  bindsym 2 mode "default", exec disp-home-2
+  bindsym 1 mode "default", exec exec disp-home-1
+  bindsym 2 mode "default", exec exec disp-home-2
 
   # back to normal: Enter or Escape
   bindsym Return mode "default"
@@ -157,8 +161,9 @@ bindsym XF86AudioPlay exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2
 bindsym XF86AudioStop exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
 bindsym XF86AudioNext exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 bindsym XF86AudioPrev exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
-bindsym XF86MonBrightnessUp exec ~/bin/backlight +10
-bindsym XF86MonBrightnessDown exec ~/bin/backlight -10
+# Handled by xfce now
+# bindsym XF86MonBrightnessUp exec ~/bin/backlight +10
+# bindsym XF86MonBrightnessDown exec ~/bin/backlight -10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -203,12 +208,14 @@ bindsym $mod+Escape mode $mode_sysreq
 mode $mode_sysreq {
   bindsym $mod+Escape mode "default", exec xset s activate
 
+#    xidlehook-client --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" control --action Disable && \
   bindsym d mode "default", exec \
-    xidlehook-client --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" control --action Disable && \
+    xset s off && \
     notify-send -t 3000 "*** screenlock disabled ***"
 
+#    xidlehook-client --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" control --action Enable && \
   bindsym e mode "default", exec \
-    xidlehook-client --socket "${XDG_RUNTIME_DIR:-$HOME}/xidlehook.sock" control --action Enable && \
+    xset s on && \
     notify-send -t 3000 "*** screenlock enabled ***"
 
   bindsym Shift+q exit

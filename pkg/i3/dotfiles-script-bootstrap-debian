@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+command -v xfce4-screensaver >/dev/null 2>&1 || sudo apt-get install -y xfce4-screensaver
+command -v xfce4-power-manager >/dev/null 2>&1 || sudo apt-get install -y xfce4-power-manager
 command -v i3 >/dev/null 2>&1 || sudo apt-get install -y i3
