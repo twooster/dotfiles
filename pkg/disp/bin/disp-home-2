@@ -1,0 +1,20 @@
+#!/bin/sh
+
+LAPTOP=eDP-1
+EXTERNAL=DP-1
+xrandr --output "${LAPTOP}" --mode 1600x900
+xrandr --output "${EXTERNAL}" --auto --right-of "${LAPTOP}" --primary
+i3-msg workspace 9
+i3-msg move workspace to output "${LAPTOP}"
+i3-msg workspace 10
+i3-msg move workspace to output "${LAPTOP}"
+i3-msg workspace 2
+i3-msg move workspace to output "${EXTERNAL}"
+i3-msg workspace 3
+i3-msg move workspace to output "${EXTERNAL}"
+i3-msg workspace 4
+i3-msg move workspace to output "${EXTERNAL}"
+i3-msg workspace 1
+i3-msg move workspace to output "${EXTERNAL}"
+i3-msg workspace 1
+#nmcli device connect wlp2s0

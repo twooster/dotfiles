@@ -43,13 +43,13 @@ font pango:DejaVu Sans Mono 8
 floating_modifier $mod
 
 # fixup the windows
-set $mode_xrandr "*** XRANDR *** (a)uto, external (s)creens"
+set $mode_xrandr "*** XRANDR *** home: (1) screen, (2) screens"
 bindsym $mod+x mode $mode_xrandr
 mode $mode_xrandr {
   # These bindings trigger as soon as you enter the resize mode
 
-  bindsym a mode "default", exec disp-laptop
-  bindsym w mode "default", exec disp-work
+  bindsym 1 mode "default", exec disp-home-1
+  bindsym 2 mode "default", exec disp-home-2
 
   # back to normal: Enter or Escape
   bindsym Return mode "default"
