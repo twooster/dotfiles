@@ -4,9 +4,12 @@ set -eo pipefail
 shopt -s nullglob
 
 SCRIPT_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd -P )"
+
+source "${SCRIPT_DIR}/lib/output"
+
 PACKAGE_DIR="${SCRIPT_DIR}/pkg"
 TARGET_DIR="$HOME"
-STRATEGY_FILE=".dotfiles"
+HAS_INSTALLED=()
 
 if [[ "$( uname )" = "Darwin" ]] ; then
     LINK_FLAGS=-hs
@@ -17,6 +20,7 @@ fi
 MODE=Install
 VERBOSE=
 DRY_RUN=
+RUN_SCRIPTS=()
 
 if [[ -t 1 ]] ; then
     RESET="\e[0m"
@@ -69,8 +73,8 @@ link_dir() {
     if [[ ! -L "$source" ]] && [[ -d "$source" ]] ; then
       local strategy
 
-      if [[ -e "${source}/${STRATEGY_FILE}" ]] ; then
-          strategy="$( cat "${source}/${STRATEGY_FILE}" )"
+      if [[ -e "${source}/dotfiles-strategy" ]] ; then
+          strategy="$( cat "${source}/dotfiles-strategy" )"
       fi
 
       if [[ "$strategy" = "link" ]] ; then
@@ -98,10 +102,11 @@ link_dir() {
     local src
     for src in "$source"/* "$source"/.* ; do
         local name="${src##*/}"
-        # Skip . prefixed files
-        if [[ "$name" == .* ]] ; then
+        # Skip . and dotfiles- prefixed files
+        if [[ "$name" == .* ]] || [[ "$name" == dotfiles-* ]] ; then
             continue
         fi
+
         if [[ "$name" == _* ]] ; then
             name="${name#_}"
         fi
@@ -188,21 +193,76 @@ normpath() {
   cd -- "$1" && pwd
 }
 
-link_packages() {
+has_installed() {
+  local pkg
+  for pkg in "${HAS_INSTALLED[@]}" ; do
+    if [[ $pkg == "$1" ]] ; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+run_install_script() {
+  if [[ -e "$1" ]] ; then
+    info "Running install script $1"
+    "${SCRIPT_DIR}/lib/run-script" "$1"
+  else
+    debug "Install script $1 not found, skipping"
+  fi
+}
+
+install_packages() {
   local targetdir="$1"
+  local needs
+  local dep
+  local script
+
   shift
 
-  for pkg in "$@" ; do
+  while [[ $# -gt 0 ]] ; do
+    pkg="$1"
+
     if pkg=$( normpath "$pkg" ) ; then
+      if [[ -e "$pkg/dotfiles-needs" ]] ; then
+        needs=
+        while IFS=$"\n" read -r dep || [[ -n "$dep" ]] ; do
+          dep=$( normpath "$pkg/$dep" )
+          if ! has_installed "$dep" ; then
+            set -- "$dep" "$@"
+            needs=1
+          fi
+        done < "$pkg/dotfiles-needs"
+
+        if [[ -n "$needs" ]] ; then
+          continue
+        fi
+      fi
+
       info "${MODE} package $pkg to $TARGET_DIR"
       link_dir "$pkg" "$targetdir"
+
+      if [[ -z "$DRY_RUN" ]] ; then
+        for script in "${RUN_SCRIPTS[@]}" ; do
+          script="${pkg}/dotfiles-script-${script}"
+          if [[ -x "${script}" ]] ; then
+            info "Running script ${script}"
+            if ! "${script}" ; then
+              fatal "Error running script ${script}, exit code $?"
+            fi
+          fi
+        done
+      fi
     else
       warn "Could not normalize path $pkg -- does this exist?"
     fi
+
+    HAS_INSTALLED=( "${HAS_INSTALLED[@]}" "$pkg" )
+    shift
   done
 }
 
-while getopts "dvut:" opt ; do
+while getopts "dvut:s:" opt ; do
     case "$opt" in
         d)
           DRY_RUN=1
@@ -211,6 +271,7 @@ while getopts "dvut:" opt ; do
         v) VERBOSE=1 ;;
         t) TARGET_DIR="$OPTARG" ;;
         u) MODE=Uninstall ;;
+        s) RUN_SCRIPTS=( "${RUN_SCRIPTS[@]}" "$OPTARG" ) ;;
         *) fatal "Unknown option chosen ${opt}" ;;
     esac
 done
@@ -226,5 +287,5 @@ fi
 # cmd git submodule update --init
 
 info "Installing dotfiles"
-link_packages "$TARGET_DIR" "${PACKAGES[@]}"
+install_packages "$TARGET_DIR" "${PACKAGES[@]}"
 info "Done"

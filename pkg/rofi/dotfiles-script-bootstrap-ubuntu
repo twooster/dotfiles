@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+command -v rofi >/dev/null 2>&1 || sudo apt-get install -y rofi
