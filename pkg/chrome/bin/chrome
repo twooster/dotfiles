@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ "$XDG_SESSION_TYPE" = "wayland" ] ; then
+  EXTRA_ARGS="--enable-features=UseOzonePlatform --ozone-platform=wayland"
+else
+  EXTRA_ARGS=""
+fi
+exec systemd-run --user --scope -p MemoryLimit=8000M "$( which google-chrome )" $EXTRA_ARGS "$@"

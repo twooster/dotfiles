@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 set -eo pipefail
+shopt -s nullglob
 
-SCRIPT_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd -P )"
 PACKAGE_DIR="${SCRIPT_DIR}/pkg"
 TARGET_DIR="$HOME"
 STRATEGY_FILE=".dotfiles"
@@ -13,6 +14,7 @@ else
     LINK_FLAGS=-ns
 fi
 
+MODE=Install
 VERBOSE=
 DRY_RUN=
 
@@ -76,27 +78,32 @@ link_dir() {
           return 0
       fi
 
-      if [[ -e "$target" ]] ; then
-          if [[ ! -d "$target" ]] ; then
-              fatal "Target folder ${target} (for ${source}) exists but is not a directory!"
-          fi
+      if [[ "$MODE" == Install ]] ; then
+        if [[ -e "$target" ]] ; then
+            if [[ ! -d "$target" ]] ; then
+                fatal "Target folder ${target} (for ${source}) exists but is not a directory!"
+            fi
+        else
+            debug "Target directory $target missing"
+            cmd mkdir -p "$target" || fatal "Could not create directory ${target}"
+        fi
       else
-          debug "Target directory $target missing, creating..."
-          cmd mkdir -p "$target" || fatal "Could not create directory ${target}"
+        if [[ ! -d "$target" ]] ; then
+          debug "Skipping uninstall of missing $target directory"
+          return 0
+        fi
       fi
     fi
 
     local src
-    find "$source" -maxdepth 1 -mindepth 1 -not -name "$STRATEGY_FILE" -not -name ".gitignore" -print0 \
-    | while IFS= read -d '' -r src ; do
+    for src in "$source"/* "$source"/.* ; do
         local name="${src##*/}"
-        if [[ "$name" == __* ]] ; then
-            # __foo -> foo
-            # therefore, ___foo -> _foo
-            name="${name#__}"
-        elif [[ "$name" == _* ]] ; then
-            # _foo -> .foo
-            name=".${name#_}"
+        # Skip . prefixed files
+        if [[ "$name" == .* ]] ; then
+            continue
+        fi
+        if [[ "$name" == _* ]] ; then
+            name="${name#_}"
         fi
         local target="$2/${name}"
 
@@ -130,48 +137,72 @@ link_file() {
     local source="$1"
     local target="$2"
 
-    # Note we have to test for symlink in case the symlink is dead
-    if [[ -L "$target" ]]; then
-        # Symbolic link, so...
-        local rl=$( readlink "$target" )
-        case "$rl" in
-          "$source")
-            debug "Exists: ${target}"
-            return
-            ;;
-          "$PKG_DIR"*)
-            warn "Removing mismatch: ${target} -> ${rl}"
-            cmd rm -- "$target"
-            ;;
-          *)
+    if [[ "$MODE" == Install ]] ; then
+        # Note we have to test for symlink in case the symlink is dead
+        if [[ -L "$target" ]]; then
+            # Symbolic link, so...
+            local rl=$( readlink "$target" )
+            case "$rl" in
+              "$source")
+                debug "Already installed: ${target}"
+                return
+                ;;
+              "$SCRIPT_DIR"*)
+                warn "Removing mismatch: ${target} -> ${rl}"
+                cmd rm -- "$target"
+                ;;
+              *)
+                backup_rename "$target"
+                ;;
+            esac
+        elif [[ -e "$target" ]]; then
             backup_rename "$target"
-            ;;
-        esac
-    elif [[ -e "$target" ]]; then
-        backup_rename "$target"
-    fi
+        fi
 
-    if [[ ! -e "$target" ]]; then
-        debug "Linking ${source} to ${target}"
-        cmd ln "$LINK_FLAGS" "$source" "$target" || \
-          fatal "Link creation failed: ${source} -> ${target}"
+        if [[ ! -e "$target" ]]; then
+            debug "Linking ${source} -> ${target}"
+            cmd ln "$LINK_FLAGS" "$source" "$target" || \
+              fatal "Link creation failed: ${source} -> ${target}"
+        else
+            fatal "Target exists: ${source} -> ${target}"
+        fi
     else
-        fatal "Target exists, skipping: ${source} -> ${target}"
+        if [[ -L "$target" ]] ; then
+            local rl=$( readlink "$target" )
+            if [[ "$rl" == "$source" ]] ; then
+                debug "Removing ${target} -> ${source}"
+                cmd rm -- "$target" ||
+                  fatal "Unable to remove $target"
+            else
+                debug "$target symlink exists, but mismatches: $rl"
+            fi
+        elif [[ -e "$target" ]] ; then
+            debug "$target exists, but is not symlink"
+        else
+            debug "$target missing"
+        fi
     fi
+}
+
+normpath() {
+  cd -- "$1" && pwd
 }
 
 link_packages() {
-  local pkgdir="$1"
-  local targetdir="$2"
+  local targetdir="$1"
+  shift
 
-  find "$pkgdir" -maxdepth 1 -mindepth 1 -type d -print0 \
-  | while IFS= read -d '' -r pkg ; do
-    local name="${pkg##*/}"
-    link_dir "${pkgdir}/${name}" "$targetdir"
+  for pkg in "$@" ; do
+    if pkg=$( normpath "$pkg" ) ; then
+      info "${MODE} package $pkg to $TARGET_DIR"
+      link_dir "$pkg" "$targetdir"
+    else
+      warn "Could not normalize path $pkg -- does this exist?"
+    fi
   done
 }
 
-while getopts "dvt:" opt ; do
+while getopts "dvut:" opt ; do
     case "$opt" in
         d)
           DRY_RUN=1
@@ -179,14 +210,21 @@ while getopts "dvt:" opt ; do
           ;;
         v) VERBOSE=1 ;;
         t) TARGET_DIR="$OPTARG" ;;
+        u) MODE=Uninstall ;;
         *) fatal "Unknown option chosen ${opt}" ;;
     esac
 done
 
-info "Updating submodules"
-cmd git submodule update --init
+shift $((OPTIND -1))
+if [[ $# -gt 0 ]] ; then
+  PACKAGES=("$@")
+else
+  PACKAGES=("$PACKAGE_DIR"/*)
+fi
+
+# info "Updating submodules"
+# cmd git submodule update --init
+
 info "Installing dotfiles"
-debug "Package dir: $PACKAGE_DIR"
-debug "Target dir: $TARGET_DIR"
-link_packages "$PACKAGE_DIR" "$TARGET_DIR"
+link_packages "$TARGET_DIR" "${PACKAGES[@]}"
 info "Done"

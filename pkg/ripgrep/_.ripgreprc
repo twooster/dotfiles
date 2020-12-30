@@ -1,0 +1,6 @@
+--glob
+!node_modules/*
+--glob
+!built/*
+--glob
+!dist/*

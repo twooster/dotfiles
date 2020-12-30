@@ -1,0 +1,16 @@
+configuration {
+        width: 50;
+        lines: 12;
+        columns: 3;
+        font: "mono 14";
+        bw: 6;
+        line-margin: 4;
+        line-padding: 6;
+        separator-style: "solid";
+        hide-scrollbar: true;
+        color-normal: "#222222, #b1b4b3, #222222, #005577, #b1b4b3";
+        color-urgent: "#222222, #b1b4b3, #222222, #77003d, #b1b4b3";
+        color-active: "#222222, #b1b4b3, #222222, #007763, #b1b4b3";
+        color-window: "#222222, #222222, #b1b4b3";
+        kb-cancel: "Escape,Control+c,Control+C";
+}
