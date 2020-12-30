@@ -5,8 +5,6 @@ shopt -s nullglob
 
 SCRIPT_DIR="$( cd "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd -P )"
 
-source "${SCRIPT_DIR}/lib/output"
-
 PACKAGE_DIR="${SCRIPT_DIR}/pkg"
 TARGET_DIR="$HOME"
 HAS_INSTALLED=()

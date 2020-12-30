@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+command -v nvim >/dev/null 2>&1 || sudo apt-get install -y neovim
