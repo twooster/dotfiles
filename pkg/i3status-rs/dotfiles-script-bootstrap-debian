@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+test -f ~/.cargo/bin/i3status-rs || cargo install --git https://github.com/greshake/i3status-rust i3status-rs
