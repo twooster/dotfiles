@@ -267,8 +267,8 @@ endif
     Plug 'mustache/vim-mustache-handlebars'
     Plug 'fgsch/vim-varnish'
 
-"    Plug 'junegunn/fzf', { 'dir': '~/.local/opt/fzf', 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
     Plug 'hashivim/vim-terraform'
 

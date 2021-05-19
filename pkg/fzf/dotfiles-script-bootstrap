@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-ensure_pkg -i Ubuntu apt fzf
+
+if ! [[ -d ~/.fzf ]] ; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --bin
+fi
