@@ -23,11 +23,11 @@ on_click = ''' test -d /proc/sys/net/ipv4/conf/wg-mullvad && mullvad disconnect 
 json = true
 interval = 5
 
-[[block]]
-block = "memory"
-display_type = "memory"
-format_mem = "{Mup}%"
-format_swap = "{SUp}%"
+# [[block]]
+# block = "memory"
+# display_type = "memory"
+# format_mem = "{Mup}%"
+# format_swap = "{SUp}%"
 
 [[block]]
 block = "cpu"
@@ -41,8 +41,8 @@ format = "{1m}"
 [[block]]
 block = "sound"
 
-[[block]]
-block = "battery"
+#[[block]]
+#block = "battery"
 
 [[block]]
 block = "time"

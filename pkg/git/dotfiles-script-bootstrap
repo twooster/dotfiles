@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+ensure_pkg -i Ubuntu apt git

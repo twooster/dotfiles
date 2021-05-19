@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+if which code >/dev/null ; then
+  echo "vscode already installed"
+else
+  debfile="$( mktemp --suffix=.deb )"
+  echo "downloading vscode to $debfile"
+  curl -L 'https://go.microsoft.com/fwlink/?LinkID=760868' -o "$debfile"
+  echo "installing vscode from $debfile"
+  sudo dpkg -i "$debfile"
+  rm "$debfile"
+fi

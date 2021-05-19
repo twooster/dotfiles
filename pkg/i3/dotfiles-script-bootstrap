@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+ensure_pkg -i Ubuntu apt xfce4-screensaver
+ensure_pkg -i Ubuntu apt xfce4-power-manager
+ensure_pkg -i Ubuntu apt i3

@@ -224,7 +224,8 @@ endif
             "   imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
             " endif
         " }
-        Plug 'Valloric/YouCompleteMe'
+        Plug 'ycm-core/YouCompleteMe', {'do': 'python3 install.py --go-completer --ts-completer'}
+
         " Or:
         "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
         "Plug 'Shougo/deoplete.nvim'
@@ -266,7 +267,7 @@ endif
     Plug 'mustache/vim-mustache-handlebars'
     Plug 'fgsch/vim-varnish'
 
-    Plug 'junegunn/fzf', { 'dir': '~/.local/opt/fzf', 'do': './install --bin' }
+"    Plug 'junegunn/fzf', { 'dir': '~/.local/opt/fzf', 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
 
     Plug 'hashivim/vim-terraform'

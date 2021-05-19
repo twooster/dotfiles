@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+command -v exa >/dev/null 2>&1 || cargo install exa

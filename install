@@ -85,8 +85,9 @@ link_dir() {
             if [[ ! -d "$target" ]] ; then
                 fatal "Target folder ${target} (for ${source}) exists but is not a directory!"
             fi
+            debug "Target directory $target exists, not creating"
         else
-            debug "Target directory $target missing"
+            debug "Target directory $target missing, creating"
             cmd mkdir -p "$target" || fatal "Could not create directory ${target}"
         fi
       else
@@ -98,7 +99,7 @@ link_dir() {
     fi
 
     local src
-    for src in "$source"/* "$source"/.* ; do
+    for src in "$source"/* ; do
         local name="${src##*/}"
         # Skip . and dotfiles- prefixed files
         if [[ "$name" == .* ]] || [[ "$name" == dotfiles-* ]] ; then
@@ -245,8 +246,9 @@ install_packages() {
           script="${pkg}/dotfiles-script-${script}"
           if [[ -x "${script}" ]] ; then
             info "Running script ${script}"
-            if ! "${script}" ; then
-              fatal "Error running script ${script}, exit code $?"
+            rc=0 && "${script}" || rc=$?
+            if [[ $rc -ne 0 ]] ; then
+              fatal "Error running script ${script}, exit code $rc"
             fi
           fi
         done
@@ -259,6 +261,123 @@ install_packages() {
     shift
   done
 }
+
+ensure_pkg() {
+  local pkgmode
+  local pkg
+  local vers
+  local rel
+  local id
+  local match
+  local i
+  local rv
+  local state
+
+  if [[ -z "$DISTRIB_ID" ]] ; then
+    if [[ -f /etc/lsb-release ]] ; then
+      . /etc/lsb-release
+    else
+      echo "Unable to determine linux release version" >&2
+      return 1
+    fi
+  fi
+
+  OPTIND=0
+  while [[ "$OPTIND" -lt "$#" ]] ; do
+    pkg=''
+    pkgmode=''
+
+    vers=()
+    id=''
+    rel=''
+    while getopts "i:r:" opt ; do
+      case "$opt" in
+        i)
+          rel=''
+          id="$OPTARG"
+          ;;
+        r)
+          if [[ -z "$id" ]] ; then
+            echo "Distribution id must be specified before release" >&2
+            return 1
+          fi
+          rel="$OPTARG"
+          if [[ -z "$rel" ]] ; then
+            echo "Release must be non-empty" >&2
+            return 1
+          fi
+          vers=( "${vers[@]}" "$id" "$rel" )
+          ;;
+        *)
+          echo "Unknown option chosen ${opt}" >&2
+          return 1
+          ;;
+      esac
+    done
+
+    if [[ -z "$rel" ]] ; then
+      vers=( "${vers[@]}" "$id" "" )
+    fi
+
+    pkgmode="${@:$OPTIND:1}"
+    (( OPTIND++ ))
+    pkg="${@:$OPTIND:1}"
+    (( OPTIND++ ))
+
+
+    if [[ -z "$pkgmode" ]] || [[ -z "$pkg" ]] ; then
+      echo "Package mode or package name is missing" >&2
+      return 1
+    fi
+
+    match=0
+    if [[ "${#vers}" -eq 0 ]] ; then
+      match=1
+    else
+      i=0
+      while [[ $i -lt ${#vers} ]] ; do
+        id="${vers[@]:$i:1}"
+        (( i=i+1))
+        rel="${vers[@]:$i:1}"
+        (( i=i+1 ))
+        if [[ "$id" = "" ]] || [[ "$id" = "$DISTRIB_ID" ]] ; then
+          if [[ "$rel" = "" ]] || [[ "$rel" = "$DISTRIB_RELEASE" ]] ; then
+            match=1
+            break
+          fi
+        fi
+      done
+    fi
+
+    if [[ "$match" = 1 ]] ; then
+      case "$pkgmode" in
+        apt)
+          rv=0 && state="$( dpkg-query --showformat='${db:Status-Status}' -W "$pkg" 2>/dev/null )" || rv=$?
+
+          if [[ $rv -eq 0 ]] && [[ "$state" = installed ]] ; then
+              echo "$pkg already installed"
+          else
+            echo "Installing $pkg"
+            sudo apt install -y "$pkg"
+          fi
+          return 0
+          ;;
+        skip)
+          echo "Skipping package $pkg"
+          return 0
+          ;;
+        *)
+          echo "Unknown package mode $pkgmode"
+          return 1
+          ;;
+      esac
+    fi
+  done
+  echo "Failed to install package (last named $pkg)" >&2
+  return 1
+}
+
+export -f ensure_pkg
 
 while getopts "dvut:s:" opt ; do
     case "$opt" in
