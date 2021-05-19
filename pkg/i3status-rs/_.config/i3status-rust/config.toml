@@ -10,7 +10,7 @@ unit = "GB"
 interval = 20
 warning = 15.0
 alert = 8.0
-format = "{available} GB"
+format = "{available} Free"
 
 [[block]]
 block = "networkmanager"
@@ -23,15 +23,16 @@ on_click = ''' test -d /proc/sys/net/ipv4/conf/wg-mullvad && mullvad disconnect 
 json = true
 interval = 5
 
-# [[block]]
-# block = "memory"
-# display_type = "memory"
-# format_mem = "{Mup}%"
-# format_swap = "{SUp}%"
+[[block]]
+block = "memory"
+display_type = "memory"
+format_mem = "{mem_used_percents}%"
+format_swap = "{swap_used_percents}%"
 
 [[block]]
 block = "cpu"
 interval = 1
+format = "{utilization}"
 
 [[block]]
 block = "load"
@@ -41,10 +42,12 @@ format = "{1m}"
 [[block]]
 block = "sound"
 
-#[[block]]
-#block = "battery"
+[[block]]
+block = "battery"
+hide_missing = true
+allow_missing = true
 
 [[block]]
 block = "time"
-interval = 60
+interval = 5
 format = "%a %m/%d %R"

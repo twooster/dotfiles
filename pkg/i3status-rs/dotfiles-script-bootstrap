@@ -4,4 +4,10 @@ set -eo pipefail
 ensure_pkg -i Ubuntu apt libdbus-1-dev
 ensure_pkg -i Ubuntu apt libssl-dev
 ensure_pkg -i Ubuntu apt pulseaudio
-test -f ~/.cargo/bin/i3status-rs || cargo install --git https://github.com/greshake/i3status-rust i3status-rs
+
+if ! [[ -f ~/.cargo/bin/i3status-rs ]] ; then
+  git clone --depth 1 https://github.com/greshake/i3status-rust ~/.i3status-rs
+  cd ~/.i3status-rs
+  $HOME/.cargo/bin/cargo install --path .
+  ./install.sh
+fi
