@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+FZF_DIR="$HOME/.local/opt/fzf"
 
-if ! [[ -d ~/.fzf ]] ; then
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install --bin
+if ! [[ -d "$FZF_DIR" ]] ; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git "$FZF_DIR"
+  "$FZF_DIR/install" --bin
 fi

@@ -140,9 +140,38 @@ backup_rename() {
 link_file() {
     local source="$1"
     local target="$2"
+    local sourcetarget
 
     if [[ "$MODE" == Install ]] ; then
         # Note we have to test for symlink in case the symlink is dead
+        if [[ -L "$source" ]]; then
+          local sourcetarget="$( readlink "$source" )"
+          if [[ "$sourcetarget" = '$HOME/'* ]] ; then
+            sourcetarget="$HOME/${sourcetarget#'$HOME/'}"
+
+            local dirname="$( dirname -- "$source" )"
+            local basename="$( basename -- "$source" )"
+            local bouncename="$dirname/.bounce-$basename"
+            if [[ -L "$bouncename" ]] ; then
+              local rl="$( readlink "$bouncename" )"
+              if [[ "$rl" != "$sourcetarget" ]] ; then
+                debug "Resetting existing bounce: ${bouncename}"
+                cmd rm "$bouncename" || \
+                  fatal "Could not remove existing bounce link: $bouncename"
+                cmd ln "$LINK_FLAGS" "$sourcetarget" "$bouncename" || \
+                  fatal "Could not create bounce link: $sourcetarget -> $bouncename"
+              fi
+            elif [[ -e "$bouncename" ]] ; then
+              fatal "Non-link bounce? ${bouncename}"
+            else
+              debug "Creating bounce: ${bouncename}"
+              cmd ln "$LINK_FLAGS" "$sourcetarget" "$bouncename" || \
+                fatal "Could not create bounce link: $sourcetarget -> $bouncename"
+            fi
+
+            source="$bouncename"
+          fi
+        fi
         if [[ -L "$target" ]]; then
             # Symbolic link, so...
             local rl=$( readlink "$target" )
@@ -173,12 +202,12 @@ link_file() {
     else
         if [[ -L "$target" ]] ; then
             local rl=$( readlink "$target" )
-            if [[ "$rl" == "$source" ]] ; then
+            if [[ "$rl" == "$SCRIPT_DIR"/* ]] ; then
                 debug "Removing ${target} -> ${source}"
                 cmd rm -- "$target" ||
                   fatal "Unable to remove $target"
             else
-                debug "$target symlink exists, but mismatches: $rl"
+                debug "$target symlink exists, but does not point to our dir: $rl"
             fi
         elif [[ -e "$target" ]] ; then
             debug "$target exists, but is not symlink"

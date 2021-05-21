@@ -9,5 +9,5 @@ Well, alright then.
 ## Bootstrap on ubuntu
 
 ```sh
-curl https://github.com/twooster/dotfiles/raw/master/bootstrap-ubuntu.sh | bash
+wget https://github.com/twooster/dotfiles/raw/master/bootstrap-ubuntu.sh -qO - | bash
 ```

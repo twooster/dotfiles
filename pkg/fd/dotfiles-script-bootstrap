@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-command -v fd >/dev/null 2>&1 || cargo install fd-find
+if ! [[ -x "$HOME/.cargo/bin/fd" ]] ; then
+  "$HOME/.cargo/bin/cargo" install fd-find
+fi

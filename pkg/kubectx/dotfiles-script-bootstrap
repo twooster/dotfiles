@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-mkdir -p "$HOME/.local/bin"
-
 if ! [[ -d "$HOME/.local/opt/kubectx" ]] ; then
   git clone --depth 1 https://github.com/ahmetb/kubectx "$HOME"/.local/opt/kubectx
-  ln -s "$HOME"/.local/opt/kubectx/kubectx "$HOME"/.local/bin/kubectx
-  ln -s "$HOME"/.local/opt/kubectx/kubens "$HOME"/.local/bin/kubens
 fi
