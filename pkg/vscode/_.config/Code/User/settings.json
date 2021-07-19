@@ -9,7 +9,6 @@
     "terminal.integrated.fontSize": 13,
     "editor.fontFamily": "'Input', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "workbench.colorTheme": "Monokai",
-    "window.zoomLevel": 0,
 
     "scrolloff.scrolloff": 10,
     "alignment.surroundSpace": {
@@ -118,6 +117,7 @@
                 { "command": "workbench.view.explorer" }
             ],
         },
+        /*
         {
             "before": ["<leader>", "k", "f"],
             "after":  [],
@@ -146,6 +146,7 @@
                 { "command": "workbench.action.openGlobalKeybindings" }
             ],
         },
+        */
         {
             "before": ["<c-bs>"],
             "after":  [],
@@ -207,11 +208,11 @@
     "editor.minimap.enabled": false,
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "editor.tabSize": 2,
+    "editor.tabSize": 8,
     "go.useLanguageServer": true,
     "editor.renderControlCharacters": false,
     "breadcrumbs.enabled": true,
-    "workbench.activityBar.visible": true,
+    "workbench.activityBar.visible": false,
     "diffEditor.ignoreTrimWhitespace": false,
     "files.insertFinalNewline": true,
     "editor.renderFinalNewline": false,
