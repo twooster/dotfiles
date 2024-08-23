@@ -16,6 +16,12 @@ function fish_prompt --description 'Write out the prompt'
     set __fish_color_status (set_color -o red)
   end
 
+  set hn $custom_hostname
+  if not test -n "$hn"
+    set hn (prompt_hostname)
+  end
+
+
   switch "$USER"
   case root toor
     if not set -q __fish_prompt_cwd
@@ -27,7 +33,7 @@ function fish_prompt --description 'Write out the prompt'
     end
 
     printf '%s@%s %s%s%s# ' \
-      $USER (prompt_hostname) \
+      $USER $hn \
       "$__fish_prompt_cwd" (prompt_pwd) "$__fish_prompt_normal"
 
   case '*'
@@ -38,7 +44,7 @@ function fish_prompt --description 'Write out the prompt'
     set gs (__fast_git_prompt_status)
     printf '%s %s%s@%s %s%s%s\n%s%s%-3d%s> ' \
       (date "+%H:%M") \
-      "$__fish_color_blue" $USER (prompt_hostname) \
+      "$__fish_color_blue" $USER $hn \
       "$__fish_prompt_cwd" (prompt_pwd) \
       "$gs" \
       "$__fish_prompt_normal" \

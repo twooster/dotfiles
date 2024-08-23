@@ -10,5 +10,5 @@ function opr
   end
 
   echo "Opening $remote_url"
-  xdg-open $remote_url
+  open $remote_url
 end

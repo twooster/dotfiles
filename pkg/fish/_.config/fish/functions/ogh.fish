@@ -23,5 +23,5 @@ function ogh
   end
 
   set remote_url "$remote_url/compare/$branch?expand=1"
-  xdg-open "$remote_url"
+  open "$remote_url"
 end

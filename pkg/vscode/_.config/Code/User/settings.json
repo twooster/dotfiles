@@ -3,11 +3,11 @@
     "keyboard.dispatch": "keyCode",
     "editor.parameterHints.enabled": false,
 
-    "editor.renderWhitespace": "boundary",
+    "editor.renderWhitespace": "all",
     "editor.fontSize": 13,
     "editor.rulers": [80, 120],
     "terminal.integrated.fontSize": 13,
-    "editor.fontFamily": "'Input', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontFamily": "'Input Mono', 'Input', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "workbench.colorTheme": "Monokai",
 
     "scrolloff.scrolloff": 10,
@@ -202,20 +202,30 @@
             "before": ["<leader>", "l"],
             "after":  ["<leader>", "<leader>", "l"]
         },
+        {
+            "before": ["<c-o>"],
+            "after":  [],
+            "commands": [
+                { "command": "workbench.action.navigateBack" }
+            ],
+        },
+        {
+            "before": ["<c-i>"],
+            "after":  [],
+            "commands": [
+                { "command": "workbench.action.navigateForward" }
+            ],
+        },
     ],
 
     "workbench.statusBar.visible": true,
-    "editor.minimap.enabled": false,
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "editor.tabSize": 8,
+    "editor.tabSize": 2,
     "go.useLanguageServer": true,
-    "editor.renderControlCharacters": false,
-    "breadcrumbs.enabled": true,
-    "workbench.activityBar.visible": false,
     "diffEditor.ignoreTrimWhitespace": false,
     "files.insertFinalNewline": true,
-    "editor.renderFinalNewline": false,
+    "editor.renderFinalNewline": "off",
     "files.trimTrailingWhitespace": true,
     "javascript.suggest.autoImports": false,
     "typescript.suggest.autoImports": false,
@@ -224,4 +234,45 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "typescript.updateImportsOnFileMove.enabled": "always",
     "workbench.startupEditor": "newUntitledFile",
+    "python.formatting.provider": "black",
+    "python.languageServer": "Pylance",
+    "python.analysis.indexing": true,
+    "python.analysis.typeCheckingMode": "strict",
+    "editor.minimap.enabled": false,
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "[go]": {
+        "editor.insertSpaces": false,
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.suggest.snippetsPreventQuickSuggestions": false
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "workspaceSidebar.depth": 3,
+    "cSpell.userWords": [
+        "abdominals",
+        "AMRAP",
+        "Chakra",
+        "invokable",
+        "reduxjs",
+        "zustand"
+    ],
+    "sqltools.connections": [],
+    "python.analysis.userFileIndexingLimit": 5000,
+    "python.analysis.autoImportCompletions": true,
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "keep",
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        }
+    },
+    "snowflake.connectionsConfigFile": "/Users/tony/.snowflake/connections.toml",
 }

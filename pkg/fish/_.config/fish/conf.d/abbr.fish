@@ -9,7 +9,7 @@ abbr gco 'git checkout'
 abbr gs 'git status'
 abbr gpf 'git push --force'
 abbr kc kubectl
-abbr o xdg-open
+abbr o open
 abbr sa ssh-add
 abbr sr ssh-reagent
 abbr v nvim

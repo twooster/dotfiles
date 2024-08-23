@@ -6,16 +6,17 @@ function ofg
     return 1
   end
 
-  set remote_branch (git rev-parse --abbrev-ref --symbolic-full-name '@{u}')
+  set path "$argv[1]"
+  if ! test -n "$path"
+    set path "."
+  end
+
+  set remote_branch (git rev-parse --abbrev-ref --symbolic-full-name "$argv[2]"'@{u}')
   if test -z "$remote_branch"
     echo "Unable to detect upstream branch. Maybe you need to push?"
     return 1
   end
 
-  set path "$argv[1]"
-  if ! test -n "$path"
-    set path "."
-  end
 
   set remote (string replace -r "/.*" "" "$remote_branch")
   set branch (string sub -s (string length "$remote//") "$remote_branch")
@@ -34,8 +35,8 @@ function ofg
     return 1
   end
 
-  set remote_path (realpath "$path" --relative-to="$repo_root")
+  set remote_path (string sub -s ( math ( string length $repo_root ) + 2 ) (realpath "$path") )
 
   set remote_url "$remote_url/tree/$branch/$remote_path"
-  xdg-open "$remote_url"
+  open "$remote_url"; or open "$remote_url"
 end

@@ -12,8 +12,10 @@
         b = branch
         cached = diff --cached
         co = checkout
+        cm = commit -m
         d = diff
         rhom = reset --hard origin/master
+        rhod = reset --hard origin/dev
         s = status
         ap = add -p
         ca = commit --amend
@@ -25,13 +27,22 @@
         from = !sh -c 'git fetch && git rebase origin/master'
         fro = !sh -c 'git fetch && git rebase "origin/$1"'
         fu = commit --fixup
+        #fix = "!f(){ echo git rebase -i --autosquash \"${1:-$( git merge-base HEAD origin/master )}\" ; }; f"
+        ru = rebase -i --autosquash "@{U}"
+        fod = rebase -i --autosquash origin/dev
+        fom = rebase -i --autosquash origin/master
         rba = rebase --abort
         rbc = rebase --continue
+        rl = reflog
         sui = submodule update --init
+        lb = recent-branches
         apum = "!sh -c 'UM=$(git diff --name-status --diff-filter=U | cut -f2) ; test -n \"${UM}\" && git reset -- ${UM} && git add -p ${UM}'"
         ol = log --graph --oneline --decorate
         pso = !sh -c 'git push --set-upstream origin "$( git rev-parse --abbrev-ref HEAD )"'
 	fpush = push --force-with-lease
+	recent-branches = !sh -c 'git for-each-ref --sort=-committerdate --format=\"%(committerdate:format:%Y-%m-%d) %(objectname:short) %(refname:lstrip=2)\" refs/heads/ | head -n ${1:-10}' \"$@\"
+        find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
+        show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 
 [core]
         excludesfile = ~/.config/git/ignore
@@ -73,3 +84,10 @@
 
 [gpg]
         program = gpg
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+#[lfs]
+#        fetchexclude = *

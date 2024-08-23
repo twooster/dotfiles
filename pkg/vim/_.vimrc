@@ -224,7 +224,7 @@ endif
             "   imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
             " endif
         " }
-        Plug 'ycm-core/YouCompleteMe', {'do': 'python3 install.py --go-completer --ts-completer'}
+        " Plug 'ycm-core/YouCompleteMe', {'do': 'python3 install.py --go-completer --ts-completer'}
 
         " Or:
         "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
@@ -271,6 +271,8 @@ endif
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
     Plug 'hashivim/vim-terraform'
+
+    Plug 'udalov/kotlin-vim'
 
     " From this discussion ... I like the install guard:
     " https://github.com/Valloric/YouCompleteMe/issues/1751

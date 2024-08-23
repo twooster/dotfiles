@@ -9,7 +9,7 @@ REF=$1
 shift
 
 if [ "${REF:0:1}" = "@" ] ; then
-  FP="$( git merge-base --fork-point "${REF:1}" )"
+  FP="$( git merge-base --fork-point "origin/${REF:1}" )"
   if [ -z "$FP" ] ; then
     echo "Unable to find fork point from $REF"
     exit 1
@@ -17,4 +17,4 @@ if [ "${REF:0:1}" = "@" ] ; then
   REF="$FP"
 fi
 
-git rebase --no-verify --autosquash -i "${@}" "${REF}"
+git rebase --autosquash -i "${@}" "${REF}"

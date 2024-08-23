@@ -3,4 +3,6 @@ if command -v xclip >/dev/null 2>&1 ; then
   exec xclip -selection c
 elif command -v xsel >/dev/null 2>&1 ; then
   exec xsel -ib
+elif command -v pbcopy >/dev/null 2>&1 ; then
+  exec pbcopy
 fi
