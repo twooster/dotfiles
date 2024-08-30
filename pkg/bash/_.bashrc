@@ -37,8 +37,9 @@ umask 0022
 # Disable flood-control CTRL-S
 stty -ixon
 
-HISTSIZE=-1
-HISTFILESIZE=-1
+unset HISTSIZE
+unset HISTFILESIZE
+HISTFILE="$HOME/.bash_history"
 HISTIGNORE="cd:ls:bg:fg:clear:exit:gp:gs:ll:..:u"
 HISTCONTROL=ignoredups
 
@@ -97,8 +98,8 @@ fi
 # FINALIZE SETUP
 #-------------------------------------------------------------------------------
 
-for file in "${HOME}/.bash-sources/"*; do
-    [ -r "${file}" ] && . "${file}"
+for file in "${HOME}/.bash-sources/"*.{sh,bash} ; do
+    . "${file}"
 done
 
 [ -r "${HOME}/.bash_local" ] && . "${HOME}/.bash_local"

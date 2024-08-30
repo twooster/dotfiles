@@ -40,7 +40,7 @@ if command -v git > /dev/null ; then
           remote_url="https://${remote_url%.git}/compare/${branch}?expand=1"
         ;;
     esac
-    xdg-open "${remote_url}"
+    open "${remote_url}"
   }
 
   gcm() {
