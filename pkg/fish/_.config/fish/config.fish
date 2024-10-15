@@ -18,3 +18,10 @@ end
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/tony/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/tony/Downloads/google-cloud-sdk/path.fish.inc'; end
+
+# pnpm
+set -gx PNPM_HOME "/Users/tony/Library/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
