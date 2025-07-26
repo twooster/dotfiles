@@ -349,7 +349,7 @@ endif
 
 " Basic mappings {
     " The 'I hate esc' section
-    imap jj <esc>
+    " imap jj <esc>
 
     " The 'make Y behave like C and D" section
     nnoremap Y y$
@@ -514,7 +514,7 @@ endif
     endfun
 
     " Remove all trailing whitespace on save
-    autocmd BufWritePre * call StripTrailingWhitespace()
+    "autocmd BufWritePre * call StripTrailingWhitespace()
 
     " disable paste mode on leaving insert mode (thanks @wincent)
     au InsertLeave * set nopaste

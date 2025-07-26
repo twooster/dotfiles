@@ -1,0 +1,15 @@
+[settings]
+idiomatic_version_file_enable_tools = ["node"]
+
+[tools]
+cargo = "latest"
+fd = "latest"
+fzf = "latest"
+gcloud = "latest"
+go = "latest"
+jj = "latest"
+jq = "latest"
+node = "latest"
+rust = "latest"
+usage = "latest"
+rg = "latest"

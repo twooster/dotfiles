@@ -1,1 +1,2 @@
-alias cca="cd ~/c/l/app"
+alias cl="cd ~/c/linear-app"
+abbr lc linctl

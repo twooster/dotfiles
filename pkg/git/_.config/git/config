@@ -13,6 +13,7 @@
         cached = diff --cached
         co = checkout
         cm = commit -m
+        com = checkout master
         d = diff
         rhom = reset --hard origin/master
         rhod = reset --hard origin/dev
